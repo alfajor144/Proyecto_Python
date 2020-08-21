@@ -1,0 +1,66 @@
+Problemas encontrados:
+
+En windows:
+
+Instalar la vercion adecuada de python para windows de 64 bits.
+
+https://www.python.org/downloads/release/python-385/
+
+descargar (Windows x86-64 executable installer)
+
+
+----------------------------------------------------
+
+instalacion de un entorno virtual
+
+solucion:
+
+* Crear el directorio donde se va a trabajar Proyecto_1
+* en cmd moverse al directorio Proyecto_1
+* ejectutar: python.exe -m venv env
+* .\env\Scripts\activate
+* si no es la 20.2.2: py -m pip install --upgrade pip
+
+----------------------------------------------------
+instalar librerias con pip:
+
+* para installar una libreria por ejemplo scrapy: pip3 install nombre_de_la_libreria
+* para ver librerias instaladas: pip list
+
+----------------------------------------------------
+instalar librerias con Miniconda:
+
+* descargar ejecutable de: https://docs.conda.io/en/latest/miniconda.html
+
+* nombre del ejecutable: Python 3.8 Miniconda3 Windows 64-bit
+
+* durante la instalacion marcar:
+	check: add anaconda to my PATH...
+	check: register anaconda as default...
+----------------------------------------------------
+instalar scrapy:
+
+* en cmd ir a la carpeta del entorno virtual
+* ejecutar el activatecon: .\env\Scripts\activate
+* conda install -c conda-forge scrapy
+* aceptamos con: y
+* para verificar si esta instalado: scrapy
+
+----------------------------------------------------
+creacion de 
+con env activado y parado en la raiz del entorno virtual:
+ejecuto: scrapy startproject tutorial
+cd tutorial
+dentro de la carpeta spider creamos los spider.py
+la araña se ejecuta con: scrapy crawl nombre_de_la_araña
+
+
+
+
+
+
+
+
+
+
+
