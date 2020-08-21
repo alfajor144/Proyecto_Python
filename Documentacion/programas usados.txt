@@ -17,6 +17,10 @@ plugins: Python
 
 Miniconda3 para Python 3.8 en Windows 64-bit
 
+---------------------------------------------------
+
+plugin xpath helper para google chrome
+
 
 
 
