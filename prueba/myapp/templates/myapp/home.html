@@ -1,0 +1,11 @@
+{% extends "myapp/base.html" %}
+
+{% block content %}
+    {% for persona in personas %}
+        {% if persona.edad < 18 %}
+            <h1>Nombre {{ persona.nombre }} es menor de edad</h1>
+        {% else  %}
+            <h1>Nombre {{ persona.nombre }} edad: {{ persona.edad }} es mayor de edad</h1>
+        {% endif %}
+    {% endfor %}
+{% endblock content %}
