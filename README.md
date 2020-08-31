@@ -2,6 +2,7 @@
 
 ## proceso para levantar el projecto:
 
+* abrir Xampp y encender MySQL
 * Crear entorno virtual con: python.exe -m venv env
 * Dentro del entorno instalas:
 * pip install django
