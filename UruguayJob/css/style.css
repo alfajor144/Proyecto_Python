@@ -1,1 +1,64 @@
-# Empty CSS file for your own CSS
+
+body {
+    /*
+    background-color: pink;
+    */
+    background-color: #ffffff;
+}
+
+.row-buscador{
+    padding: 50px 10px 40px 10px;
+    margin-bottom: 20px;
+    background-image: url("../img/bg2.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+
+.div-buscador{
+    border-radius: 10px; 
+    background-color: rgba(255, 255, 255, 0.519); 
+    padding: 2rem 10px;
+    margin-top: 3rem;
+    text-align: center;
+   /*
+    background-color: red;
+    */
+}
+
+form {
+    /*
+    margin-top: 30px;
+    margin-bottom: 30px;
+    */
+    padding: 20px 20px;
+    /*
+    background-color: orange;
+    */
+}
+
+.sidebar {
+    /*
+    background-color: royalblue;
+    */
+    height: 700px;
+    padding: 15px;
+    border: #1a1a1a solid 1px;
+    border-radius: 5px 5px 5px;
+}
+
+.publicidad{
+    height: 50%;
+}
+
+.lista-ofertas{
+    height: 700px;
+}
+
+ul{
+    list-style: none;
+}
+
+a{
+    text-decoration: none;
+}
