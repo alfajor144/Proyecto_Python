@@ -19,7 +19,8 @@
   }
   
   .footer a:hover {
-    background-color: rgb(39, 107, 7);
+    background-color:darkseagreen;
+    color: black;
   }
   
   .active {
