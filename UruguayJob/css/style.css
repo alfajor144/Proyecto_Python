@@ -73,7 +73,8 @@ a{
   }
   
   .navbar a:hover {
-    background-color: #000;
+    background-color:darkseagreen;
+    color: black;
   }
   
   .active {
