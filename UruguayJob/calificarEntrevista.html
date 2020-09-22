@@ -11,44 +11,18 @@
 	<link href="css/bootstrap.css" rel="stylesheet">
 	<link href="css/style.css" rel="stylesheet">
 	<link href="css/footer.css" rel="stylesheet">
+	<link href="css/busquedas.css" rel="stylesheet">
 
 	<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
 </head>
 
 <body>
 
-	<!--Modal para subir curriculum-->
-	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-		aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Subir CV</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<form>
-						<div class="form-group">
-						  <label for="exampleFormControlFile1">Selecciona un archivo ".pdf"</label>
-						  <input type="file" class="form-control-file" id="exampleFormControlFile1">
-						</div>
-					  </form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-					<button type="button" class="btn btn-primary">Subir</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!--Fin del modal-->
-
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12 px-0">
-				<nav class="navbar navbar-toggleable-md navbar-expand-lg navbar-light  fixed-top bg-primary">
+				<nav class="navbar navbar-toggleable-sm navbar-expand-lg navbar-light  fixed-top bg-primary">
 					<button class="navbar-toggler" type="button" data-toggle="collapse"
 						data-target="#bs-example-navbar-collapse-1">
 						<span class="navbar-toggler-icon"></span>
@@ -59,12 +33,11 @@
 							<img class="m-0 p-0" src="img/logo.jpg" alt="Logo"
 								style="width:50px; height: 50px; border-radius: 30px;">
 						</a>
-
 						<div class="navbar ml-md-auto" style=" display: table-cell;">
 							<a href="#"><i class="fas fa-bell" style="width:30px"></i> Entrevistas</a>
 							<a href="estadistica.html"><i class="fas fa-chart-pie" style="width:30px"></i>
 								Estadísticas</a>
-							<a href="#" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-fw fa-envelope" style="width:30px"></i>subir CV</a>
+							<a href="#"><i class="fa fa-fw fa-envelope" style="width:30px"></i> subir CV</a>
 							<a href="#"><i class="fa fa-fw fa-user" style="width:30px; padding-right: 10px;"></i>
 								Login</a>
 						</div>
@@ -72,169 +45,194 @@
 				</nav>
 			</div>
 		</div>
-		<div class="row row-buscador">
-			<div class="col-md-2">
-			</div>
-			<div class="col-md-8 div-buscador">
-				<h2>Encentra tu próximo empleo aquí</h2>
-				<form role="form">
-					<div class="row">
-						<div class="col-12 col-lg-4">
-							<div class="form-group">
-								<label for="exampleInputEmail1">
-									¿Qué estás buscando?
-								</label>
-								<input type="text" class="form-control" id="exampleInputEmail1">
-							</div>
 
-							<div class="form-group">
-								<label for="exampleFormControlSelect1">Categoría</label>
-								<select class="form-control" id="exampleFormControlSelect1">
-									<option>Panadero</option>
-									<option>Programador</option>
-									<option>Sommelier</option>
-								</select>
-							</div>
-						</div>
-						<div class="col-12 col-lg-5">
-							<div class="form-group">
+		<div class="separador"></div>
 
-								<label for="exampleInputPassword1">
-									Dónde
-								</label>
-								<input type="text" class="form-control" id="exampleInputPassword1">
-							</div>
-
-							<div class="form-group">
-								<label for="exampleFormControlSelect1">País</label>
-								<select class="form-control" id="exampleFormControlSelect1">
-									<option>Uruguay</option>
-									<option>Argentina</option>
-									<option>Somalia</option>
-								</select>
-							</div>
-						</div>
-
-						<div class="col-12 col-lg-3">
-							<div class="form-group my-4">
-								<button type="submit" class="btn btn-success">
-									Buscar Empleo
-								</button>
-							</div>
-						</div>
-
-					</div>
-				</form>
-			</div>
-			<div class="col-md-2">
-			</div>
-		</div>
-		<hr>
 		<div class="row row-ofertas">
-			<!--sidebar de publicidad izquierdo -->
-			<div class="col-md-3 sidebar d-flex flex-row justify-content-center align-items-start">
-				<div class="card publicidad" style="width: 18rem;">
-					<img src="./img/oficina2.jpg" class="card-img-top" alt="...">
-					<div class="card-body">
-						<h5 class="card-title">Card title</h5>
-						<p class="card-text">Some quick example text to build on the card title and make up the bulk of
-							the
-							card's content.</p>
-					</div>
-				</div>
-			</div>
-			<!-- Lista de ofertas laborales -->
-			<div class="col-md-6 lista-ofertas">
-				<h3 class="text-primary">Lo más reciente</h3>
+			<!-- Lista de resultados de la busqueda -->
+			<div class="col-md-5 lista-ofertas">
+				<h3 class="text-primary">Ofertas Laborales</h3>
 				<div class="list-group">
+
 					<a href="#" class="list-group-item list-group-item-action">
 						<div class="d-flex w-100 justify-content-between">
-							<h5 class="mb-1">Oferta laboral</h5>
-							<small>3 days ago</small>
+							<h5 class="mb-1">Panaderia El Molino</h5>
 						</div>
-						<p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
-							varius blandit.</p>
-						<small>Donec id elit non mi porta.</small>
+						<p class="mb-1">Se busca individuo con capasidad para amasar.</p>
+						<small>desde 20/09/2020 al 25/09/2020</small>
 					</a>
+
 					<a href="#" class="list-group-item list-group-item-action">
 						<div class="d-flex w-100 justify-content-between">
-							<h5 class="mb-1">Oferta laboral</h5>
-							<small class="text-muted">3 days ago</small>
+							<h5 class="mb-1">Panaderia El Molino</h5>
 						</div>
-						<p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
-							varius blandit.</p>
-						<small class="text-muted">Donec id elit non mi porta.</small>
+						<p class="mb-1">Se busca individuo con capasidad para amasar.</p>
+						<small>desde 20/09/2020 al 25/09/2020</small>
 					</a>
+
 					<a href="#" class="list-group-item list-group-item-action">
 						<div class="d-flex w-100 justify-content-between">
-							<h5 class="mb-1">Oferta laboral</h5>
-							<small class="text-muted">3 days ago</small>
+							<h5 class="mb-1">Panaderia El Molino</h5>
 						</div>
-						<p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
-							varius blandit.</p>
-						<small class="text-muted">Donec id elit non mi porta.</small>
+						<p class="mb-1">Se busca individuo con capasidad para amasar.</p>
+						<small>desde 20/09/2020 al 25/09/2020</small>
 					</a>
+
 					<a href="#" class="list-group-item list-group-item-action">
 						<div class="d-flex w-100 justify-content-between">
-							<h5 class="mb-1">Oferta laboral</h5>
-							<small>3 days ago</small>
+							<h5 class="mb-1">Panaderia El Molino</h5>
 						</div>
-						<p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
-							varius blandit.</p>
-						<small>Donec id elit non mi porta.</small>
+						<p class="mb-1">Se busca individuo con capasidad para amasar.</p>
+						<small>desde 20/09/2020 al 25/09/2020</small>
 					</a>
+
 					<a href="#" class="list-group-item list-group-item-action">
 						<div class="d-flex w-100 justify-content-between">
-							<h5 class="mb-1">Oferta laboral</h5>
-							<small>3 days ago</small>
+							<h5 class="mb-1">Panaderia El Molino</h5>
 						</div>
-						<p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
-							varius blandit.</p>
-						<small>Donec id elit non mi porta.</small>
+						<p class="mb-1">Se busca individuo con capasidad para amasar.</p>
+						<small>desde 20/09/2020 al 25/09/2020</small>
 					</a>
+
+					<a href="#" class="list-group-item list-group-item-action">
+						<div class="d-flex w-100 justify-content-between">
+							<h5 class="mb-1">Panaderia El Molino</h5>
+						</div>
+						<p class="mb-1">Se busca individuo con capasidad para amasar.</p>
+						<small>desde 20/09/2020 al 25/09/2020</small>
+					</a>
+
 				</div>
-
-				<nav aria-label="Page navigation">
-					<ul class="pagination d-flex flex-row-reverse">
-						<li class="page-item"><a class="page-link" href="#">Anterior</a></li>
-						<li class="page-item"><a class="page-link" href="#">1</a></li>
-						<li class="page-item"><a class="page-link" href="#">2</a></li>
-						<li class="page-item"><a class="page-link" href="#">3</a></li>
-						<li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
-					</ul>
-				</nav>
-
-
-
+				<div class="mt-3">
+					<nav aria-label="Page navigation example">
+						<ul class="pagination">
+							<li class="page-item"><a class="page-link" href="#">Previo</a></li>
+							<li class="page-item"><a class="page-link" href="#">1</a></li>
+							<li class="page-item"><a class="page-link" href="#">2</a></li>
+							<li class="page-item"><a class="page-link" href="#">3</a></li>
+							<li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
+						</ul>
+					</nav>
+				</div>
 			</div>
-			<!--sidebar de publicidad derecho -->
-			<div class="col-md-3 sidebar">
-				<div class="card publicidad" style="width: 18rem;">
-					<img src="./img/coworking.jpg" class="card-img-top" alt="...">
-					<div class="card-body">
-						<h5 class="card-title">Card title</h5>
-						<p class="card-text">Some quick example text to build on the card title and make up the bulk of
-							the
-							card's content.</p>
+			<!-- Detalles del llamado -->
+			<div class="col-md-7">
+				<h3 class="text-primary">Postulantes</h3>
+				<div class="list-group">
+
+					<div class="list-group-item list-group-item-action">
+						<div class="row">
+							<div class="col-12 col-md-6">
+								<h4 class="mt-4">Hernesto ponse</h4>
+							</div>
+							<div class="col-12 col-md-6">
+								<form role="form">
+									<div class="form-group">
+										<label for="exampleFormControlSelect1">Calificacion</label>
+										<select class="form-control" id="exampleFormControlSelect1">
+											<option>1</option>
+											<option>2</option>
+											<option>3</option>
+											<option>4</option>
+											<option>5</option>
+										</select>
+										<button type="submit" class="mt-2 btn btn-success">
+											Calificar
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>	
 					</div>
+
+
+					<div class="list-group-item list-group-item-action">
+						<div class="row">
+							<div class="col-12 col-md-6">
+								<h4 class="mt-4">Marco aurelio</h4>
+							</div>
+							<div class="col-12 col-md-6">
+								<form role="form">
+									<div class="form-group">
+										<label for="exampleFormControlSelect1">Calificacion</label>
+										<select class="form-control" id="exampleFormControlSelect1">
+											<option>1</option>
+											<option>2</option>
+											<option>3</option>
+											<option>4</option>
+											<option>5</option>
+										</select>
+										<button type="submit" class="mt-2 btn btn-success">
+											Calificar
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>	
+					</div>
+
+
+					<div class="list-group-item list-group-item-action">
+						<div class="row">
+							<div class="col-12 col-md-6">
+								<h4 class="mt-4">Pedro Ponse</h4>
+							</div>
+							<div class="col-12 col-md-6">
+								<form role="form">
+									<div class="form-group">
+										<label for="exampleFormControlSelect1">Calificacion</label>
+										<select class="form-control" id="exampleFormControlSelect1">
+											<option>1</option>
+											<option>2</option>
+											<option>3</option>
+											<option>4</option>
+											<option>5</option>
+										</select>
+										<button type="submit" class="mt-2 btn btn-success">
+											Calificar
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>	
+					</div>
+
+
+					<div class="list-group-item list-group-item-action">
+						<div class="row">
+							<div class="col-12 col-md-6">
+								<h4 class="mt-4">Hernesto ponse</h4>
+							</div>
+							<div class="col-12 col-md-6">
+								<form role="form">
+									<div class="form-group">
+										<label for="exampleFormControlSelect1">Calificacion</label>
+										<select class="form-control" id="exampleFormControlSelect1">
+											<option>1</option>
+											<option>2</option>
+											<option>3</option>
+											<option>4</option>
+											<option>5</option>
+										</select>
+										<button type="submit" class="mt-2 btn btn-success">
+											Calificar
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>	
+					</div>
+					
+
+
 				</div>
 
 			</div>
-		</div>
-		<hr>
-		<!-- ---------------------Footer ---------------------------- -->
-		<div class="row">
-			<div class="col-md-4"></div>
-			<div class="col-md-4"></div>
-			<div class="col-md-4"></div>
-		</div>
-		<div class="row">
-			<div class="col-md-6"></div>
-			<div class="col-md-6"></div>
 		</div>
 
 	</div>
 
+	<!-- footer -->
 	<footer id="footer" class="light-footer bg-primary navbar-light" data-role="footer">
 		<div id="FooterModule">
 			<div id="Footer" class="footer footerLight">
@@ -347,7 +345,6 @@
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/scripts.js"></script>
-
 
 </body>
 

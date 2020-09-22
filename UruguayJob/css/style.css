@@ -6,6 +6,10 @@ body {
     background-color: #ffffff;
 }
 
+.separador{
+    height: 100px;
+}
+
 .row-buscador{
     padding: 50px 10px 40px 10px;
     margin-bottom: 20px;
