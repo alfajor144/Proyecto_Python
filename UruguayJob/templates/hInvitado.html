@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+{% block header %}
+{% load static %}
+<nav class="navbar navbar-toggleable-md navbar-expand-lg navbar-light  fixed-top bg-primary">
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+		<a class="m-0 ml-3 p-0" href="index.html">
+			<img class="m-0 p-0" src="{% static 'img/logo.jpg' %}" alt="Logo" style="width:50px; height: 50px; border-radius: 30px;">
+		</a>
+
+		<div class="navbar ml-md-auto" style=" display: table-cell;">
+			<a href="estadistica.html"><i class="fas fa-chart-pie" style="width:30px"></i>
+				Estadísticas</a>
+			<a href="registroDeUsuario.html" data-toggle="modal" data-target="#exampleModal"><i
+					class="fa fa-fw fa-envelope" style="width:30px"></i>subir CV</a>
+			<a href="index.html"><i class="fa fa-fw fa-user" style="width:30px; padding-right: 10px;"></i>
+				Login</a>
+			<a href="registroDeUsuario.html"><i class="fa fa-fw fa-user" style="width:30px; padding-right: 10px;"></i>
+				Registrarme</a>
+		</div>
+	</div>
+</nav>
+{% endblock %}
+
+
+{% block body %}
+{% load static %}
+<div class="row row-buscador">
+	<div class="col-md-2">
+	</div>
+	<div class="col-md-8 div-buscador">
+		<h2>Encentra tu próximo empleo aquí</h2>
+		<form role="form">
+			<div class="row">
+				<div class="col-12 col-lg-4">
+					<div class="form-group">
+						<label for="exampleInputEmail1">
+							¿Qué estás buscando?
+						</label>
+						<input type="text" class="form-control" id="exampleInputEmail1">
+					</div>
+					<div class="form-group">
+						<label for="exampleFormControlSelect1">Categoría</label>
+						<select class="form-control" id="exampleFormControlSelect1">
+							<option>Panadero</option>
+							<option>Programador</option>
+							<option>Sommelier</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-12 col-lg-5">
+
+					<div class="form-group">
+						<label for="exampleFormControlSelect1">País</label>
+						<select class="form-control" id="exampleFormControlSelect1">
+							<option>Uruguay</option>
+							<option>Argentina</option>
+							<option>Brasil</option>
+						</select>
+					</div>
+
+					<div class="form-group">
+						<label for="exampleFormControlSelect1">Ciudad</label>
+						<select class="form-control" id="exampleFormControlSelect1">
+							<option>San José</option>
+							<option>Colonia</option>
+							<option>Canelones</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="col-12 col-lg-3">
+					<div class="form-group my-4">
+						<button type="submit" class="btn btn-success">
+							Buscar Empleo
+						</button>
+					</div>
+				</div>
+
+			</div>
+		</form>
+	</div>
+	<div class="col-md-2">
+	</div>
+</div>
+<hr>
+<div class="row row-ofertas">
+	<!--sidebar de publicidad izquierdo -->
+	<div class="col-md-3 sidebar d-flex flex-row justify-content-center align-items-start">
+		<div class="card publicidad" style="width: 18rem;">
+			<img src="{% static 'img/oficina2.jpg' %}" class="card-img-top" alt="...">
+			<div class="card-body">
+				<h5 class="card-title">Card title</h5>
+				<p class="card-text">Some quick example text to build on the card title and make up the bulk of
+					the
+					card's content.</p>
+			</div>
+		</div>
+	</div>
+	<!-- Lista de ofertas laborales -->
+	<div class="col-md-6 lista-ofertas">
+		<h3 class="text-primary">Lo más reciente</h3>
+		<div class="list-group">
+			<a href="#" class="list-group-item list-group-item-action">
+				<div class="d-flex w-100 justify-content-between">
+					<h5 class="mb-1">Oferta laboral</h5>
+					<small>3 days ago</small>
+				</div>
+				<p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
+					varius blandit.</p>
+				<small>Donec id elit non mi porta.</small>
+			</a>
+			<a href="#" class="list-group-item list-group-item-action">
+				<div class="d-flex w-100 justify-content-between">
+					<h5 class="mb-1">Oferta laboral</h5>
+					<small class="text-muted">3 days ago</small>
+				</div>
+				<p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
+					varius blandit.</p>
+				<small class="text-muted">Donec id elit non mi porta.</small>
+			</a>
+			<a href="#" class="list-group-item list-group-item-action">
+				<div class="d-flex w-100 justify-content-between">
+					<h5 class="mb-1">Oferta laboral</h5>
+					<small class="text-muted">3 days ago</small>
+				</div>
+				<p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
+					varius blandit.</p>
+				<small class="text-muted">Donec id elit non mi porta.</small>
+			</a>
+			<a href="#" class="list-group-item list-group-item-action">
+				<div class="d-flex w-100 justify-content-between">
+					<h5 class="mb-1">Oferta laboral</h5>
+					<small>3 days ago</small>
+				</div>
+				<p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
+					varius blandit.</p>
+				<small>Donec id elit non mi porta.</small>
+			</a>
+			<a href="#" class="list-group-item list-group-item-action">
+				<div class="d-flex w-100 justify-content-between">
+					<h5 class="mb-1">Oferta laboral</h5>
+					<small>3 days ago</small>
+				</div>
+				<p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
+					varius blandit.</p>
+				<small>Donec id elit non mi porta.</small>
+			</a>
+		</div>
+
+		<nav aria-label="Page navigation">
+			<ul class="pagination d-flex flex-row-reverse">
+				<li class="page-item"><a class="page-link" href="#">Anterior</a></li>
+				<li class="page-item"><a class="page-link" href="#">1</a></li>
+				<li class="page-item"><a class="page-link" href="#">2</a></li>
+				<li class="page-item"><a class="page-link" href="#">3</a></li>
+				<li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
+			</ul>
+		</nav>
+	</div>
+	<!--sidebar de publicidad derecho -->
+	<div class="col-md-3 sidebar">
+		<div class="card publicidad" style="width: 18rem;">
+			<img src="{% static 'img/coworking.jpg' %}" class="card-img-top" alt="...">
+			<div class="card-body">
+				<h5 class="card-title">Card title</h5>
+				<p class="card-text">Some quick example text to build on the card title and make up the bulk of
+					the
+					card's content.</p>
+			</div>
+		</div>
+	</div>
+</div>
+<hr>
+{% endblock %}

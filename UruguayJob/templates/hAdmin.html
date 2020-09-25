@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block header %}
+{% load static %}
+<nav class="navbar navbar-toggleable-md navbar-expand-lg navbar-light  fixed-top bg-primary">
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+		<a class="m-0 ml-3 p-0" href="#">
+			<img class="m-0 p-0" src="{% static 'img/logo.jpg' %}" alt="Logo" style="width:50px; height: 50px; border-radius: 30px;">
+		</a>
+
+		<div class="navbar ml-md-auto" style=" display: table-cell;">
+			<a href="activas.html"><i style="width:30px"></i> Ofertas activas</a>
+			<a href="entrevistar.html"><i style="width:30px"></i> Entrevistar</a>
+			<a href="calificarEntrevista.html"><i style="width:30px"></i>Calificar entrevistas</a>
+			<a href="indexInvitado.html"><i style="width:30px; padding-right: 10px;"></i>
+				Cerrar Sesion</a>
+		</div>
+	</div>
+</nav>
+{% endblock %}
+
+
+{% block body %}
+{% load static %}
+
+<div class="row row-buscador">
+	<div class="col-md-2">
+	</div>
+	<div class="col-md-8 div-buscador" style="height: 300px;">
+		<h3>Bienvenido Administrador</h3>
+		<br><br>
+		<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptates, 
+			voluptatum. Sapiente necessitatibus reprehenderit quos error, rerum 
+			nisi ipsum non perspiciatis laudantium, nobis dolores quia harum? 
+			Eveniet ipsam et eligendi nesciunt.</p>
+	</div>
+	<div class="col-md-2">
+	</div>
+</div>
+
+<hr>
+{% endblock %}
