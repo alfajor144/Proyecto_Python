@@ -29,6 +29,9 @@ def Entrevistas(request):
 def Calificar(request):
     return render(request, 'calificarEntrevista.html')
 
+def Busquedas(request):
+    return render(request, 'busquedas.html')
+
 
 
 
