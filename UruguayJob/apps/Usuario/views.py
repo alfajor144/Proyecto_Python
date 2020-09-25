@@ -16,3 +16,20 @@ def Registrarse(request):
 
 def IniciarSesion(request):
     return render(request, 'iniciarSesion.html')
+
+def Estadistica(request):
+    return render(request, 'estadistica.html')
+    
+def Entrevistar(request):
+    return render(request, 'entrevistar.html')
+
+def Entrevistas(request):
+    return render(request, 'entrevistas.html')
+
+def Calificar(request):
+    return render(request, 'calificarEntrevista.html')
+
+
+
+
+ 
