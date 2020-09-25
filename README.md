@@ -1,5 +1,7 @@
 # Proyecto Django + MySQL
 
+* pip install Twisted-20.3.0-cp38-cp38-win_amd64.whl
+
 ## proceso para levantar el projecto:
 
 * abrir Xampp y encender MySQL
