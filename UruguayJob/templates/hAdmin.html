@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+
+{% block titulo %}
+<title>Administrador</title>
+{% endblock %}
+
 {% block header %}
 {% load static %}
 <nav class="navbar navbar-toggleable-md navbar-expand-lg navbar-light  fixed-top bg-primary">
@@ -7,7 +12,7 @@
 	</button>
 	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-		<a class="m-0 ml-3 p-0" href="#">
+		<a class="m-0 ml-3 p-0" href="/a">
 			<img class="m-0 p-0" src="{% static 'img/logo.jpg' %}" alt="Logo" style="width:50px; height: 50px; border-radius: 30px;">
 		</a>
 
@@ -15,7 +20,7 @@
 			<a href="activas.html"><i style="width:30px"></i> Ofertas activas</a>
 			<a href="entrevistar.html"><i style="width:30px"></i> Entrevistar</a>
 			<a href="calificarEntrevista.html"><i style="width:30px"></i>Calificar entrevistas</a>
-			<a href="indexInvitado.html"><i style="width:30px; padding-right: 10px;"></i>
+			<a href="/"><i style="width:30px; padding-right: 10px;"></i>
 				Cerrar Sesion</a>
 		</div>
 	</div>

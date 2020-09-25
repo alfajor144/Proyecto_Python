@@ -10,3 +10,9 @@ def HomeUser(request):
 
 def HomeInvitado(request):
     return render(request, 'hInvitado.html')
+
+def Registrarse(request):
+    return render(request, 'registroDeUsuario.html')
+
+def IniciarSesion(request):
+    return render(request, 'iniciarSesion.html')

@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+
+{% block titulo %}
+<title>UyJob</title>
+{% endblock %}
+
 {% block header %}
 {% load static %}
 <nav class="navbar navbar-toggleable-md navbar-expand-lg navbar-light  fixed-top bg-primary">
@@ -7,7 +12,7 @@
 	</button>
 	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-		<a class="m-0 ml-3 p-0" href="index.html">
+		<a class="m-0 ml-3 p-0" href="/u">
 			<img class="m-0 p-0" src="{% static 'img/logo.jpg' %}" alt="Logo"
 				style="width:50px; height: 50px; border-radius: 30px;">
 		</a>
@@ -18,7 +23,7 @@
 				Estadísticas</a>
 			<a href="#" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-fw fa-envelope"
 					style="width:30px"></i>subir CV</a>
-			<a href="indexInvitado.html"><i class="fa fa-fw fa-user" style="width:30px; padding-right: 10px;"></i>
+			<a href="/"><i class="fa fa-fw fa-user" style="width:30px; padding-right: 10px;"></i>
 				Cerrar Sesion</a>
 		</div>
 	</div>
@@ -32,7 +37,8 @@
 	<div class="col-md-2">
 	</div>
 	<div class="col-md-8 div-buscador">
-		<h2>Encentra tu próximo empleo aquí</h2>
+		<h2>Bienbenido Usuario</h2>
+		<h4>Encentra tu próximo empleo aquí</h4>
 		<form role="form">
 			<div class="row">
 				<div class="col-12 col-lg-4">
