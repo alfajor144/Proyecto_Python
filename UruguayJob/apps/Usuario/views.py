@@ -26,15 +26,17 @@ def Entrevistar(request):
 def Entrevistas(request):
     return render(request, 'entrevistas.html')
 
+def VerCV(request):
+    return render(request, 'verCurriculum.html')
+
 def Calificar(request):
-
     ListaOfertas = ["Panadero", "Verdulero", "Carnicero"]
-
     context = {
         'Ofertas': ListaOfertas,
     }
-
     return render(request, 'calificarEntrevista.html', context )
+
+# ------------------- FUNCIONALIDADES ----------------------------
 
 def Buscar(request):
     print(request.POST['keyWord'])
@@ -42,6 +44,17 @@ def Buscar(request):
     print(request.POST['pais'])
     print(request.POST['ciudad'])
     return render(request, 'busquedas.html')
+
+def RegistrarUsuario(request):
+    print(request.POST['email'])
+    print(request.POST['password'])
+    return render(request, 'hUsuario.html')
+
+def InciarSesion(request):
+    print(request.POST['email'])
+    print(request.POST['password'])
+    return render(request, 'hUsuario.html')
+    #return render(request, 'hAdmin.html')
 
 
 

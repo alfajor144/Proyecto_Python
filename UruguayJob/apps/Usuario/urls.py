@@ -2,14 +2,19 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.HomeInvitado, name='Invitado'), #Home
-    path('usuario/', views.HomeUser, name='Usuario'), 
-    path('administrador/', views.HomeAdmin, name='Administrador'),
-    path('registrarse/', views.Registrarse, name='Registrarse'),
-    path('estadistica/', views.Estadistica, name='Estadistica'),
-    path('entrevistar/', views.Entrevistar, name='Entrevistar'),
-    path('entrevistas/', views.Entrevistas, name='Entrevistas'),
-    path('calificar/', views.Calificar, name='Calificar'),
-    path('iniciar-sesion/', views.IniciarSesion, name='IniciarSesion'),
-    path('buscar/', views.Buscar, name='Buscar')
+    path('', views.HomeInvitado, name=''), #Home
+    path('usuario/', views.HomeUser, name='usuario'), 
+    path('administrador/', views.HomeAdmin, name='administrador'),
+    path('registrarse/', views.Registrarse, name='registrarse'),
+    path('estadistica/', views.Estadistica, name='estadistica'),
+    path('entrevistar/', views.Entrevistar, name='entrevistar'),
+    path('entrevistas/', views.Entrevistas, name='entrevistas'),
+    path('calificar/', views.Calificar, name='calificar'),
+    path('iniciar-sesion/', views.IniciarSesion, name='iniciar-sesion'),
+    path('verCV/', views.VerCV, name='VerCV'),
+
+    # -------------- FUNCIONALIDADES JULIO---------------------------------
+    path('registrarUsuario/', views.RegistrarUsuario, name='registrarUsuario'),
+    path('inciarSesion/', views.InciarSesion, name='inciarSesion'),
+    path('buscar/', views.Buscar, name='buscar')
 ]
