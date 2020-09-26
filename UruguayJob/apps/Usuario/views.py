@@ -31,7 +31,7 @@ def Calificar(request):
     ListaOfertas = ["Panadero", "Verdulero", "Carnicero"]
 
     context = {
-        'titulo': ListaOfertas,
+        'Ofertas': ListaOfertas,
     }
 
     return render(request, 'calificarEntrevista.html', context )
