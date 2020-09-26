@@ -1,0 +1,31 @@
+
+INSERT INTO `usuario_usuario` (`id_usuario`, `nombre`, `apellido`, `contrasenia`, `email`, `cv`, `isAdmin`) VALUES ('0', 'Carlos', 'Balbiani', '1234', 'Carlos@gmail.com', NULL, '0');
+
+INSERT INTO `usuario_usuario` (`id_usuario`, `nombre`, `apellido`, `contrasenia`, `email`, `cv`, `isAdmin`) VALUES ('1', 'Julio', 'Arrieta', '1234', 'Julio@gmail.com', NULL, '0');
+
+INSERT INTO `usuario_usuario` (`id_usuario`, `nombre`, `apellido`, `contrasenia`, `email`, `cv`, `isAdmin`) VALUES ('2', 'Joaquin', 'Suarez', '1234', 'Joaquin@gmail.com', NULL, '0');
+
+INSERT INTO `usuario_usuario` (`id_usuario`, `nombre`, `apellido`, `contrasenia`, `email`, `cv`, `isAdmin`) VALUES ('3', 'Juan', 'Juan', '1234', 'Admin@gmail.com', NULL, '1');
+
+
+INSERT INTO `usuario_oferta` (`id_oferta`, `titulo`, `descripcion`, `fecha_inicio`, `fecha_final`, `link`) VALUES ('0', 'Ayudante para AAD - IESTA - Universidad de la República', 'Perfil: El llamado está dirigido a estudiantes avanzados de la Licenciatura en Estadística - Perfil Actuarial, preferentemente que hayan culminado tercer año.\r\nFacultad de Ciencias Económicas y de Administración, Av. Gonzalo Ramírez 1926, Sección Concursos (lunes a viernes de 10:00 a 13:00 horas, excepto el día de cierre en que solamente se reciben inscripciones hasta la hora 12:00)', '2020-12-01', '2020-12-31', 'https://www.uruguayconcursa.gub.uy/Portal/servlet/com.si.recsel.verllamado?19437');
+
+INSERT INTO `usuario_oferta` (`id_oferta`, `titulo`, `descripcion`, `fecha_inicio`, `fecha_final`, `link`) VALUES ('1', 'SUPLENTE AUX. DE ENFERMERÍA - Administración de Servicios de Salud del Estado - Red de At.Primaria de Rivera', 'Requisitos: Ser ciudadano/a Natural o Legal.Título de Auxiliar de Enfermería habilitado y registrado en el M.S.P.Haber prestado Juramento de Fidelidad a la Bandera Nacional.Currículum Vitae con documentación probatoria foliado (méritos y antecedentes).No tener antecedentes funcionales negativos, provenientes de cualquier Entidad Pública yque revistan gravedad (al momento de la contratación).', '2020-12-01', '2020-12-31', 'https://www.uruguayconcursa.gub.uy/Portal/servlet/com.si.recsel.verllamado?19433');
+
+INSERT INTO `usuario_oferta` (`id_oferta`, `titulo`, `descripcion`, `fecha_inicio`, `fecha_final`, `link`) VALUES ('2', 'AMPLIACION SUPLENTE MEDICO ANESTESISTA - Administración de Servicios de Salud del Estado - Centro Hospitalario Maldonado-San Carlos', 'Ser ciudadano/a Natural o Legal.Título de Médico Anestesista registrado y habilitado por el M.S.P. Currículum Vitae con documentación probatoria foliada (méritos y antecedentes).Acreditar inscripción vigente en el Colegio de Médicos del Uruguay(Ley N.º 18.591 – Art. 2º)No tener antecedentes funcionales negativos provenientes de cualquier Entidad Pública y que revistan gravedad (al momento de la contratación).', '2020-12-01', '2020-12-31', 'https://www.uruguayconcursa.gub.uy/Portal/servlet/com.si.recsel.verllamado?19429');
+
+INSERT INTO `usuario_oferta` (`id_oferta`, `titulo`, `descripcion`, `fecha_inicio`, `fecha_final`, `link`) VALUES ('3', 'Ayudante para AAD - IESTA - Universidad de la República', 'Perfil: El llamado está dirigido a estudiantes avanzados de la Licenciatura en Estadística - Perfil Actuarial, preferentemente que hayan culminado tercer año.\r\nFacultad de Ciencias Económicas y de Administración, Av. Gonzalo Ramírez 1926, Sección Concursos (lunes a viernes de 10:00 a 13:00 horas, excepto el día de cierre en que solamente se reciben inscripciones hasta la hora 12:00)', '2020-12-01', '2020-12-31', 'https://www.uruguayconcursa.gub.uy/Portal/servlet/com.si.recsel.verllamado?19437');
+
+INSERT INTO `usuario_oferta` (`id_oferta`, `titulo`, `descripcion`, `fecha_inicio`, `fecha_final`, `link`) VALUES ('4', 'SUPLENTE AUX. DE ENFERMERÍA - Administración de Servicios de Salud del Estado - Red de At.Primaria de Rivera', 'Requisitos: Ser ciudadano/a Natural o Legal.Título de Auxiliar de Enfermería habilitado y registrado en el M.S.P.Haber prestado Juramento de Fidelidad a la Bandera Nacional.Currículum Vitae con documentación probatoria foliado (méritos y antecedentes).No tener antecedentes funcionales negativos, provenientes de cualquier Entidad Pública yque revistan gravedad (al momento de la contratación).', '2020-12-01', '2020-12-31', 'https://www.uruguayconcursa.gub.uy/Portal/servlet/com.si.recsel.verllamado?19433');
+
+INSERT INTO `usuario_oferta` (`id_oferta`, `titulo`, `descripcion`, `fecha_inicio`, `fecha_final`, `link`) VALUES ('5', 'AMPLIACION SUPLENTE MEDICO ANESTESISTA - Administración de Servicios de Salud del Estado - Centro Hospitalario Maldonado-San Carlos', 'Ser ciudadano/a Natural o Legal.Título de Médico Anestesista registrado y habilitado por el M.S.P. Currículum Vitae con documentación probatoria foliada (méritos y antecedentes).Acreditar inscripción vigente en el Colegio de Médicos del Uruguay(Ley N.º 18.591 – Art. 2º)No tener antecedentes funcionales negativos provenientes de cualquier Entidad Pública y que revistan gravedad (al momento de la contratación).', '2020-12-01', '2020-12-31', 'https://www.uruguayconcursa.gub.uy/Portal/servlet/com.si.recsel.verllamado?19429');
+
+
+INSERT INTO `usuario_postulacion`(`id`, `fecha_uno`, `fecha_dos`, `fecha_tres`, `id_oferta_id`, `id_usuario_id`) VALUES ('0', NULL, NULL, NULL, '0', '0');
+
+INSERT INTO `usuario_postulacion`(`id`, `fecha_uno`, `fecha_dos`, `fecha_tres`, `id_oferta_id`, `id_usuario_id`) VALUES ('1', NULL, NULL, NULL, '1', '1');
+
+INSERT INTO `usuario_postulacion`(`id`, `fecha_uno`, `fecha_dos`, `fecha_tres`, `id_oferta_id`, `id_usuario_id`) VALUES ('2', NULL, NULL, NULL, '2', '2');
+
+
+
