@@ -19,13 +19,22 @@
 
 		<div class="navbar ml-md-auto" style=" display: table-cell;">
 			<!--	<a href="/busquedas"><i class="fas fa-search" style="width:30px"></i> Busquedas</a> -->
-			<a href="/entrevistas"><i class="fas fa-bell" style="width:30px"></i> Entrevistas</a>
-			<a href="/estadistica"><i class="fas fa-chart-pie" style="width:30px"></i>
-				Estadísticas</a>
-			<a href="#" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-fw fa-envelope"
+			{% if esUsuario %}
+				<a href="/entrevistas"><i class="fas fa-bell" style="width:30px"></i> Entrevistas</a>
+				<a href="/estadistica"><i class="fas fa-chart-pie" style="width:30px"></i>
+					Estadísticas</a>
+				<a href="#" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-fw fa-envelope"
+						style="width:30px"></i>Subir CV</a>
+				<a href="/"><i class="fa fa-fw fa-user" style="width:30px; padding-right: 10px;"></i>
+					Cerrar Sesion</a>
+			{% else %}
+				<a href="#" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-fw fa-envelope"
 					style="width:30px"></i>Subir CV</a>
-			<a href="/"><i class="fa fa-fw fa-user" style="width:30px; padding-right: 10px;"></i>
-				Cerrar Sesion</a>
+				<a href="/iniciar-sesion"><i class="fa fa-fw fa-user" style="width:30px; padding-right: 10px;"></i>
+					Iniciar sesión</a>
+				<a href="/registrarse"><i class="fa fa-fw fa-user" style="width:30px; padding-right: 10px;"></i>
+					Registrarme</a>
+			{% endif %}
 		</div>
 	</div>
 </nav>

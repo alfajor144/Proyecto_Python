@@ -18,7 +18,7 @@
 		</a>
 
 		<div class="navbar ml-md-auto" style=" display: table-cell;">
-	<!--	<a href="/busquedas"><i class="fas fa-search" style="width:30px"></i> Busquedas</a> -->
+			<!--	<a href="/busquedas"><i class="fas fa-search" style="width:30px"></i> Busquedas</a> -->
 			<a href="/entrevistas"><i class="fas fa-bell" style="width:30px"></i> Entrevistas</a>
 			<a href="/estadistica"><i class="fas fa-chart-pie" style="width:30px"></i>
 				Estadísticas</a>
@@ -113,30 +113,41 @@
 		<h3 class="text-primary">Lo más reciente</h3>
 		<div class="list-group">
 
-			
-			<a href="#" data-toggle="modal" data-target="#detalleOderta" class="list-group-item list-group-item-action">
+
+			{% for OfertasRe in OfertasRec %}
+			<a href="#" data-toggle="modal" data-target="#{{ OfertasRe.id_oferta }}"
+				class="list-group-item list-group-item-action">
 				<div class="d-flex w-100 justify-content-between">
-					<h5 class="mb-1">Oferta laboral</h5>
-					<small>3 days ago</small>
+					<h5 class="mb-1">{{ OfertasRe.titulo }}</h5>
 				</div>
-				<p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
-					varius blandit.</p>
-				<small>Donec id elit non mi porta.</small>
+				<p class="mb-1">{{ OfertasRe.descripcion }}</p>
 			</a>
-			
+			{% endfor %}
 
-			
+			{% for oferta in Ofertas %}
+			<div class="modal fade" id="{{ oferta.id_oferta }}" tabindex="-1" role="dialog"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Detalles del llamado</h5>
+						</div>
+						<div class="modal-body">
+							<div class="alert alert-success seleccion" role="alert">
+								<h2>{{ oferta.titulo }}</h2>
+								<p>{{ oferta.descripcion }}</p>
+								<small> Valido dede "{{ oferta.fecha_inicio }}" hasta "{{ oferta.fecha_final }}"</small>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-success" data-dismiss="modal">Aceptar</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+
 		</div>
-
-		<nav aria-label="Page navigation">
-			<ul class="pagination d-flex flex-row-reverse">
-				<li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
-				<li class="page-item"><a class="page-link" href="#">3</a></li>
-				<li class="page-item"><a class="page-link" href="#">2</a></li>
-				<li class="page-item"><a class="page-link" href="#">1</a></li>
-				<li class="page-item"><a class="page-link" href="#">Anteriro</a></li>
-			</ul>
-		</nav>
 	</div>
 	<!--sidebar de publicidad derecho -->
 	<div class="col-md-3 sidebar">

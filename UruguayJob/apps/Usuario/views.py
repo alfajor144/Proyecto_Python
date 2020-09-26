@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from apps.Usuario.models import Usuario
+from apps.Usuario.models import Usuario, Oferta
 # Create your views here.
 
 def HomeAdmin(request):
@@ -12,31 +12,64 @@ def HomeAdmin(request):
             return render(request, 'hAdmin.html', context)
         else:
             context = {
-                'userNombre': request.session['nombre']
+                'userNombre': request.session['nombre'],
+                'Ofertas': LoMasReciente(request),
+                'OfertasRec': LoMasRecienteRec(request)
             }
             return render(request, 'hUsuario.html', context)
     except KeyError: 
             request.session.flush()
-            return render(request, 'hInvitado.html')
+            context = {
+                'Ofertas': LoMasReciente(request),
+                'OfertasRec': LoMasRecienteRec(request)
+            }
+            return render(request, 'hInvitado.html', context)
 
 def HomeUser(request):
     try:
         nombre = request.session['nombre']
         if(request.session['isAdmin'] == 0):
             context = {
-                'userNombre': request.session['nombre']
+                'userNombre': request.session['nombre'],
+                'Ofertas': LoMasReciente(request),
+                'OfertasRec': LoMasRecienteRec(request)
             }
             return render(request, 'hUsuario.html', context)
         else:
             request.session.flush()
-            return render(request, 'hInvitado.html')
+            context = {
+                'Ofertas': LoMasReciente(request),
+                'OfertasRec': LoMasRecienteRec(request)
+            }
+            return render(request, 'hInvitado.html', context)
     except KeyError: 
             request.session.flush()
-            return render(request, 'hInvitado.html')
+            context = {
+                'Ofertas': LoMasReciente(request),
+                'OfertasRec': LoMasRecienteRec(request)
+            }
+            return render(request, 'hInvitado.html', context)
+
+def LoMasReciente(request):
+    Ofertas = Oferta.objects.all()
+    Ofertas = Ofertas[:6]
+    return Ofertas
+
+def LoMasRecienteRec(request):
+    Ofertas = Oferta.objects.all()
+    Ofertas = Ofertas[:6]
+    for o in Ofertas:
+        o.descripcion = o.descripcion[:100]
+        o.descripcion = o.descripcion[:101] + "..."
+    return Ofertas
 
 def HomeInvitado(request):
     request.session.flush()
-    return render(request, 'hInvitado.html')
+    context = {
+        'Ofertas': LoMasReciente(request),
+        'OfertasRec': LoMasRecienteRec(request)
+    }
+    return render(request, 'hInvitado.html', context)
 
 def Registrarse(request):
     return render(request, 'registroDeUsuario.html')
@@ -66,17 +99,32 @@ def Calificar(request):
 # ------------------- FUNCIONALIDADES ----------------------------
 
 def Buscar(request):
+    if request.method != 'POST':
+        request.session.flush()
+        return render(request, 'iniciarSesion.html')
+
     print(request.POST['keyWord'])
     print(request.POST['categoria'])
     print(request.POST['pais'])
     print(request.POST['ciudad'])
-    return render(request, 'busquedas.html')
+
+    try:
+        nombre = request.session['nombre']
+        context = {
+            'esUsuario': True,
+        }
+        return render(request, 'busquedas.html', context )
+    except KeyError:
+        context = {
+            'esUsuario': False,
+        }
+        return render(request, 'busquedas.html', context )
 
 def RegistrarUsuario(request):
     if request.method != 'POST':
         request.session.flush()
         return render(request, 'registroDeUsuario.html')
-        
+
     usr = Usuario()
     usr.nombre = request.POST['nombre']
     usr.apellido = request.POST['apellido']
@@ -126,7 +174,9 @@ def InciarSesion(request):
                 request.session['isAdmin'] = usr.isAdmin
 
                 context = {
-                    'userNombre': request.session['nombre']
+                    'userNombre': request.session['nombre'],
+                    'Ofertas': LoMasReciente(request),
+                    'OfertasRec': LoMasRecienteRec(request)
                 }
                 return render(request, 'hUsuario.html', context)
         else:
@@ -152,7 +202,13 @@ def GetAllUsers(request):
 
 def CerrarSesion(request):
     request.session.flush()
-    return render(request, 'hInvitado.html')
+    
+    context = {
+        'Ofertas': LoMasReciente(request),
+        'Ofertas': LoMasReciente(request),
+        'OfertasRec': LoMasRecienteRec(request)
+    }
+    return render(request, 'hInvitado.html', context)
 
 
 
