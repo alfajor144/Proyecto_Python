@@ -40,18 +40,19 @@
 	<div class="col-md-8 div-buscador">
 		<h2>Bienbenido Usuario</h2>
 		<h4>Encentra tu próximo empleo aquí</h4>
-		<form role="form">
+		<form role="form" action="{% url 'Buscar' %}" method="post">
+			{% csrf_token %}
 			<div class="row">
 				<div class="col-12 col-lg-4">
 					<div class="form-group">
 						<label for="exampleInputEmail1">
 							¿Qué estás buscando?
 						</label>
-						<input type="text" class="form-control" id="exampleInputEmail1">
+						<input type="text" name="keyWord" class="form-control" id="exampleInputEmail1">
 					</div>
 					<div class="form-group">
 						<label for="exampleFormControlSelect1">Categoría</label>
-						<select class="form-control" id="exampleFormControlSelect1">
+						<select class="form-control" name="categoria" id="exampleFormControlSelect1">
 							<option>Panadero</option>
 							<option>Programador</option>
 							<option>Sommelier</option>
@@ -62,7 +63,7 @@
 
 					<div class="form-group">
 						<label for="exampleFormControlSelect1">País</label>
-						<select class="form-control" id="exampleFormControlSelect1">
+						<select class="form-control" name="pais" id="exampleFormControlSelect1">
 							<option>Uruguay</option>
 							<option>Argentina</option>
 							<option>Brasil</option>
@@ -71,7 +72,7 @@
 
 					<div class="form-group">
 						<label for="exampleFormControlSelect1">Ciudad</label>
-						<select class="form-control" id="exampleFormControlSelect1">
+						<select class="form-control" name="ciudad" id="exampleFormControlSelect1">
 							<option>San José</option>
 							<option>Colonia</option>
 							<option>Canelones</option>

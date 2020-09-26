@@ -11,5 +11,5 @@ urlpatterns = [
     path('entrevistas/', views.Entrevistas, name='Entrevistas'),
     path('calificar/', views.Calificar, name='Calificar'),
     path('iniciar-sesion/', views.IniciarSesion, name='IniciarSesion'),
-    path('busquedas/', views.Busquedas, name='Busquedas')
+    path('buscar/', views.Buscar, name='Buscar')
 ]

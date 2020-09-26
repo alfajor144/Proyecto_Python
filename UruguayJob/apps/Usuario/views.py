@@ -27,9 +27,20 @@ def Entrevistas(request):
     return render(request, 'entrevistas.html')
 
 def Calificar(request):
-    return render(request, 'calificarEntrevista.html')
 
-def Busquedas(request):
+    ListaOfertas = ["Panadero", "Verdulero", "Carnicero"]
+
+    context = {
+        'titulo': ListaOfertas,
+    }
+
+    return render(request, 'calificarEntrevista.html', context )
+
+def Buscar(request):
+    print(request.POST['keyWord'])
+    print(request.POST['categoria'])
+    print(request.POST['pais'])
+    print(request.POST['ciudad'])
     return render(request, 'busquedas.html')
 
 
