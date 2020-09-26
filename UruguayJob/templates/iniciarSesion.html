@@ -32,10 +32,12 @@
 			{% csrf_token %}
 			<h1 class="h3 mb-3 font-weight-normal">Encuentra tu trabajo ideal </h1>
 			<br>
+			<small style="color: red;">{{ msg2 }}</small>
 			<label for="inputEmail" class="sr-only">Dirección de correo</label>
 			<input type="email" name="email" id="inputEmail" class="form-control" placeholder="Dirección de correo" required
 				autofocus>
 			<br>
+			<small style="color: red;">{{ msg1 }}</small>
 			<label for="inputPassword" class="sr-only">Contraseña</label>
 			<input type="password" name="password" id="inputPassword" class="form-control" placeholder="Contraseña" required>
 			<div class="checkbox mb-3">

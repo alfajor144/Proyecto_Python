@@ -17,5 +17,6 @@ urlpatterns = [
     path('registrarUsuario/', views.RegistrarUsuario, name='registrarUsuario'),
     path('inciarSesion/', views.InciarSesion, name='inciarSesion'),
     path('buscar/', views.Buscar, name='buscar'),
-    path('getAllUsers/', views.GetAllUsers, name='getAllUsers')
+    path('getAllUsers/', views.GetAllUsers, name='getAllUsers'),
+    path('cerrarSesion/', views.CerrarSesion, name='cerrarSesion')
 ]

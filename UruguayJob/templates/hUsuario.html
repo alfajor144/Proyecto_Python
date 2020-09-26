@@ -24,7 +24,7 @@
 				Estadísticas</a>
 			<a href="#" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-fw fa-envelope"
 					style="width:30px"></i>Subir CV</a>
-			<a href="/"><i class="fa fa-fw fa-user" style="width:30px; padding-right: 10px;"></i>
+			<a href="/cerrarSesion"><i class="fa fa-fw fa-user" style="width:30px; padding-right: 10px;"></i>
 				Cerrar Sesion</a>
 		</div>
 	</div>
@@ -38,7 +38,7 @@
 	<div class="col-md-2">
 	</div>
 	<div class="col-md-8 div-buscador">
-		<h2>Bienvenido Usuario</h2>
+		<h2>Bienvenido {{ userNombre }}</h2>
 		<h4>Encentra tu próximo empleo aquí</h4>
 		<form role="form" action="{% url 'buscar' %}" method="post">
 			{% csrf_token %}

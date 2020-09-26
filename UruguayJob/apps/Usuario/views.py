@@ -3,12 +3,39 @@ from apps.Usuario.models import Usuario
 # Create your views here.
 
 def HomeAdmin(request):
-    return render(request, 'hAdmin.html')
+    try:
+        nombre = request.session['nombre']
+        if(request.session['isAdmin']):
+            context = {
+                'userNombre': request.session['nombre']
+            }
+            return render(request, 'hAdmin.html', context)
+        else:
+            context = {
+                'userNombre': request.session['nombre']
+            }
+            return render(request, 'hUsuario.html', context)
+    except KeyError: 
+            request.session.flush()
+            return render(request, 'hInvitado.html')
 
 def HomeUser(request):
-    return render(request, 'hUsuario.html')
+    try:
+        nombre = request.session['nombre']
+        if(request.session['isAdmin'] == 0):
+            context = {
+                'userNombre': request.session['nombre']
+            }
+            return render(request, 'hUsuario.html', context)
+        else:
+            request.session.flush()
+            return render(request, 'hInvitado.html')
+    except KeyError: 
+            request.session.flush()
+            return render(request, 'hInvitado.html')
 
 def HomeInvitado(request):
+    request.session.flush()
     return render(request, 'hInvitado.html')
 
 def Registrarse(request):
@@ -60,11 +87,54 @@ def RegistrarUsuario(request):
         return render(request, 'registroDeUsuario.html', context)
     except Usuario.DoesNotExist:
         usr.save()
-        return render(request, 'hUsuario.html')
+
+        request.session['id_usuario'] = usr.id_usuario
+        request.session['nombre'] = usr.nombre
+        request.session['apellido'] = usr.apellido
+        request.session['isAdmin'] = usr.isAdmin
+
+        context = {
+            'userNombre': request.session['nombre']
+        }
+        return render(request, 'hUsuario.html', context)
 
 def InciarSesion(request):
-    return render(request, 'hUsuario.html')
-    #return render(request, 'hAdmin.html')
+
+    try:
+        usr = Usuario.objects.get(email=request.POST['email'])
+        if usr.contrasenia == request.POST['password']:
+            if usr.isAdmin:
+                request.session['id_usuario'] = usr.id_usuario
+                request.session['nombre'] = usr.nombre
+                request.session['apellido'] = usr.apellido
+                request.session['isAdmin'] = usr.isAdmin
+                context = {
+                    'userNombre': request.session['nombre']
+                }
+                return render(request, 'hAdmin.html', context)
+            else:
+                request.session['id_usuario'] = usr.id_usuario
+                request.session['nombre'] = usr.nombre
+                request.session['apellido'] = usr.apellido
+                request.session['isAdmin'] = usr.isAdmin
+
+                context = {
+                    'userNombre': request.session['nombre']
+                }
+                return render(request, 'hUsuario.html', context)
+        else:
+            context = {
+                'msg1':"Contraseña incorrecta!"
+            }
+            return render(request, 'iniciarSesion.html', context)
+
+        return render(request, 'hUsuario.html')
+    except Usuario.DoesNotExist:
+        context = {
+            'msg2':"No hay ningun usuario con ese correo :("
+        }
+        return render(request, 'iniciarSesion.html', context)
+
 
 def GetAllUsers(request):
     Usuarios = Usuario.objects.all()
@@ -73,6 +143,10 @@ def GetAllUsers(request):
         'Usuarios': Usuarios
     }
     return render(request, 'entrevistar.html', context)
+
+def CerrarSesion(request):
+    request.session.flush()
+    return render(request, 'hInvitado.html')
 
 
 
