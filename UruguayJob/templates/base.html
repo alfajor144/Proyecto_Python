@@ -37,10 +37,10 @@
 				<div class="modal-body">
 					<form>
 						<div class="form-group">
-						  <label for="exampleFormControlFile1">Selecciona un archivo ".pdf"</label>
-						  <input type="file" class="form-control-file" id="exampleFormControlFile1">
+							<label for="exampleFormControlFile1">Selecciona un archivo ".pdf"</label>
+							<input type="file" class="form-control-file" id="exampleFormControlFile1">
 						</div>
-					  </form>
+					</form>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
@@ -51,17 +51,44 @@
 	</div>
 	<!--Fin del modal-->
 
+	<!--Modal para Ver detalles de oferta "Lo más reciente"-->
+	<div class="modal fade" id="detalleOderta" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Detalles del llamado</h5>
+				</div>
+				<div class="modal-body">
+					<div class="alert alert-success seleccion" role="alert">
+						<h2>Llamado para guarda de transbordador espacial</h2>
+						A simple success alert—check it out!
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta accusamus provident
+						repellendus corporis in quos autem nisi quibusdam, voluptatibus incidunt eum dignissimos
+						fugiat aspernatur a! Reprehenderit, laudantium. Sint, fugiat assumenda!
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success" data-dismiss="modal">Aceptar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--href="#" data-toggle="modal" data-target="#detalleOderta"-->
+	<!--Fin del modal-->
+
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12 px-0">
 
 				<!--HEADER-->
 				{% block header %}
-				{% endblock %}	
-				
+				{% endblock %}
+
 			</div>
 		</div>
-		
+
 		{% block body %}
 		{% endblock %}
 	</div>

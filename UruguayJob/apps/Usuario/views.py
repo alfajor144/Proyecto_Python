@@ -73,6 +73,10 @@ def Buscar(request):
     return render(request, 'busquedas.html')
 
 def RegistrarUsuario(request):
+    if request.method != 'POST':
+        request.session.flush()
+        return render(request, 'registroDeUsuario.html')
+        
     usr = Usuario()
     usr.nombre = request.POST['nombre']
     usr.apellido = request.POST['apellido']
@@ -99,6 +103,9 @@ def RegistrarUsuario(request):
         return render(request, 'hUsuario.html', context)
 
 def InciarSesion(request):
+    if request.method != 'POST':
+        request.session.flush()
+        return render(request, 'iniciarSesion.html')
 
     try:
         usr = Usuario.objects.get(email=request.POST['email'])
@@ -128,7 +135,6 @@ def InciarSesion(request):
             }
             return render(request, 'iniciarSesion.html', context)
 
-        return render(request, 'hUsuario.html')
     except Usuario.DoesNotExist:
         context = {
             'msg2':"No hay ningun usuario con ese correo :("
