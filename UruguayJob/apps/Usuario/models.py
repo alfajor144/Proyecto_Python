@@ -32,3 +32,6 @@ class Postulacion(models.Model):
     fecha_dos = models.DateField('fecha dos',blank = True, null = True)
     fecha_tres = models.DateField('fecha tres',blank = True, null = True)
 
+    def __str__(self):
+        return self.id_oferta
+
