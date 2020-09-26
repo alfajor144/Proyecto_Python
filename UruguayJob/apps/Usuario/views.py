@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-
+from apps.Usuario.models import Usuario
 # Create your views here.
 
 def HomeAdmin(request):
@@ -46,15 +46,33 @@ def Buscar(request):
     return render(request, 'busquedas.html')
 
 def RegistrarUsuario(request):
-    print(request.POST['email'])
-    print(request.POST['password'])
-    return render(request, 'hUsuario.html')
+    usr = Usuario()
+    usr.nombre = request.POST['nombre']
+    usr.apellido = request.POST['apellido']
+    usr.email = request.POST['email']
+    usr.contrasenia = request.POST['password']
+
+    try:
+        Usuario.objects.get(email=request.POST['email'])
+        context = {
+            'msg':"Ya existe un usuario con ese correo :("
+        }
+        return render(request, 'registroDeUsuario.html', context)
+    except Usuario.DoesNotExist:
+        usr.save()
+        return render(request, 'hUsuario.html')
 
 def InciarSesion(request):
-    print(request.POST['email'])
-    print(request.POST['password'])
     return render(request, 'hUsuario.html')
     #return render(request, 'hAdmin.html')
+
+def GetAllUsers(request):
+    Usuarios = Usuario.objects.all()
+    #Usuarios = Usuario.objects.get(nombre="julio")
+    context = {
+        'Usuarios': Usuarios
+    }
+    return render(request, 'entrevistar.html', context)
 
 
 

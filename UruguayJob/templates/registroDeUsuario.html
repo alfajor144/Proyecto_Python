@@ -26,13 +26,22 @@
 {% block body %}
 {% load static %}
 <div style="height: 100px;"></div>
-<div class="row " style="height: 400px;">
+<div class="row " style="height: 500px;">
 	<div class="col-1 col-md-3 col-lg-4"></div>
 	<div class="col-10 col-md-6 col-lg-4">
 		<form class="form-signin" action="{% url 'registrarUsuario' %}" method="post">
 			{% csrf_token %}
 			<h1 class="h3 mb-3 font-weight-normal">Registrate y encuentra tu trabajo ideal </h1>
 			<br>
+			<label for="inputEmail" class="sr-only">Nombre</label>
+			<input type="text" name="nombre" id="inputEmail" class="form-control" placeholder="Nombre" required
+				autofocus>
+			<br>
+			<label for="inputEmail" class="sr-only">Apellido</label>
+			<input type="text" name="apellido" id="inputEmail" class="form-control" placeholder="Apellido" required
+				autofocus>
+			<br>
+			<small style="color: red;">{{ msg }}</small>
 			<label for="inputEmail" class="sr-only">Dirección de correo</label>
 			<input type="email" name="email" id="inputEmail" class="form-control" placeholder="Dirección de correo" required
 				autofocus>

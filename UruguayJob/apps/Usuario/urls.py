@@ -16,5 +16,6 @@ urlpatterns = [
     # -------------- FUNCIONALIDADES JULIO---------------------------------
     path('registrarUsuario/', views.RegistrarUsuario, name='registrarUsuario'),
     path('inciarSesion/', views.InciarSesion, name='inciarSesion'),
-    path('buscar/', views.Buscar, name='buscar')
+    path('buscar/', views.Buscar, name='buscar'),
+    path('getAllUsers/', views.GetAllUsers, name='getAllUsers')
 ]

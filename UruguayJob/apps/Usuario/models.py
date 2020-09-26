@@ -2,8 +2,10 @@ from django.db import models
 
 # Create your models here.
 class Usuario(models.Model):
+    nombre = models.CharField('nombre', max_length = 200, blank = False, null = False)
+    apellido = models.CharField('apellido', max_length = 200, blank = False, null = False)
     contrasenia = models.CharField(max_length=50)
-    email = models.EmailField(max_length = 254)
+    email = models.EmailField(max_length = 254, unique=True)
     cv = models.CharField(max_length = 300, blank = True, null = True)
     def __str__(self):
         return self.nombre

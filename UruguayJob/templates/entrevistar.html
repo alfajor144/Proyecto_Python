@@ -36,6 +36,7 @@
 		<h3 class="text-primary">Ofertas Laborales</h3>
 		<div class="list-group">
 
+
 			<a href="#" class="list-group-item list-group-item-action">
 				<div class="d-flex w-100 justify-content-between">
 					<h5 class="mb-1">Panaderia El Molino</h5>
@@ -102,8 +103,11 @@
 		<h3 class="text-primary">Postulantes</h3>
 		<div class="list-group">
 
+			<!--
+			{% for Usuario in Usuarios %}
+
 			<div class="list-group-item list-group-item-action">
-				<h5 class="mb-1">Hernesto ponse</h5>
+				<h5 class="mb-1">{{ Usuario.nombre }} {{ Usuario.apellido }}</h5>
 				<a href="/verCV">Ver CV</a>
 				<form role="form">
 					<div class="form-group">
@@ -129,6 +133,9 @@
 					</div>
 				</form>
 			</div>
+
+			{% endfor %}
+			-->
 
 			<div class="list-group-item list-group-item-action">
 				<h5 class="mb-1">Juan garcia</h5>
