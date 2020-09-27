@@ -20,20 +20,20 @@
 		<div class="navbar ml-md-auto" style=" display: table-cell;">
 			<!--	<a href="/busquedas"><i class="fas fa-search" style="width:30px"></i> Busquedas</a> -->
 			{% if esUsuario %}
-				<a href="/entrevistas"><i class="fas fa-bell" style="width:30px"></i> Entrevistas</a>
-				<a href="/estadistica"><i class="fas fa-chart-pie" style="width:30px"></i>
-					Estadísticas</a>
-				<a href="#" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-fw fa-envelope"
-						style="width:30px"></i>Subir CV</a>
-				<a href="/"><i class="fa fa-fw fa-user" style="width:30px; padding-right: 10px;"></i>
-					Cerrar Sesion</a>
-			{% else %}
-				<a href="#" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-fw fa-envelope"
+			<a href="/entrevistas"><i class="fas fa-bell" style="width:30px"></i> Entrevistas</a>
+			<a href="/estadistica"><i class="fas fa-chart-pie" style="width:30px"></i>
+				Estadísticas</a>
+			<a href="#" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-fw fa-envelope"
 					style="width:30px"></i>Subir CV</a>
-				<a href="/iniciar-sesion"><i class="fa fa-fw fa-user" style="width:30px; padding-right: 10px;"></i>
-					Iniciar sesión</a>
-				<a href="/registrarse"><i class="fa fa-fw fa-user" style="width:30px; padding-right: 10px;"></i>
-					Registrarme</a>
+			<a href="/"><i class="fa fa-fw fa-user" style="width:30px; padding-right: 10px;"></i>
+				Cerrar Sesion</a>
+			{% else %}
+			<a href="#" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-fw fa-envelope"
+					style="width:30px"></i>Subir CV</a>
+			<a href="/iniciar-sesion"><i class="fa fa-fw fa-user" style="width:30px; padding-right: 10px;"></i>
+				Iniciar sesión</a>
+			<a href="/registrarse"><i class="fa fa-fw fa-user" style="width:30px; padding-right: 10px;"></i>
+				Registrarme</a>
 			{% endif %}
 		</div>
 	</div>
@@ -42,7 +42,6 @@
 
 {% block body %}
 {% load static %}
-
 
 
 <div class="row row-buscador">
@@ -65,7 +64,7 @@
 
 					<div class="form-group">
 						<label for="exampleFormControlSelect1">País</label>
-						<select class="form-control" id="exampleFormControlSelect1">
+						<select class="form-control" name="pais" id="exampleFormControlSelect1">
 							<option>Uruguay</option>
 							<option>Argentina</option>
 						</select>
@@ -73,16 +72,12 @@
 
 					<div class="form-group">
 						<label for="exampleFormControlSelect1">Categoría</label>
-						<select class="form-control" id="exampleFormControlSelect1">
+						<select class="form-control" name="categoria" id="exampleFormControlSelect1">
 							{% for Categoria in Categorias %}
-								<option>{{ Categoria.nombre }}</option>
+							<option>{{ Categoria }}</option>
 							{% endfor %}
-							</select>
+						</select>
 					</div>
-
-				
-
-
 				</div>
 
 				<div class="col-12 col-lg-3">
@@ -102,77 +97,52 @@
 <hr>
 <div class="row row-ofertas">
 	<!-- Lista de resultados de la busqueda -->
-	<div class="col-md-6 lista-ofertas">
+	<div class="col-md-6">
 		<h3 class="text-primary">Resultados de la busqueda</h3>
 		<div class="list-group">
+			{% for o in OfertasRec %}
+			<a href="#" class="list-group-item list-group-item-action"
+				onclick="mostrarDetalle( {{ o.id_oferta }} );return false;">
+				<div class="d-flex w-100 justify-content-between">
+					<h5 class="mb-1">{{ o.titulo }}</h5>
+					<small class="text-muted">En {{ o.pais }}</small>
+				</div>
+				<p class="mb-1">{{ o.descripcion }}</p>
+			</a>
+			{% endfor %}
 
-			<a href="#" class="list-group-item list-group-item-action">
-				<div class="d-flex w-100 justify-content-between">
-					<h5 class="mb-1">Oferta laboral</h5>
-					<small class="text-muted">3 days ago</small>
-				</div>
-				<p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
-					varius blandit.</p>
-				<small class="text-muted">Donec id elit non mi porta.</small>
-			</a>
-			<a href="#" class="list-group-item list-group-item-action">
-				<div class="d-flex w-100 justify-content-between">
-					<h5 class="mb-1">Oferta laboral</h5>
-					<small>3 days ago</small>
-				</div>
-				<p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
-					varius blandit.</p>
-				<small>Donec id elit non mi porta.</small>
-			</a>
-			<a href="#" class="list-group-item list-group-item-action">
-				<div class="d-flex w-100 justify-content-between">
-					<h5 class="mb-1">Oferta laboral</h5>
-					<small>3 days ago</small>
-				</div>
-				<p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
-					varius blandit.</p>
-				<small>Donec id elit non mi porta.</small>
-			</a>
-			<a href="#" class="list-group-item list-group-item-action">
-				<div class="d-flex w-100 justify-content-between">
-					<h5 class="mb-1">Oferta laboral</h5>
-					<small>3 days ago</small>
-				</div>
-				<p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
-					varius blandit.</p>
-				<small>Donec id elit non mi porta.</small>
-			</a>
-			<a href="#" class="list-group-item list-group-item-action">
-				<div class="d-flex w-100 justify-content-between">
-					<h5 class="mb-1">Oferta laboral</h5>
-					<small>3 days ago</small>
-				</div>
-				<p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus
-					varius blandit.</p>
-				<small>Donec id elit non mi porta.</small>
-			</a>
-
+			<script>
+				function mostrarDetalle(id) {
+					element = document.getElementById(id);
+					element.style.display = "block";
+				}
+				function cerrar(id) {
+					element = document.getElementById(id);
+					element.style.display = "none";
+				}
+			</script>
 		</div>
-		<nav aria-label="Page navigation example">
-			<ul class="pagination">
-				<li class="page-item"><a class="page-link" href="#">Previo</a></li>
-				<li class="page-item"><a class="page-link" href="#">1</a></li>
-				<li class="page-item"><a class="page-link" href="#">2</a></li>
-				<li class="page-item"><a class="page-link" href="#">3</a></li>
-				<li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
-			</ul>
-		</nav>
+		<br>
 	</div>
 	<!-- Detalles del llamado -->
 	<div class="col-md-6">
 		<h3 class="text-primary">Detalles del llamado</h3>
-		<div class="alert alert-success seleccion" role="alert">
-			<h2>Llamado para guarda de transbordador espacial</h2>
-			A simple success alert—check it out!
-			Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta accusamus provident
-			repellendus corporis in quos autem nisi quibusdam, voluptatibus incidunt eum dignissimos
-			fugiat aspernatur a! Reprehenderit, laudantium. Sint, fugiat assumenda!
+
+		{% for o in Ofertas %}
+		<div id="{{ o.id_oferta }}" style="display: none;">
+			<div class="alert alert-success seleccion" role="alert">
+				<h2>{{ o.titulo }}</h2>
+				<p>{{ o.descripcion }}</p>
+				<small class="text-muted">Valido desde {{ o.fecha_inicio }} hasta {{ o.fecha_final }}</small>
+				<br>
+
+				<button class="btn btn-warning">Postularme</button>
+				<a href="{{ o.link }}" class="btn btn-success">Ir a la pagina</a>
+				<button onclick="cerrar({{ o.id_oferta }})" class="btn btn-danger">Cerrar</button>
+
+			</div>
 		</div>
+		{% endfor %}
 	</div>
 </div>
 

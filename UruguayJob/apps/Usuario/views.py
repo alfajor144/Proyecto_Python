@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from apps.Usuario.models import Usuario, Oferta, Categoria
+from apps.Usuario.models import Usuario, Oferta, Categoria, masBuscados
 # Create your views here.
 
 def CargarCategorias(request):
@@ -10,7 +10,6 @@ def CargarCategorias(request):
         if num.nombre not in final_list: 
             final_list.append(num.nombre) 
     return final_list 
-
 
 def HomeAdmin(request):
     try:
@@ -85,9 +84,6 @@ def LoMasRecienteRec(request):
 
 def HomeInvitado(request):
     request.session.flush()
-
-    
-    
     context = {
         'Ofertas': LoMasReciente(request),
         'OfertasRec': LoMasRecienteRec(request),
@@ -122,28 +118,78 @@ def Calificar(request):
     return render(request, 'calificarEntrevista.html', context )
 
 # ------------------- FUNCIONALIDADES ----------------------------
+def getOfertasKeyWord(request, allOfertas):
+    result=[]
+    for o in allOfertas:
+        titulo = o.titulo.lower()
+        keyWord = request.POST['keyWord'].lower()
+        if titulo.find(keyWord) != -1:
+            result.append(o)
+    return result
+
+def getOfertasPais(request, allOfertas):
+    result=[]
+    for o in allOfertas:
+        if o.pais == request.POST['pais']:
+            result.append(o)
+    return result
+
+def getOfertasCategoria(request, allOfertas):
+    ofertCat = []
+    allCategorias = Categoria.objects.all()
+    for n in allCategorias:
+        if n.nombre == request.POST['categoria']:
+            ofertCat.append(n) 
+
+    res=[]
+    for d in ofertCat:
+        res.append(d.id_Oferta)
+
+    result=[]
+    for of in allOfertas:
+        if of in res:
+            result.append(of)
+    return result
+
+
+def filtrarOfertas(request):
+    allOfertas = Oferta.objects.all()
+    result = getOfertasKeyWord(request, allOfertas)
+    result2 = getOfertasPais(request, result)
+    result3 = getOfertasCategoria(request, result2)
+    return result3
+       
+def recortarDescripcion(request):
+    Ofertas = filtrarOfertas(request)
+    for o in Ofertas:
+        o.descripcion = o.descripcion[:100]
+        o.descripcion = o.descripcion[:101] + "..."
+    return Ofertas
 
 def Buscar(request):
     if request.method != 'POST':
         request.session.flush()
         return render(request, 'iniciarSesion.html')
-
-    print(request.POST['keyWord'])
- 
-
+    #print(request.POST['keyWord'])
     try:
-      
         request.session['nombre']
+
+        #--- algoritmo para buscar ofertas y determinar lo mas buscado-------- 
+        
         context = {
             'esUsuario': True,
-            'Categorias':CargarCategorias(request)
+            'Categorias':CargarCategorias(request),
+            'OfertasRec' : recortarDescripcion(request),
+            'Ofertas' : filtrarOfertas(request)
         }
         return render(request, 'busquedas.html', context )
     except KeyError:
-        
+
         context = {
             'esUsuario': False,
-            'Categorias':CargarCategorias(request)
+            'Categorias':CargarCategorias(request),
+            'OfertasRec' : recortarDescripcion(request),
+            'Ofertas' : filtrarOfertas(request)
         }
         return render(request, 'busquedas.html', context )
 

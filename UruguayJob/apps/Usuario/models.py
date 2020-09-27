@@ -45,3 +45,11 @@ class Categoria(models.Model):
     def __str__(self):
         return self.nombre
 
+class masBuscados(models.Model):
+    id =  models.AutoField(primary_key = True)
+    puesto = models.CharField('Nombre', max_length = 50, blank = False, null = False)
+    id_Oferta = models.ForeignKey(Oferta, on_delete = models.CASCADE)
+
+    def __str__(self):
+        return self.puesto
+
