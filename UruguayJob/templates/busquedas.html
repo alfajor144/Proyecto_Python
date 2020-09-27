@@ -74,11 +74,14 @@
 					<div class="form-group">
 						<label for="exampleFormControlSelect1">Categoría</label>
 						<select class="form-control" id="exampleFormControlSelect1">
-							<option>Panadero</option>
-							<option>Programador</option>
-							<option>Sommelier</option>
-						</select>
+							{% for Categoria in Categorias %}
+								<option>{{ Categoria.nombre }}</option>
+							{% endfor %}
+							</select>
 					</div>
+
+				
+
 
 				</div>
 

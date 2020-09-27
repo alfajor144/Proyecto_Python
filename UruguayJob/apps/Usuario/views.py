@@ -2,51 +2,69 @@ from django.shortcuts import render, redirect
 from apps.Usuario.models import Usuario, Oferta, Categoria
 # Create your views here.
 
+def CargarCategorias(request):
+    Categorias = Categoria.objects.all() 
+
+    
+   
+
+    return Categorias.distinct()
+
 def HomeAdmin(request):
     try:
-        nombre = request.session['nombre']
+        request.session['nombre']
         if(request.session['isAdmin']):
             context = {
                 'userNombre': request.session['nombre']
             }
             return render(request, 'hAdmin.html', context)
         else:
+            
             context = {
                 'userNombre': request.session['nombre'],
                 'Ofertas': LoMasReciente(request),
-                'OfertasRec': LoMasRecienteRec(request)
+                'OfertasRec': LoMasRecienteRec(request),
+                'Categorias': CargarCategorias(request)
             }
             return render(request, 'hUsuario.html', context)
     except KeyError: 
             request.session.flush()
+           
             context = {
                 'Ofertas': LoMasReciente(request),
-                'OfertasRec': LoMasRecienteRec(request)
+                'OfertasRec': LoMasRecienteRec(request),
+                'Categorias':CargarCategorias(request)
             }
             return render(request, 'hInvitado.html', context)
 
 def HomeUser(request):
     try:
-        nombre = request.session['nombre']
+        request.session['nombre']
+        
         if(request.session['isAdmin'] == 0):
             context = {
                 'userNombre': request.session['nombre'],
                 'Ofertas': LoMasReciente(request),
-                'OfertasRec': LoMasRecienteRec(request)
+                'OfertasRec': LoMasRecienteRec(request),
+                'Categorias':CargarCategorias(request)
             }
             return render(request, 'hUsuario.html', context)
         else:
             request.session.flush()
+           
             context = {
                 'Ofertas': LoMasReciente(request),
-                'OfertasRec': LoMasRecienteRec(request)
+                'OfertasRec': LoMasRecienteRec(request),
+                'Categorias':CargarCategorias(request)
             }
             return render(request, 'hInvitado.html', context)
     except KeyError: 
             request.session.flush()
+            
             context = {
                 'Ofertas': LoMasReciente(request),
-                'OfertasRec': LoMasRecienteRec(request)
+                'OfertasRec': LoMasRecienteRec(request),
+                'Categorias':CargarCategorias(request)
             }
             return render(request, 'hInvitado.html', context)
 
@@ -66,12 +84,13 @@ def LoMasRecienteRec(request):
 def HomeInvitado(request):
     request.session.flush()
 
-    Categorias = Categoria.objects.all()
+    
     
     context = {
         'Ofertas': LoMasReciente(request),
         'OfertasRec': LoMasRecienteRec(request),
-        'Categorias':Categorias
+        'Categorias':CargarCategorias(request)
+        
     }
     return render(request, 'hInvitado.html', context)
 
@@ -108,19 +127,21 @@ def Buscar(request):
         return render(request, 'iniciarSesion.html')
 
     print(request.POST['keyWord'])
-    print(request.POST['categoria'])
-    print(request.POST['pais'])
-    print(request.POST['ciudad'])
+ 
 
     try:
-        nombre = request.session['nombre']
+      
+        request.session['nombre']
         context = {
             'esUsuario': True,
+            'Categorias':CargarCategorias(request)
         }
         return render(request, 'busquedas.html', context )
     except KeyError:
+        
         context = {
             'esUsuario': False,
+            'Categorias':CargarCategorias(request)
         }
         return render(request, 'busquedas.html', context )
 
@@ -148,9 +169,10 @@ def RegistrarUsuario(request):
         request.session['nombre'] = usr.nombre
         request.session['apellido'] = usr.apellido
         request.session['isAdmin'] = usr.isAdmin
-
+       
         context = {
-            'userNombre': request.session['nombre']
+            'userNombre': request.session['nombre'],
+            'Categorias':CargarCategorias(request)
         }
         return render(request, 'hUsuario.html', context)
 
@@ -176,11 +198,12 @@ def InciarSesion(request):
                 request.session['nombre'] = usr.nombre
                 request.session['apellido'] = usr.apellido
                 request.session['isAdmin'] = usr.isAdmin
-
+               
                 context = {
                     'userNombre': request.session['nombre'],
                     'Ofertas': LoMasReciente(request),
-                    'OfertasRec': LoMasRecienteRec(request)
+                    'OfertasRec': LoMasRecienteRec(request),
+                    'Categorias':CargarCategorias(request)
                 }
                 return render(request, 'hUsuario.html', context)
         else:
@@ -206,11 +229,11 @@ def GetAllUsers(request):
 
 def CerrarSesion(request):
     request.session.flush()
-    
     context = {
+        
         'Ofertas': LoMasReciente(request),
-        'Ofertas': LoMasReciente(request),
-        'OfertasRec': LoMasRecienteRec(request)
+        'OfertasRec': LoMasRecienteRec(request),
+        'Categorias':CargarCategorias(request)
     }
     return render(request, 'hInvitado.html', context)
 

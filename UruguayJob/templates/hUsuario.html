@@ -50,34 +50,28 @@
 						</label>
 						<input type="text" name="keyWord" class="form-control" id="exampleInputEmail1">
 					</div>
-					<div class="form-group">
-						<label for="exampleFormControlSelect1">Categoría</label>
-						<select class="form-control" name="categoria" id="exampleFormControlSelect1">
-							<option>Panadero</option>
-							<option>Programador</option>
-							<option>Sommelier</option>
-						</select>
-					</div>
 				</div>
 				<div class="col-12 col-lg-5">
 
 					<div class="form-group">
 						<label for="exampleFormControlSelect1">País</label>
-						<select class="form-control" name="pais" id="exampleFormControlSelect1">
+						<select class="form-control" id="exampleFormControlSelect1">
 							<option>Uruguay</option>
 							<option>Argentina</option>
-							<option>Brasil</option>
 						</select>
 					</div>
 
 					<div class="form-group">
-						<label for="exampleFormControlSelect1">Ciudad</label>
-						<select class="form-control" name="ciudad" id="exampleFormControlSelect1">
-							<option>San José</option>
-							<option>Colonia</option>
-							<option>Canelones</option>
-						</select>
+						<label for="exampleFormControlSelect1">Categoría</label>
+						<select class="form-control" id="exampleFormControlSelect1">
+							{% for Categoria in Categorias %}
+								<option>{{ Categoria.nombre }}</option>
+							{% endfor %}
+							</select>
 					</div>
+
+
+
 				</div>
 
 				<div class="col-12 col-lg-3">
@@ -87,7 +81,6 @@
 						</button>
 					</div>
 				</div>
-
 			</div>
 		</form>
 	</div>
@@ -99,7 +92,7 @@
 	<!--sidebar de publicidad izquierdo -->
 	<div class="col-md-3 sidebar d-flex flex-row justify-content-center align-items-start">
 		<div class="card publicidad" style="width: 18rem;">
-			<img src="{% static 'img/oficina2.jpg' %}" class="card-img-top" alt="...">
+			<img src="{% static 'img/izq .jpg' %}" class="card-img-top" alt="...">
 			<div class="card-body">
 				<h5 class="card-title">Card title</h5>
 				<p class="card-text">Some quick example text to build on the card title and make up the bulk of
@@ -152,7 +145,7 @@
 	<!--sidebar de publicidad derecho -->
 	<div class="col-md-3 sidebar">
 		<div class="card publicidad" style="width: 18rem;">
-			<img src="{% static 'img/coworking.jpg' %}" class="card-img-top" alt="...">
+			<img src="{% static 'img/der.jpg' %}" class="card-img-top" alt="...">
 			<div class="card-body">
 				<h5 class="card-title">Card title</h5>
 				<p class="card-text">Some quick example text to build on the card title and make up the bulk of
