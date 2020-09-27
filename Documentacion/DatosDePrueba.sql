@@ -21,11 +21,11 @@ INSERT INTO `usuario_oferta` (`id_oferta`, `titulo`, `descripcion`, `fecha_inici
 INSERT INTO `usuario_oferta` (`id_oferta`, `titulo`, `descripcion`, `fecha_inicio`, `fecha_final`, `link`) VALUES ('5', 'Médico Anestesista registrado', 'Ser ciudadano/a Natural o Legal.Título de Médico Anestesista registrado y habilitado por el M.S.P. Currículum Vitae con documentación probatoria foliada (méritos y antecedentes).Acreditar inscripción vigente en el Colegio de Médicos del Uruguay(Ley N.º 18.591 – Art. 2º)No tener antecedentes funcionales negativos provenientes de cualquier Entidad Pública y que revistan gravedad (al momento de la contratación).', '2020-12-01', '2020-12-31', 'https://www.uruguayconcursa.gub.uy/Portal/servlet/com.si.recsel.verllamado?19429');
 
 
-INSERT INTO `usuario_postulacion`(`id`, `fecha_uno`, `fecha_dos`, `fecha_tres`, `id_oferta_id`, `id_usuario_id`) VALUES ('0', NULL, NULL, NULL, '0', '0');
+INSERT INTO `usuario_postulacion`(`id`, `fecha_uno`, `fecha_dos`, `fecha_tres`, `id_oferta_id`, `id_usuario_id`, `calificacion`) VALUES ('0', NULL, NULL, NULL, '0', '0', NULL);
 
-INSERT INTO `usuario_postulacion`(`id`, `fecha_uno`, `fecha_dos`, `fecha_tres`, `id_oferta_id`, `id_usuario_id`) VALUES ('1', NULL, NULL, NULL, '1', '1');
+INSERT INTO `usuario_postulacion`(`id`, `fecha_uno`, `fecha_dos`, `fecha_tres`, `id_oferta_id`, `id_usuario_id`, `calificacion`) VALUES ('1', NULL, NULL, NULL, '1', '1', NULL);
 
-INSERT INTO `usuario_postulacion`(`id`, `fecha_uno`, `fecha_dos`, `fecha_tres`, `id_oferta_id`, `id_usuario_id`) VALUES ('2', NULL, NULL, NULL, '2', '2');
+INSERT INTO `usuario_postulacion`(`id`, `fecha_uno`, `fecha_dos`, `fecha_tres`, `id_oferta_id`, `id_usuario_id`, `calificacion`) VALUES ('2', NULL, NULL, NULL, '2', '2', NULL);
 
 
 

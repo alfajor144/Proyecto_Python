@@ -28,6 +28,7 @@ class Oferta(models.Model):
 class Postulacion(models.Model):
     id_oferta = models.ForeignKey(Oferta, on_delete = models.CASCADE)
     id_usuario = models.ForeignKey(Usuario, on_delete = models.CASCADE)
+    calificacion = models.IntegerField(blank = True, null = True)
     fecha_uno = models.DateField('fecha uno',blank = True, null = True)
     fecha_dos = models.DateField('fecha dos',blank = True, null = True)
     fecha_tres = models.DateField('fecha tres',blank = True, null = True)
