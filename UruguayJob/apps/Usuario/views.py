@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from apps.Usuario.models import Usuario, Oferta
+from apps.Usuario.models import Usuario, Oferta, Categoria
 # Create your views here.
 
 def HomeAdmin(request):
@@ -65,9 +65,13 @@ def LoMasRecienteRec(request):
 
 def HomeInvitado(request):
     request.session.flush()
+
+    Categorias = Categoria.objects.all()
+    
     context = {
         'Ofertas': LoMasReciente(request),
-        'OfertasRec': LoMasRecienteRec(request)
+        'OfertasRec': LoMasRecienteRec(request),
+        'Categorias':Categorias
     }
     return render(request, 'hInvitado.html', context)
 

@@ -50,14 +50,15 @@
 	</div>
 	<div class="col-md-8 div-buscador">
 		<h2>Encentra tu próximo empleo aquí</h2>
-		<form role="form">
+		<form role="form" action="{% url 'buscar' %}" method="post">
+			{% csrf_token %}
 			<div class="row">
 				<div class="col-12 col-lg-4">
 					<div class="form-group">
 						<label for="exampleInputEmail1">
 							¿Qué estás buscando?
 						</label>
-						<input type="email" class="form-control" id="exampleInputEmail1">
+						<input type="text" name="keyWord" class="form-control" id="exampleInputEmail1">
 					</div>
 				</div>
 				<div class="col-12 col-lg-5">
@@ -78,7 +79,7 @@
 							<option>Sommelier</option>
 						</select>
 					</div>
-					
+
 				</div>
 
 				<div class="col-12 col-lg-3">
@@ -88,7 +89,6 @@
 						</button>
 					</div>
 				</div>
-
 			</div>
 		</form>
 	</div>
