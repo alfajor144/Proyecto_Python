@@ -87,63 +87,77 @@
 <hr>
 <div class="row row-ofertas">
 	<!--sidebar de publicidad izquierdo -->
-	<div class="col-md-3 sidebar d-flex flex-row justify-content-center align-items-start">
-		<div class="card publicidad" style="width: 18rem;">
-			<img src="{% static 'img/izq .jpg' %}" class="card-img-top" alt="...">
-			<div class="card-body">
-				<h5 class="card-title">Yerba Mate, Compuesta Cabral</h5>
-				<p class="card-text">Ideal para personas que disfrutan tomar mate pero son sensibles al consumo de estimulantes.</p>
+	<div class="row row-ofertas">
+		<!--sidebar de publicidad izquierdo -->
+		<div class="col-sm-6 col-md-3 sidebar ">
+			<div class="card">
+				<img src="{% static 'img/izq .jpg' %}" class="card-img-top">
+				<div class="card-body">
+					<h5 class="card-title">Yerba Mate, Compuesta Cabral</h5>
+					<p class="card-text">Ideal para personas que disfrutan tomar mate pero son sensibles al consumo de
+						estimulantes.</p>
+				</div>
+			</div>
+
+			<div class="card mt-3">
+				<img src="{% static 'img/amsj.png' %}" class="card-img-top p-2">
+				<div class="card-body">
+					<h5 class="card-title">Asociación Médica de San José</h5>
+				</div>
 			</div>
 		</div>
-	</div>
-	<!-- Lista de ofertas laborales -->
-	<div class="col-md-6 lista-ofertas">
-		<h3 class="text-primary">Lo más reciente</h3>
-		<div class="list-group">
+		<!-- Lista de ofertas laborales -->
+		<div class="col-sm-6 col-md-6 lista-ofertas">
+			<h3 class="text-primary">Lo más reciente</h3>
+			<div class="list-group">
 
+				{% for OfertasRe in OfertasRec %}
+				<a href="#" data-toggle="modal" data-target="#{{ OfertasRe.id_oferta }}"
+					class="list-group-item list-group-item-action">
+					<div class="d-flex w-100 justify-content-between">
+						<h5 class="mb-1">{{ OfertasRe.titulo }}</h5>
+					</div>
+					<p class="mb-1">{{ OfertasRe.descripcion }}</p>
+				</a>
+				{% endfor %}
 
-			{% for OfertasRe in OfertasRec %}
-			<a href="#" data-toggle="modal" data-target="#{{ OfertasRe.id_oferta }}"
-				class="list-group-item list-group-item-action">
-				<div class="d-flex w-100 justify-content-between">
-					<h5 class="mb-1">{{ OfertasRe.titulo }}</h5>
-				</div>
-				<p class="mb-1">{{ OfertasRe.descripcion }}</p>
-			</a>
-			{% endfor %}
-
-			{% for oferta in Ofertas %}
-			<div class="modal fade" id="{{ oferta.id_oferta }}" tabindex="-1" role="dialog"
-				aria-labelledby="exampleModalLabel" aria-hidden="true">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLabel">Detalles del llamado</h5>
-						</div>
-						<div class="modal-body">
-							<div class="alert alert-success seleccion" role="alert">
-								<h2>{{ oferta.titulo }}</h2>
-								<p>{{ oferta.descripcion }}</p>
-								<small> Valido dede "{{ oferta.fecha_inicio }}" hasta "{{ oferta.fecha_final }}"</small>
+				{% for oferta in Ofertas %}
+				<div class="modal fade" id="{{ oferta.id_oferta }}" tabindex="-1" role="dialog"
+					aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Detalles del llamado</h5>
 							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-success" data-dismiss="modal">Aceptar</button>
+							<div class="modal-body">
+								<div class="alert alert-success seleccion" role="alert">
+									<h2>{{ oferta.titulo }}</h2>
+									<p>{{ oferta.descripcion }}</p>
+									<small> Valido dede "{{ oferta.fecha_inicio }}" hasta
+										"{{ oferta.fecha_final }}"</small>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-success" data-dismiss="modal">Aceptar</button>
+							</div>
 						</div>
 					</div>
 				</div>
+				{% endfor %}
+
 			</div>
-			{% endfor %}
 
 		</div>
-	</div>
-	<!--sidebar de publicidad derecho -->
-	<div class="col-md-3 sidebar">
-		<div class="card publicidad" style="width: 18rem;">
-			<img src="{% static 'img/der.jpg' %}" class="card-img-top" alt="...">
-			<div class="card-body">
-				<h5 class="card-title">Red de cobranza Abitad</h5>
-				<p class="card-text">Abitab es una red de locales de pagos y cobranzas de Uruguay que comprende unos 240 locales en Montevideo y otros 240 en más de 100</p>
+		<!--sidebar de publicidad derecho -->
+		<div class="col-sm-6 col-md-3 sidebar">
+			<div class="card">
+				<img src="{% static 'img/der.jpg' %}" class="card-img-top">
+				<div class="card-body">
+					<h5 class="card-title">Red de cobranza Abitad</h5>
+					<p class="card-text">Abitab es una red de locales de pagos y cobranzas de Uruguay que comprende unos
+						240 locales en Montevideo y otros 240 en más de 100 localidades del interior. La empresa se creó
+						en 1993 por iniciativa de los agentes de quinielas de Montevideo.</p>
+				</div>
 			</div>
 		</div>
 	</div>

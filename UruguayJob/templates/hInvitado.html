@@ -64,9 +64,9 @@
 						<label for="exampleFormControlSelect1">Categoría</label>
 						<select class="form-control" id="exampleFormControlSelect1">
 							{% for Categoria in Categorias %}
-								<option>{{ Categoria }}</option>
+							<option>{{ Categoria }}</option>
 							{% endfor %}
-							</select>
+						</select>
 					</div>
 
 
@@ -89,17 +89,25 @@
 <hr>
 <div class="row row-ofertas">
 	<!--sidebar de publicidad izquierdo -->
-	<div class="col-md-3 sidebar d-flex flex-row justify-content-center align-items-start">
-		<div class="card publicidad" style="width: 18rem;">
-			<img src="{% static 'img/izq .jpg' %}" class="card-img-top" alt="...">
+	<div class="col-sm-6 col-md-3 sidebar ">
+		<div class="card">
+			<img src="{% static 'img/izq .jpg' %}" class="card-img-top">
 			<div class="card-body">
 				<h5 class="card-title">Yerba Mate, Compuesta Cabral</h5>
-				<p class="card-text">Ideal para personas que disfrutan tomar mate pero son sensibles al consumo de estimulantes.</p>
+				<p class="card-text">Ideal para personas que disfrutan tomar mate pero son sensibles al consumo de
+					estimulantes.</p>
+			</div>
+		</div>
+
+		<div class="card mt-3">
+			<img src="{% static 'img/amsj.png' %}" class="card-img-top p-2">
+			<div class="card-body">
+				<h5 class="card-title">Asociación Médica de San José</h5>
 			</div>
 		</div>
 	</div>
 	<!-- Lista de ofertas laborales -->
-	<div class="col-md-6 lista-ofertas">
+	<div class="col-sm-6 col-md-6 lista-ofertas">
 		<h3 class="text-primary">Lo más reciente</h3>
 		<div class="list-group">
 
@@ -140,15 +148,12 @@
 
 	</div>
 	<!--sidebar de publicidad derecho -->
-	<div class="col-md-3 sidebar">
-		<div class="card publicidad" style="width: 18rem;">
-			<img src="{% static 'img/coworking.jpg' %}" class="card-img-top" alt="...">
-			<div class="card publicidad" style="width: 18rem;">
-				<img src="{% static 'img/der.jpg' %}" class="card-img-top" alt="...">
-				<div class="card-body">
-					<h5 class="card-title">Red de cobranza Abitad</h5>
-					<p class="card-text">Abitab es una red de locales de pagos y cobranzas de Uruguay que comprende unos 240 locales en Montevideo y otros 240 en más de 100</p>
-				</div>
+	<div class="col-sm-6 col-md-3 sidebar">
+		<div class="card">
+			<img src="{% static 'img/der.jpg' %}" class="card-img-top">
+			<div class="card-body">
+				<h5 class="card-title">Red de cobranza Abitad</h5>
+				<p class="card-text">Abitab es una red de locales de pagos y cobranzas de Uruguay que comprende unos 240 locales en Montevideo y otros 240 en más de 100 localidades del interior. La empresa se creó en 1993 por iniciativa de los agentes de quinielas de Montevideo.</p>
 			</div>
 		</div>
 	</div>
