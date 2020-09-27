@@ -129,27 +129,33 @@ def getOfertasKeyWord(request, allOfertas):
 
 def getOfertasPais(request, allOfertas):
     result=[]
-    for o in allOfertas:
-        if o.pais == request.POST['pais']:
-            result.append(o)
-    return result
+    if request.POST['pais'] != 'N/A':
+        for o in allOfertas:
+            if o.pais == request.POST['pais']:
+                result.append(o)
+        return result
+    else:
+        return allOfertas
 
 def getOfertasCategoria(request, allOfertas):
-    ofertCat = []
-    allCategorias = Categoria.objects.all()
-    for n in allCategorias:
-        if n.nombre == request.POST['categoria']:
-            ofertCat.append(n) 
+    if request.POST['categoria'] != 'N/A':
+        ofertCat = []
+        allCategorias = Categoria.objects.all()
+        for n in allCategorias:
+            if n.nombre == request.POST['categoria']:
+                ofertCat.append(n) 
 
-    res=[]
-    for d in ofertCat:
-        res.append(d.id_Oferta)
+        res=[]
+        for d in ofertCat:
+            res.append(d.id_Oferta)
 
-    result=[]
-    for of in allOfertas:
-        if of in res:
-            result.append(of)
-    return result
+        result=[]
+        for of in allOfertas:
+            if of in res:
+                result.append(of)
+        return result
+    else:
+        return allOfertas
 
 
 def filtrarOfertas(request):

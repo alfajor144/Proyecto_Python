@@ -55,6 +55,7 @@
 					<div class="form-group">
 						<label for="exampleFormControlSelect1">País</label>
 						<select class="form-control" name="pais" id="exampleFormControlSelect1">
+							<option>N/A</option>
 							<option>Uruguay</option>
 							<option>Argentina</option>
 						</select>
@@ -63,6 +64,7 @@
 					<div class="form-group">
 						<label for="exampleFormControlSelect1">Categoría</label>
 						<select class="form-control" name="categoria" id="exampleFormControlSelect1">
+							<option>N/A</option>
 							{% for Categoria in Categorias %}
 							<option>{{ Categoria }}</option>
 							{% endfor %}
