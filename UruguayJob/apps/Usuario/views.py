@@ -5,10 +5,12 @@ from apps.Usuario.models import Usuario, Oferta, Categoria
 def CargarCategorias(request):
     Categorias = Categoria.objects.all() 
 
-    
-   
+    final_list = [] 
+    for num in Categorias: 
+        if num.nombre not in final_list: 
+            final_list.append(num.nombre) 
+    return final_list 
 
-    return Categorias.distinct()
 
 def HomeAdmin(request):
     try:

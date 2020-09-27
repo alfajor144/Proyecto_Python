@@ -64,7 +64,7 @@
 						<label for="exampleFormControlSelect1">Categoría</label>
 						<select class="form-control" id="exampleFormControlSelect1">
 							{% for Categoria in Categorias %}
-								<option>{{ Categoria.nombre }}</option>
+								<option>{{ Categoria }}</option>
 							{% endfor %}
 							</select>
 					</div>
@@ -91,12 +91,10 @@
 	<!--sidebar de publicidad izquierdo -->
 	<div class="col-md-3 sidebar d-flex flex-row justify-content-center align-items-start">
 		<div class="card publicidad" style="width: 18rem;">
-			<img src="{% static 'img/oficina2.jpg' %}" class="card-img-top" alt="...">
+			<img src="{% static 'img/izq .jpg' %}" class="card-img-top" alt="...">
 			<div class="card-body">
-				<h5 class="card-title">Card title</h5>
-				<p class="card-text">Some quick example text to build on the card title and make up the bulk of
-					the
-					card's content.</p>
+				<h5 class="card-title">Yerba Mate, Compuesta Cabral</h5>
+				<p class="card-text">Ideal para personas que disfrutan tomar mate pero son sensibles al consumo de estimulantes.</p>
 			</div>
 		</div>
 	</div>
@@ -145,11 +143,12 @@
 	<div class="col-md-3 sidebar">
 		<div class="card publicidad" style="width: 18rem;">
 			<img src="{% static 'img/coworking.jpg' %}" class="card-img-top" alt="...">
-			<div class="card-body">
-				<h5 class="card-title">Card title</h5>
-				<p class="card-text">Some quick example text to build on the card title and make up the bulk of
-					the
-					card's content.</p>
+			<div class="card publicidad" style="width: 18rem;">
+				<img src="{% static 'img/der.jpg' %}" class="card-img-top" alt="...">
+				<div class="card-body">
+					<h5 class="card-title">Red de cobranza Abitad</h5>
+					<p class="card-text">Abitab es una red de locales de pagos y cobranzas de Uruguay que comprende unos 240 locales en Montevideo y otros 240 en más de 100</p>
+				</div>
 			</div>
 		</div>
 	</div>
