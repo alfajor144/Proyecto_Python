@@ -9,9 +9,6 @@ class Usuario(models.Model):
     email = models.EmailField(max_length = 254, unique=True)
     cv = models.CharField(max_length = 300, blank = True, null = True)
     isAdmin = models.BooleanField(default=False)
-    
-    def __str__(self):
-        return self.nombre
 
 class Oferta(models.Model):
     id_oferta =  models.AutoField(primary_key = True)
@@ -23,9 +20,6 @@ class Oferta(models.Model):
     link = models.CharField('link', max_length = 2050)
     Usuario_id = models.ManyToManyField(Usuario, related_name='Postulacion', through='Postulacion')
 
-    def __str__(self):
-        return self.titulo
-
 class Postulacion(models.Model):
     id_oferta = models.ForeignKey(Oferta, on_delete = models.CASCADE)
     id_usuario = models.ForeignKey(Usuario, on_delete = models.CASCADE)
@@ -34,22 +28,14 @@ class Postulacion(models.Model):
     fecha_dos = models.DateField('fecha dos',blank = True, null = True)
     fecha_tres = models.DateField('fecha tres',blank = True, null = True)
 
-    def __str__(self):
-        return self.id_oferta 
-
 class Categoria(models.Model):
     id =  models.AutoField(primary_key = True)
     nombre = models.CharField('Nombre', max_length = 50, blank = False, null = False)
     id_Oferta = models.ForeignKey(Oferta, on_delete = models.CASCADE)
 
-    def __str__(self):
-        return self.nombre
-
 class masBuscados(models.Model):
-    id =  models.AutoField(primary_key = True)
-    puesto = models.CharField('Nombre', max_length = 50, blank = False, null = False)
+    id_buscado =  models.AutoField(primary_key = True)
+    puesto = models.IntegerField(blank = False, null = False)
     id_Oferta = models.ForeignKey(Oferta, on_delete = models.CASCADE)
 
-    def __str__(self):
-        return self.puesto
 

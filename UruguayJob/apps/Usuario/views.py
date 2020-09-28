@@ -172,6 +172,9 @@ def recortarDescripcion(request):
         o.descripcion = o.descripcion[:101] + "..."
     return Ofertas
 
+def ingresarOfertasAMasBuscados(request, listOfertas):
+        
+
 def Buscar(request):
     if request.method != 'POST':
         request.session.flush()
@@ -181,7 +184,8 @@ def Buscar(request):
         request.session['nombre']
 
         #--- algoritmo para buscar ofertas y determinar lo mas buscado-------- 
-        
+
+        ingresarOfertasAMasBuscados(request, filtrarOfertas(request))
         context = {
             'esUsuario': True,
             'Categorias':CargarCategorias(request),
@@ -191,6 +195,7 @@ def Buscar(request):
         return render(request, 'busquedas.html', context )
     except KeyError:
 
+        ingresarOfertasAMasBuscados(request, filtrarOfertas(request))
         context = {
             'esUsuario': False,
             'Categorias':CargarCategorias(request),
