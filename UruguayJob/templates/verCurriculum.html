@@ -13,7 +13,8 @@
 	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
 		<a class="m-0 ml-3 p-0" href="/administrador">
-			<img class="m-0 p-0" src="{% static 'img/logo.jpg' %}" alt="Logo" style="width:50px; height: 50px; border-radius: 30px;">
+			<img class="m-0 p-0" src="{% static 'img/logo.jpg' %}" alt="Logo"
+				style="width:50px; height: 50px; border-radius: 30px;">
 		</a>
 
 		<div class="navbar ml-md-auto" style=" display: table-cell;">
@@ -28,11 +29,33 @@
 
 {% block body %}
 {% load static %}
-	<!-- Detalles del llamado -->
-	<div class="col-md-6" style="padding-top: 100px; width: fit-content;margin: auto;">
-		<h3 class="text-primary">Curriculum de Hernesto Gomez</h3>
-	<br>
-		<iframe src="{% static 'pdf/CV.pdf' %}" frameborder="0" style="height: 1000px; width: 900px;"></iframe>
+<!-- Detalles del llamado -->
+<div class="col-md-6" style="padding-top: 100px; width: fit-content;margin: auto;">
+	<h3 class="text-primary">Curriculum de Hernesto Gomez</h3>
+	<div class="row" >
+		<div class="col-1 col-md-3"></div>
+		<div class="col-10 col-md-9">
+			<div class="row">
+				<div class="col-12 col-md-6">
+					<h4>Juan Pedro Hernandez Gomez</h4>
+					<h4>Telefono: 3243253</h4>
+					<h4>Direccion: sadsadf efwef 33</h4>
+					<h4>C.I: 3 234 325 4</h4>
+					<p>Experiencia: Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fuga ex laudantium nobis
+						ut iure corporis quasi, molestiae error officiis quae iste provident nisi ipsam delectus quod.
+						Sequi cupiditate distinctio quod?</p>
+				</div>
+				<div class="col-12 col-md-6">
+					<h4>Foto:</h4>
+					<img src="" alt="" height="100px" width="100px">
+					<p>Formacion: Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem aliquid quae tempore
+						saepe, sed vel fugit assumenda, veniam architecto odio iure eaque reiciendis, non expedita animi
+						molestias incidunt! Molestias, nisi!</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-1 col-md-3"></div>
 	</div>
-	<hr>
+</div>
+
 {% endblock %}

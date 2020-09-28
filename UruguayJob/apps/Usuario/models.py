@@ -10,6 +10,16 @@ class Usuario(models.Model):
     cv = models.CharField(max_length = 300, blank = True, null = True)
     isAdmin = models.BooleanField(default=False)
 
+class Curriculum(models.Model):
+    id_c =  models.AutoField(primary_key = True)
+    direccion = models.CharField('direccion', max_length = 200, blank = True, null = True)
+    telefono = models.CharField('telefono', max_length = 10, blank = True, null = True)
+    ci = models.CharField('telefono', max_length = 10, blank = True, null = True)
+    experiencia = models.TextField(blank = True, null = True)
+    formacion = models.TextField(blank = True, null = True)
+    foto = models.ImageField(upload_to='updateFoto', blank=True, null=True)
+    idUsu = models.OneToOneField(Usuario, on_delete=models.CASCADE)
+
 class Oferta(models.Model):
     id_oferta =  models.AutoField(primary_key = True)
     titulo = models.CharField('Titulo', max_length = 200, blank = False, null = False)
@@ -37,5 +47,6 @@ class masBuscados(models.Model):
     id_buscado =  models.AutoField(primary_key = True)
     puesto = models.IntegerField(blank = False, null = False)
     id_Oferta = models.ForeignKey(Oferta, on_delete = models.CASCADE)
+
 
 

@@ -18,10 +18,17 @@
 		<div class="navbar ml-md-auto" style=" display: table-cell;">
 			<a href="/entrevistas"><i class="fas fa-bell" style="width:30px"></i> Entrevistas</a>
 			
+			{% if isLoged %}
 			<a href="#" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-fw fa-envelope"
-					style="width:30px"></i>subir CV</a>
+					style="width:30px"></i>Crear CV</a>
 			<a href="/"><i class="fa fa-fw fa-user" style="width:30px; padding-right: 10px;"></i>
 				Cerrar Sesion</a>
+			{% else %}
+			<a href="/iniciar-sesion"><i class="fa fa-fw fa-user" style="width:30px; padding-right: 10px;"></i>
+				Iniciar sesión</a>
+			<a href="/registrarse"><i class="fa fa-fw fa-user" style="width:30px; padding-right: 10px;"></i>
+				Registrarme</a>
+			{% endif %}
 		</div>
 	</div>
 </nav>

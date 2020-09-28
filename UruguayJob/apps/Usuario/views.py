@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect
-from apps.Usuario.models import Usuario, Oferta, Categoria, masBuscados
+from apps.Usuario.models import Usuario, Oferta, Categoria, masBuscados, Curriculum
 # Create your views here.
 
+def updateFoto():
+    print("hola")
+    
 def CargarCategorias(request):
     Categorias = Categoria.objects.all() 
 
@@ -99,7 +102,19 @@ def IniciarSesion(request):
     return render(request, 'iniciarSesion.html')
 
 def Estadistica(request):
-    return render(request, 'estadistica.html')
+    try:
+        request.session['nombre']
+        context = {
+            'isLoged': True,
+        }
+        return render(request, 'estadistica.html',context) 
+    except KeyError: 
+        request.session.flush()
+        context = {
+            'isLoged': False,
+        }
+        return render(request, 'estadistica.html',context)
+
     
 def Entrevistar(request):
     return render(request, 'entrevistar.html')
@@ -173,8 +188,23 @@ def recortarDescripcion(request):
     return Ofertas
 
 def ingresarOfertasAMasBuscados(request, listOfertas):
-   print("hola") 
-        
+    #mbssss =  masBuscados.objects.all()
+    #if len(mbssss) > 0:
+
+     #   for o in listOfertas:
+    #    mbs = masBuscados.objects.all()
+     #       for m in mbs:
+     #           if m.id_Oferta == o:
+     #               m.puesto = m.puesto + 1
+     #               m.save()
+
+    #else:
+     #   for o in listOfertas:
+     #       mbs = masBuscados()
+     #       mbs.puesto = 1
+      #      mbs.id_Oferta = Oferta.objects.get(id_oferta=o.id_oferta) 
+      #      mbs.save()
+      print("hola")
 
 def Buscar(request):
     if request.method != 'POST':

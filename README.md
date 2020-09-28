@@ -18,6 +18,8 @@
 
 ### pip install Scapry
 
+### pip install pillow
+
 ## Crear en phpMyAdmin base de datos "uruguayjob"
 
 ### python manage.py makemigrations
