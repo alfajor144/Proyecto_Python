@@ -173,6 +173,7 @@ def recortarDescripcion(request):
     return Ofertas
 
 def ingresarOfertasAMasBuscados(request, listOfertas):
+   print("hola") 
         
 
 def Buscar(request):
