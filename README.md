@@ -16,7 +16,7 @@
 
 ### pip install Twisted-20.3.0-cp38-cp38-win_amd64.whl
 
-### pip install Scapry
+### py -m pip install scrapy
 
 ### pip install pillow
 
