@@ -104,10 +104,10 @@
 		<div class="list-group">
 			{% for o in OfertasRec %}
 			<a href="#" class="list-group-item list-group-item-action"
-				onclick="mostrarDetalle( {{ o.id_oferta }} );return false;">
+				onclick="mostrarDetalle('{{ o.id_oferta }}');return false;">
 				<div class="d-flex w-100 justify-content-between">
 					<h5 class="mb-1">{{ o.titulo }}</h5>
-					<small class="text-muted">En {{ o.pais }}</small>
+					<small class="text-muted">{{ o.pais }}</small>
 				</div>
 				<p class="mb-1">{{ o.descripcion }}</p>
 			</a>
@@ -138,9 +138,8 @@
 				<small class="text-muted">Valido desde {{ o.fecha_inicio }} hasta {{ o.fecha_final }}</small>
 				<br>
 
-				<button class="btn btn-warning">Postularme</button>
-				<a href="{{ o.link }}" class="btn btn-success">Ir a la pagina</a>
-				<button onclick="cerrar({{ o.id_oferta }})" class="btn btn-danger">Cerrar</button>
+				<button class="btn btn-success">Postularme</button>
+				<button onclick="cerrar('{{o.id_oferta }}')" class="btn btn-danger">Cerrar</button>
 
 			</div>
 		</div>

@@ -111,7 +111,7 @@
 		<div class="list-group">
 
 			{% for OfertasRe in OfertasRec %}
-			<a href="#" data-toggle="modal" data-target="#{{ OfertasRe.id_oferta }}"
+			<a href="#" data-toggle="modal" data-target="#{{ forloop.counter }}"
 				class="list-group-item list-group-item-action">
 				<div class="d-flex w-100 justify-content-between">
 					<h5 class="mb-1">{{ OfertasRe.titulo }}</h5>
@@ -121,7 +121,7 @@
 			{% endfor %}
 
 			{% for oferta in Ofertas %}
-			<div class="modal fade" id="{{ oferta.id_oferta }}" tabindex="-1" role="dialog"
+			<div class="modal fade" id="{{ forloop.counter }}" tabindex="-1" role="dialog"
 				aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog" role="document">
 					<div class="modal-content">
@@ -136,7 +136,8 @@
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-success" data-dismiss="modal">Aceptar</button>
+							<button class="btn btn-success">Postularme</button>
+							<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
 						</div>
 					</div>
 				</div>

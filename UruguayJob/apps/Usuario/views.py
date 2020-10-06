@@ -1,8 +1,61 @@
 from django.shortcuts import render, redirect
-from apps.Usuario.models import Usuario, Oferta, Categoria, masBuscados, Curriculum
+from apps.Usuario.models import Usuario, Oferta, Categoria, masBuscados, Curriculum, UruguayConcursa
+
+import json
+
+def formatDate(request, oldDate):
+    year=oldDate[6:]
+    month=oldDate[3:5]
+    day=oldDate[0:2]
+    newDate = year + "-" + month + "-" + day
+    return newDate
+
 # Create your views here.
 
-def updateFoto():
+def cargarUruguayConcursaJson(request):
+    #http://localhost:8000/loadUC
+    #para verlas ir adamin
+
+    with open('datos.json',encoding='utf8') as json_file:
+        data = json.load(json_file)
+        for p in data:
+            uc = UruguayConcursa()
+            uc.nro_llamado = p['nro_llamado']
+            uc.titulo = p['titulo']
+            uc.fecha_inicio = formatDate(request, p['fecha_inicio'])
+            uc.fecha_fin = formatDate(request, p['fecha_fin'])
+            uc.tipo_tarea = p['tipo_tarea']
+            uc.tipo_vinculo = p['tipo_vinculo']
+            uc.tiempo_contrato = p['tiempo_contrato']
+            uc.descripcion = p['descripcion']
+            uc.requisitos = p['requisitos']
+            uc.recepcion_postulaciones = p['recepcion_postulaciones']
+            uc.recepcion_consultas = p['recepcion_consultas']
+            uc.telefono_consultas = p['telefono_consultas']
+            uc.organismo = p['organismo']
+            uc.comentario_interes = p['comentario_interes']
+            uc.save()
+    
+    allUC = UruguayConcursa.objects.all() 
+    for uc in allUC:
+        o = Oferta()
+        o.id_oferta = uc.nro_llamado
+        o.titulo = uc.titulo
+        o.descripcion = uc.descripcion + ",\n " + uc.requisitos + ",\n " + uc.tiempo_contrato + ",\n " +  uc.tipo_tarea  + ",\n " + uc.tipo_vinculo  + ",\n " + uc.organismo
+        o.pais = "Uruguay"
+        o.fecha_inicio = uc.fecha_inicio
+        o.fecha_final = uc.fecha_fin
+        o.save()
+
+    #lo siguiente puede que no valla, vos ves
+    print('-----------------------------------------------')
+    context = {
+        'userNombre': "cargarUC"
+    }
+    print('---------------------------------------------------------------------------------')
+    return render(request, 'hUsuario.html', context)
+
+def updateFoto(request):
     print("hola")
     
 def CargarCategorias(request):
@@ -74,12 +127,12 @@ def HomeUser(request):
 
 def LoMasReciente(request):
     Ofertas = Oferta.objects.all()
-    Ofertas = Ofertas[:6]
+    Ofertas = Ofertas[:5]
     return Ofertas
 
 def LoMasRecienteRec(request):
     Ofertas = Oferta.objects.all()
-    Ofertas = Ofertas[:6]
+    Ofertas = Ofertas[:5]
     for o in Ofertas:
         o.descripcion = o.descripcion[:100]
         o.descripcion = o.descripcion[:101] + "..."

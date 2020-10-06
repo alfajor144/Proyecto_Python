@@ -21,13 +21,12 @@ class Curriculum(models.Model):
     idUsu = models.OneToOneField(Usuario, on_delete=models.CASCADE)
 
 class Oferta(models.Model):
-    id_oferta =  models.AutoField(primary_key = True)
+    id_oferta =  models.CharField(primary_key = True, max_length = 100)
     titulo = models.CharField('Titulo', max_length = 200, blank = False, null = False)
     descripcion = models.TextField(blank = False, null = False)
     pais = models.CharField('pais', max_length = 50, blank = False, null = False)
     fecha_inicio = models.DateField('fecha inicio')
     fecha_final = models.DateField('fecha final')
-    link = models.CharField('link', max_length = 2050)
     Usuario_id = models.ManyToManyField(Usuario, related_name='Postulacion', through='Postulacion')
 
 class Postulacion(models.Model):
@@ -41,12 +40,34 @@ class Postulacion(models.Model):
 class Categoria(models.Model):
     id =  models.AutoField(primary_key = True)
     nombre = models.CharField('Nombre', max_length = 50, blank = False, null = False)
-    id_Oferta = models.ForeignKey(Oferta, on_delete = models.CASCADE)
+    id_Oferta = models.ForeignKey(Oferta, on_delete = models.CASCADE, null = True)
+
+class SubCategoria(models.Model):
+    id_Sub =  models.AutoField(primary_key = True)
+    nombre = models.CharField('Nombre', max_length = 50, blank = False, null = False)
+    id_Categoria = models.ForeignKey(Categoria, on_delete = models.CASCADE, null = True)
 
 class masBuscados(models.Model):
     id_buscado =  models.AutoField(primary_key = True)
     puesto = models.IntegerField(blank = False, null = False)
-    id_Oferta = models.ForeignKey(Oferta, on_delete = models.CASCADE)
+    id_Oferta = models.ForeignKey(Oferta, on_delete = models.CASCADE, null = True)
+
+class UruguayConcursa(models.Model):
+    nro_llamado = models.CharField(primary_key = True, max_length = 100)
+    titulo = models.CharField('titulo', max_length = 100, blank = False, null = False)
+    fecha_inicio = models.DateField('fecha_inicio', max_length = 100, blank = False, null = False)
+    fecha_fin = models.DateField('fecha_fin', max_length = 100, blank = False, null = False)
+    tipo_tarea = models.CharField('tipo_tarea', max_length = 100, blank = False, null = False)
+    tipo_vinculo = models.CharField('tipo_vinculo', max_length = 100, blank = False, null = False)
+    tiempo_contrato = models.CharField('tiempo_contrato', max_length = 100, blank = False, null = False)
+    descripcion = models.CharField('descripcion', max_length = 100, blank = False, null = False)
+    requisitos = models.CharField('requisitos', max_length = 100, blank = False, null = False)
+    recepcion_postulaciones = models.CharField('recepcion_postulaciones', max_length = 100, blank = False, null = False)
+    recepcion_consultas = models.CharField('recepcion_consultas', max_length = 100, blank = False, null = False)
+    telefono_consultas = models.CharField('telefono_consultas', max_length = 100, blank = False, null = False)
+    organismo = models.CharField('organismo', max_length = 100, blank = False, null = False)
+    comentario_interes = models.CharField('comentario_interes', max_length = 100, blank = False, null = False)
+
 
 
 
