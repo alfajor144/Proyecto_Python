@@ -1,7 +1,41 @@
 from django.shortcuts import render, redirect
-from apps.Usuario.models import Usuario, Oferta, Categoria, masBuscados, Curriculum, UruguayConcursa
+from apps.Usuario.models import Usuario, Oferta, Categoria, masBuscados, Curriculum, UruguayConcursa,Postulacion
 
 import json
+
+def postularme(request):
+
+    p = Postulacion()
+    p.id_oferta = Oferta.objects.get(id_oferta=request.POST['idOf']) 
+    p.id_usuario = Usuario.objects.get(id_usuario=request.session['id_usuario'])
+    p.save()
+
+    context = {
+        'userNombre': request.session['nombre'],
+        'Ofertas': LoMasReciente(request),
+        'OfertasRec': LoMasRecienteRec(request),
+        'Categorias': CargarCategorias(request)
+    }
+    return render(request, 'hUsuario.html', context)
+
+def postularmeBusquedas(request):
+    if request.method != 'POST':
+        request.session.flush()
+        return render(request, 'iniciarSesion.html')
+
+    p = Postulacion()
+    p.id_oferta = Oferta.objects.get(id_oferta=request.POST['idOf']) 
+    p.id_usuario = Usuario.objects.get(id_usuario=request.session['id_usuario'])
+    p.save()
+
+    #ingresarOfertasAMasBuscados(request, filtrarOfertas(request))
+    context = {
+        'esUsuario': True,
+        'Categorias':CargarCategorias(request),
+        'OfertasRec' : recortarDescripcion(request),
+        'Ofertas' : filtrarOfertas(request)
+    }
+    return render(request, 'busquedas.html', context )
 
 def formatDate(request, oldDate):
     year=oldDate[6:]
@@ -9,8 +43,6 @@ def formatDate(request, oldDate):
     day=oldDate[0:2]
     newDate = year + "-" + month + "-" + day
     return newDate
-
-# Create your views here.
 
 def cargarUruguayConcursaJson(request):
     #http://localhost:8000/loadUC
@@ -48,11 +80,9 @@ def cargarUruguayConcursaJson(request):
         o.save()
 
     #lo siguiente puede que no valla, vos ves
-    print('-----------------------------------------------')
     context = {
         'userNombre': "cargarUC"
     }
-    print('---------------------------------------------------------------------------------')
     return render(request, 'hUsuario.html', context)
 
 def updateFoto(request):
@@ -186,48 +216,158 @@ def Calificar(request):
     return render(request, 'calificarEntrevista.html', context )
 
 # ------------------- FUNCIONALIDADES ----------------------------
+
 def getOfertasKeyWord(request, allOfertas):
     result=[]
-    for o in allOfertas:
-        titulo = o.titulo.lower()
-        keyWord = request.POST['keyWord'].lower()
-        if titulo.find(keyWord) != -1:
-            result.append(o)
-    return result
+    try:
+        request.session['keyWord'] = request.POST['keyWord'].lower()
 
-def getOfertasPais(request, allOfertas):
-    result=[]
-    if request.POST['pais'] != 'N/A':
         for o in allOfertas:
-            if o.pais == request.POST['pais']:
+            titulo = o.titulo.lower()
+            PublicKeyWord = request.POST['keyWord'].lower()
+            keyWord = PublicKeyWord
+            if titulo.find(keyWord) != -1:
                 result.append(o)
         return result
-    else:
-        return allOfertas
+    except KeyError:
+        try:
+            keyWord = request.session['keyWord']
+
+            for o in allOfertas:
+                titulo = o.titulo.lower()
+                keyWord = request.session['keyWord']
+                if titulo.find(keyWord) != -1:
+                    result.append(o)
+            return result
+        except KeyError:
+            request.session['keyWord']=""
+            for o in allOfertas:
+                titulo = o.titulo.lower()
+                keyWord = request.session['keyWord']
+                if titulo.find(keyWord) != -1:
+                    result.append(o)
+            return result
+
+def getOfertasPais(request, allOfertas):
+
+    try:
+        request.session['pais'] = request.POST['pais']
+        result=[]
+        if request.POST['pais'] != 'N/A':
+            for o in allOfertas:
+                if o.pais == request.POST['pais']:
+                    result.append(o)
+            return result
+        else:
+            return allOfertas
+    except KeyError:
+        try:
+            pais = request.session['pais']
+            result=[]
+            if pais != 'N/A':
+                for o in allOfertas:
+                    if o.pais == pais:
+                        result.append(o)
+                return result
+            else:
+                return allOfertas
+        except KeyError:
+            pais = 'N/A'
+            result=[]
+            if pais != 'N/A':
+                for o in allOfertas:
+                    if o.pais == pais:
+                        result.append(o)
+                return result
+            else:
+                return allOfertas
+
 
 def getOfertasCategoria(request, allOfertas):
-    if request.POST['categoria'] != 'N/A':
-        ofertCat = []
-        allCategorias = Categoria.objects.all()
-        for n in allCategorias:
-            if n.nombre == request.POST['categoria']:
-                ofertCat.append(n) 
 
-        res=[]
-        for d in ofertCat:
-            res.append(d.id_Oferta)
+    try:
+        if request.POST['categoria'] != 'N/A':
+            ofertCat = []
+            allCategorias = Categoria.objects.all()
+            for n in allCategorias:
+                if n.nombre == request.POST['categoria']:
+                    ofertCat.append(n) 
 
-        result=[]
-        for of in allOfertas:
-            if of in res:
-                result.append(of)
-        return result
-    else:
+            res=[]
+            for d in ofertCat:
+                res.append(d.id_Oferta)
+
+            result=[]
+            for of in allOfertas:
+                if of in res:
+                    result.append(of)
+            return result
+        else:
+            return allOfertas
+
+    except KeyError:
+        try:
+            categoria = request.session['categoria']
+            if categoria != 'N/A':
+                ofertCat = []
+                allCategorias = Categoria.objects.all()
+                for n in allCategorias:
+                    if n.nombre == categoria:
+                        ofertCat.append(n) 
+
+                res=[]
+                for d in ofertCat:
+                    res.append(d.id_Oferta)
+
+                result=[]
+                for of in allOfertas:
+                    if of in res:
+                        result.append(of)
+                return result
+            else:
+                return allOfertas
+
+        except KeyError:
+            categoria = "N/A"
+            if categoria != 'N/A':
+                ofertCat = []
+                allCategorias = Categoria.objects.all()
+                for n in allCategorias:
+                    if n.nombre == categoria:
+                        ofertCat.append(n) 
+
+                res=[]
+                for d in ofertCat:
+                    res.append(d.id_Oferta)
+
+                result=[]
+                for of in allOfertas:
+                    if of in res:
+                        result.append(of)
+                return result
+            else:
+                return allOfertas
+
+def exeptOpstladas(request):
+    try: 
+        idU = request.session['id_usuario'] 
+        #postu = Postulacion.objects.filter(id_usuario = idU)
+
+        #postu = postu.postulacion_set
+        #idsPostu=[]
+        #for p in postu:
+        #    idsPostu.append(p.id_oferta)
+        
+        #print(idsPostu)
+
+        allOfertas = Oferta.objects.all()
+        return allOfertas
+    except KeyError:
+        allOfertas = Oferta.objects.all()
         return allOfertas
 
-
 def filtrarOfertas(request):
-    allOfertas = Oferta.objects.all()
+    allOfertas = exeptOpstladas(request)
     result = getOfertasKeyWord(request, allOfertas)
     result2 = getOfertasPais(request, result)
     result3 = getOfertasCategoria(request, result2)

@@ -19,5 +19,8 @@ urlpatterns = [
     path('buscar/', views.Buscar, name='buscar'),
     path('getAllUsers/', views.GetAllUsers, name='getAllUsers'),
     path('cerrarSesion/', views.CerrarSesion, name='cerrarSesion'),
-    path('loadUC/', views.cargarUruguayConcursaJson, name='cargarUruguayConcursaJson')
+    path('loadUC/', views.cargarUruguayConcursaJson, name='cargarUruguayConcursaJson'),
+    path('postularme/', views.postularme, name='postularme'),
+    path('postularmeBusquedas/', views.postularmeBusquedas, name='postularmeBusquedas')
+
 ]

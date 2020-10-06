@@ -140,7 +140,10 @@
 								</div>
 							</div>
 							<div class="modal-footer">
-								<button class="btn btn-success">Postularme</button>
+								<form action="{% url 'postularme' %}" method="post">
+									{% csrf_token %}
+									 <button type="submit" class="btn btn-success" name='idOf' value={{oferta.id_oferta}}>Postularme</button>
+								</form>
 								<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
 							</div>
 						</div>
