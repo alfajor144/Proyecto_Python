@@ -41,17 +41,15 @@
 		<h3 class="mb-5 text-primary">Entrevistas Pendientes</h3>
 		<div class="list-group">
 
-
-
-
+			{% for oferta in Ofertas %}
 			<div class="list-group-item list-group-item-action">
 				<div class="row">
 					<div class="col-12 col-md-6">
-						<h5 class="mb-1">Panaderia el molino</h5>
+						<h5 class="mb-1">{{ o.titulo }}</h5>
 						<p class="mb-1">Buenos dias estimado, le solusitamos su presencia en Direccion, entre
 							los dias
-							10/09/2020
-							y 13/09/2020 a las 13:00 hrs.
+							{{ oferta.fecha_inicio }}
+							y {{ oferta.fecha_final }} a las 9:00 hrs.
 						</p>
 					</div>
 					<div class="col-12 col-md-6">
@@ -72,66 +70,7 @@
 					</div>
 				</div>
 			</div>
-
-			<div class="list-group-item list-group-item-action">
-				<div class="row">
-					<div class="col-12 col-md-6">
-						<h5 class="mb-1">Panaderia el molino</h5>
-						<p class="mb-1">Buenos dias estimado, le solusitamos su presencia en Direccion, entre
-							los dias
-							10/09/2020
-							y 13/09/2020 a las 13:00 hrs.
-						</p>
-					</div>
-					<div class="col-12 col-md-6">
-						<form>
-							<div class="form-group">
-								<label for="exampleFormControlSelect1">Porfavor seleccioe una fecha:</label>
-								<select class="form-control" id="exampleFormControlSelect1">
-									<option>10/09/2020</option>
-									<option>12/09/2020</option>
-									<option>13/09/2020</option>
-								</select>
-
-								<button type="submit" class="my-2 btn btn-success">
-									Enviar
-								</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-
-			<div class="list-group-item list-group-item-action">
-				<div class="row">
-					<div class="col-12 col-md-6">
-						<h5 class="mb-1">Panaderia el molino</h5>
-						<p class="mb-1">Buenos dias estimado, le solusitamos su presencia en Direccion, entre
-							los dias
-							10/09/2020
-							y 13/09/2020 a las 13:00 hrs.
-						</p>
-					</div>
-					<div class="col-12 col-md-6">
-						<form>
-							<div class="form-group">
-								<label for="exampleFormControlSelect1">Porfavor seleccioe una fecha:</label>
-								<select class="form-control" id="exampleFormControlSelect1">
-									<option>10/09/2020</option>
-									<option>12/09/2020</option>
-									<option>13/09/2020</option>
-								</select>
-
-								<button type="submit" class="my-2 btn btn-success">
-									Enviar
-								</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-
-
+			{% endfor %}
 
 		</div>
 

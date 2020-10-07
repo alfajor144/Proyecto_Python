@@ -200,12 +200,137 @@ def Estadistica(request):
         }
         return render(request, 'estadistica.html',context)
 
-    
+def fijarFechaEntrevista(request):
+    if request.method != 'POST':
+        request.session.flush()
+        return render(request, 'iniciarSesion.html')
+
+    fecha1 = request.POST['fecha1']
+    fecha2 = request.POST['fecha2']
+    fecha3 = request.POST['fecha3']
+    idOf = request.POST['idoff']
+    idU = request.POST['idU']
+        
+    if fecha1!="" and fecha2!="" and fecha3!="":
+        postu = Postulacion.objects.get(id_usuario = idU, id_oferta=idOf)
+        postu.fecha_uno = fecha1
+        postu.fecha_dos = fecha2
+        postu.fecha_tres = fecha3
+        postu.save()
+        #----lO MISMO QUE ENTREVISTAR----
+        allpost = Postulacion.objects.all()
+        res=[]
+        for p in allpost:
+            if p.fecha_uno is None:
+                res.append(p.id_oferta)
+
+        ofs = Oferta.objects.all()
+        res2=[]
+        for o in ofs:
+            if o in res:
+                res2.append(o)
+
+        rett=[]
+        context = {
+            #'Ofertas': LoMasRecienteRec(request)
+            'Ofertas': res2,
+            'Postulantes' : rett
+        }
+        return render(request, 'entrevistar.html',context)
+    else:
+        allpost = Postulacion.objects.all()
+        res=[]
+        for p in allpost:
+            if p.fecha_uno is None:
+                res.append(p.id_oferta)
+
+        ofs = Oferta.objects.all()
+        res2=[]
+        for o in ofs:
+            if o in res:
+                res2.append(o)
+
+        rett=[]
+        context = {
+            #'Ofertas': LoMasRecienteRec(request)
+            'Ofertas': res2,
+            'Postulantes' : rett,
+            'mensaje':"Ingrese todas las fechas. (•̀o•́)ง"
+        }
+        return render(request, 'entrevistar.html',context)
+    #----lO MISMO QUE ENTREVISTAR----
+
+def traerPostulante(request):
+    idOf = request.POST['idOf']
+    allpost = Postulacion.objects.filter(id_oferta=idOf)
+    res=[]
+    for p in allpost:
+        if p.fecha_uno is None:
+            res.append(p.id_usuario)
+
+    users = Usuario.objects.all()
+    res2=[]
+    for o in users:
+        if o in res:
+            res2.append(o)
+
+    return res2
+
+def mostrarPostulantes(request):
+    if request.method != 'POST':
+        request.session.flush()
+        return render(request, 'iniciarSesion.html')
+
+    allpost = Postulacion.objects.all()
+    res=[]
+    for p in allpost:
+        if p.fecha_uno is None:
+            res.append(p.id_oferta)
+
+    ofs = Oferta.objects.all()
+    res2=[]
+    for o in ofs:
+        if o in res:
+            res2.append(o)
+
+    context = {
+        #'Ofertas': LoMasRecienteRec(request)
+        'Ofertas': res2,
+        'Postulantes' : traerPostulante(request),
+        'idOF': request.POST['idOf']
+    }
+    return render(request, 'entrevistar.html',context)
+
 def Entrevistar(request):
-    return render(request, 'entrevistar.html')
+    allpost = Postulacion.objects.all()
+    res=[]
+    for p in allpost:
+        if p.fecha_uno is None:
+            res.append(p.id_oferta)
+
+    ofs = Oferta.objects.all()
+    res2=[]
+    for o in ofs:
+        if o in res:
+            res2.append(o)
+
+    rett=[]
+    context = {
+        #'Ofertas': LoMasRecienteRec(request)
+        'Ofertas': res2,
+        'Postulantes' : rett
+    }
+    return render(request, 'entrevistar.html',context)
+
+def ofertasALasQueMePostule(request):
+    Ofertas = filtrarOfertas(request)
+    return Ofertas
 
 def Entrevistas(request):
-    return render(request, 'entrevistas.html')
+    context = {
+        'Ofertas': ofertasALasQueMePostule(request)
+    }
+    return render(request, 'entrevistas.html', context)
 
 def VerCV(request):
     return render(request, 'verCurriculum.html')

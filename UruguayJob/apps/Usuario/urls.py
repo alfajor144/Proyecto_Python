@@ -21,6 +21,8 @@ urlpatterns = [
     path('cerrarSesion/', views.CerrarSesion, name='cerrarSesion'),
     path('loadUC/', views.cargarUruguayConcursaJson, name='cargarUruguayConcursaJson'),
     path('postularme/', views.postularme, name='postularme'),
-    path('postularmeBusquedas/', views.postularmeBusquedas, name='postularmeBusquedas')
+    path('postularmeBusquedas/', views.postularmeBusquedas, name='postularmeBusquedas'),
+    path('mostrarPostulantes/', views.mostrarPostulantes, name='mostrarPostulantes'),
+    path('fijarFechaEntrevista/', views.fijarFechaEntrevista, name='fijarFechaEntrevista')
 
 ]
