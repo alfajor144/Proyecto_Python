@@ -156,12 +156,14 @@ def HomeUser(request):
             return render(request, 'hInvitado.html', context)
 
 def LoMasReciente(request):
-    Ofertas = Oferta.objects.all()
+    Ofertas = filtrarOfertas(request)
+    #Ofertas = Oferta.objects.all()
     Ofertas = Ofertas[:5]
     return Ofertas
 
 def LoMasRecienteRec(request):
-    Ofertas = Oferta.objects.all()
+    Ofertas = recortarDescripcion(request)
+    #Ofertas = Oferta.objects.all()
     Ofertas = Ofertas[:5]
     for o in Ofertas:
         o.descripcion = o.descripcion[:100]
@@ -348,26 +350,17 @@ def getOfertasCategoria(request, allOfertas):
             else:
                 return allOfertas
 
-def exeptOpstladas(request):
+def getAllOfertasMenosPostuladas(request):
     try: 
-        idU = request.session['id_usuario'] 
-        #postu = Postulacion.objects.filter(id_usuario = idU)
-
-        #postu = postu.postulacion_set
-        #idsPostu=[]
-        #for p in postu:
-        #    idsPostu.append(p.id_oferta)
-        
-        #print(idsPostu)
-
-        allOfertas = Oferta.objects.all()
+        idU = request.session['id_usuario']         
+        allOfertas = Oferta.objects.exclude(Usuario_id = idU)
         return allOfertas
     except KeyError:
         allOfertas = Oferta.objects.all()
         return allOfertas
 
 def filtrarOfertas(request):
-    allOfertas = exeptOpstladas(request)
+    allOfertas = getAllOfertasMenosPostuladas(request)
     result = getOfertasKeyWord(request, allOfertas)
     result2 = getOfertasPais(request, result)
     result3 = getOfertasCategoria(request, result2)
@@ -397,7 +390,7 @@ def ingresarOfertasAMasBuscados(request, listOfertas):
      #       mbs.puesto = 1
       #      mbs.id_Oferta = Oferta.objects.get(id_oferta=o.id_oferta) 
       #      mbs.save()
-      print("hola")
+      print("ingresarOfertasAMasBuscados")
 
 def Buscar(request):
     if request.method != 'POST':

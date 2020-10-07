@@ -138,13 +138,20 @@
 				<small class="text-muted">Valido desde {{ o.fecha_inicio }} hasta {{ o.fecha_final }}</small>
 				<br>
 
-				{% if esUsuario %}
-					<form action="{% url 'postularmeBusquedas' %}" method="post">
-						{% csrf_token %}
-						<button type="submit" class="btn btn-success" name='idOf' value={{o.id_oferta}}>Postularme</button>
-					</form>
-				{% endif %}
-				<button onclick="cerrar('{{o.id_oferta }}')" class="btn btn-danger">Cerrar</button>
+				<div class="row">
+					<div class="col-3">
+						{% if esUsuario %}
+							<form class="m-1 p-1" action="{% url 'postularmeBusquedas' %}" method="post">
+								{% csrf_token %}
+								<button type="submit" class="btn btn-success" name='idOf' value={{o.id_oferta}}>Postularme</button>
+							</form>
+						{% endif %}
+					</div>
+					<div class="col-9 mt-2">
+						<button onclick="cerrar('{{o.id_oferta }}')" class="btn btn-danger">Cerrar</button>
+					</div>
+				</div>
+
 
 			</div>
 		</div>
