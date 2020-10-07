@@ -36,6 +36,7 @@ class Postulacion(models.Model):
     fecha_uno = models.DateField('fecha uno',blank = True, null = True)
     fecha_dos = models.DateField('fecha dos',blank = True, null = True)
     fecha_tres = models.DateField('fecha tres',blank = True, null = True)
+    fecha_Definitiva = models.DateField('Definitiva',blank = True, null = True)
 
 class Categoria(models.Model):
     id =  models.AutoField(primary_key = True)

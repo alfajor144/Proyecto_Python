@@ -33,44 +33,58 @@
 {% load static %}
 <div class="separador"></div>
 
-<div class="row row-ofertas">
+<div class="row " style="min-height: 400px;">
 	<div class="col-md-1 ">
 	</div>
 
-	<div class="col-md-10 lista-ofertas">
-		<h3 class="mb-5 text-primary">Entrevistas Pendientes</h3>
+	<div class="col-md-10 ">
+		<h3 class="mb-2 text-primary">Entrevistas Pendientes</h3>
 		<div class="list-group">
 
 			{% for oferta in Ofertas %}
 			<div class="list-group-item list-group-item-action">
 				<div class="row">
 					<div class="col-12 col-md-6">
-						<h5 class="mb-1">{{ o.titulo }}</h5>
+						<h5 class="mb-1">{{ oferta.titulo }}</h5>
 						<p class="mb-1">Buenos dias estimado, le solusitamos su presencia en Direccion, entre
 							los dias
 							{{ oferta.fecha_inicio }}
 							y {{ oferta.fecha_final }} a las 9:00 hrs.
 						</p>
+						<form class="m-1 p-1" action="{% url 'verFechasDeEntrevista' %}" method="post">
+							{% csrf_token %}
+							<button type="submit" class="my-2 btn btn-success" name="idO" value="{{ oferta.id_oferta }}">
+								Ver Fechas
+							</button>
+						</form>
 					</div>
 					<div class="col-12 col-md-6">
-						<form>
+						<form action="{% url 'definirFechaEntrevista' %}" method="post">
+							{% csrf_token %}
 							<div class="form-group">
 								<label for="exampleFormControlSelect1">Porfavor seleccioe una fecha:</label>
-								<select class="form-control" id="exampleFormControlSelect1">
-									<option>10/09/2020</option>
-									<option>12/09/2020</option>
-									<option>13/09/2020</option>
+								<h4>{{ mensaje }}</h4>
+								<select class="form-control" name="fechaDef" id="exampleFormControlSelect1">
+									{% for f in fechas %}
+									<!--<option>2020-09-05</option>-->
+									<option>{{ f|date:"c"}}</option>
+									{% endfor %}
+									<option></option>
 								</select>
 
-								<button type="submit" class="my-2 btn btn-success">
-									Enviar
+								<button type="submit" class="my-2 btn btn-success" name="idO" value="{{ oferta.id_oferta }}">
+									Definir
 								</button>
 							</div>
 						</form>
 					</div>
 				</div>
 			</div>
+			{% empty %}
+			<br>
+			<h4>No tiene entrevistas pendientes.</h4>
 			{% endfor %}
+			<br><br>
 
 		</div>
 

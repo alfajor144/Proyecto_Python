@@ -80,10 +80,13 @@ def cargarUruguayConcursaJson(request):
         o.save()
 
     #lo siguiente puede que no valla, vos ves
+    request.session.flush()
     context = {
-        'userNombre': "cargarUC"
+        'Ofertas': LoMasReciente(request),
+        'OfertasRec': LoMasRecienteRec(request),
+        'Categorias':CargarCategorias(request)
     }
-    return render(request, 'hUsuario.html', context)
+    return render(request, 'hInvitado.html', context)
 
 def updateFoto(request):
     print("hola")
@@ -322,13 +325,92 @@ def Entrevistar(request):
     }
     return render(request, 'entrevistar.html',context)
 
-def ofertasALasQueMePostule(request):
-    Ofertas = filtrarOfertas(request)
-    return Ofertas
+def verFechasDeEntrevista(request):
+    if request.method != 'POST':
+        request.session.flush()
+        return render(request, 'iniciarSesion.html')
+
+    idOfer = request.POST['idO']
+    idUsu = request.session['id_usuario']
+    postu = Postulacion.objects.get(id_oferta=idOfer, id_usuario=idUsu)
+
+    fechas=[]
+    fechas.append(postu.fecha_uno)
+    fechas.append(postu.fecha_dos)
+    fechas.append(postu.fecha_tres)
+
+    postulaciones = Postulacion.objects.filter(id_usuario = request.session['id_usuario'])
+
+    ret=[]
+    for o in postulaciones:
+        if o.fecha_uno is not None and o.fecha_Definitiva is None:
+            ret.append(o.id_oferta)
+    
+    res=[]
+    for n in ret:
+        of= Oferta.objects.get(id_oferta=n.id_oferta)
+        res.append(of)
+
+    context = {
+        'Ofertas': res,
+        'fechas': fechas
+    }
+    return render(request, 'entrevistas.html', context)
+
+def definirFechaEntrevista(request):
+    if request.method != 'POST':
+        request.session.flush()
+        return render(request, 'iniciarSesion.html')
+
+    definitiva = request.POST['fechaDef']
+
+    idUsu = request.session['id_usuario']
+    idOfer = request.POST['idO']
+    
+    if definitiva!="":
+        postu = Postulacion.objects.get(id_oferta=idOfer, id_usuario=idUsu)
+        postu.fecha_Definitiva=definitiva
+        postu.save()
+        mensaje =""
+        
+    mensaje="Seleccione una fecha"
+
+    print("-------------")
+    print(definitiva)
+
+    postulaciones = Postulacion.objects.filter(id_usuario = request.session['id_usuario'])
+
+    ret=[]
+    for o in postulaciones:
+        if o.fecha_uno is not None and o.fecha_Definitiva is None:
+            ret.append(o.id_oferta)
+    
+    res=[]
+    for n in ret:
+        of= Oferta.objects.get(id_oferta=n.id_oferta)
+        res.append(of)
+
+    context = {
+        'Ofertas': res,
+        'mensaje':mensaje
+    }
+    return render(request, 'entrevistas.html', context)
 
 def Entrevistas(request):
+    postulaciones = Postulacion.objects.filter(id_usuario = request.session['id_usuario'])
+
+    ret=[]
+    for o in postulaciones:
+        if o.fecha_uno is not None and o.fecha_Definitiva is None:
+            ret.append(o.id_oferta)
+    
+    res=[]
+    for n in ret:
+        of= Oferta.objects.get(id_oferta=n.id_oferta)
+        res.append(of)
+
     context = {
-        'Ofertas': ofertasALasQueMePostule(request)
+        'Ofertas': res
     }
     return render(request, 'entrevistas.html', context)
 
