@@ -455,8 +455,66 @@ def Entrevistas(request):
     }
     return render(request, 'entrevistas.html', context)
 
-def VerCV(request):
-    return render(request, 'verCurriculum.html')
+def hacerCV(request):
+    return render(request, 'crearCurriculum.html')
+
+def cargarCV(request):
+    if request.method != 'POST':
+        request.session.flush()
+        return render(request, 'iniciarSesion.html')
+
+    idUsu = Usuario.objects.get(id_usuario=request.session['id_usuario'])
+    direccion= request.POST['direccion']
+    telefono= request.POST['telefono']
+    ci= request.POST['ci']
+    experiencia= request.POST['experiencia']
+    formacion= request.POST['formacion']
+    foto= request.POST['foto']
+
+    cv = Curriculum()
+    cv.direccion =direccion 
+    cv.telefono =telefono
+    cv.ci =ci
+    cv.experiencia =experiencia
+    cv.formacion =formacion
+    cv.foto = foto
+    cv.idUsu = idUsu
+    cv.save()
+
+    print("---------dsds----------------")
+
+
+    context = {
+        'userNombre': request.session['nombre'],
+        'Ofertas': LoMasReciente(request),
+        'OfertasRec': LoMasRecienteRec(request),
+        'Categorias': CargarCategorias(request)
+    }
+    return render(request, 'hUsuario.html', context)
+
+def verCV(request):
+    if request.method != 'POST':
+        request.session.flush()
+        return render(request, 'iniciarSesion.html')
+
+    idU = request.POST['idU']
+
+    try:
+        user = Usuario.objects.get(id_usuario=idU)
+        cv = Curriculum.objects.get(idUsu=idU)
+        context = {
+            'cv': cv,
+            'user':user
+        }
+        return render(request, 'verCurriculum.html', context)
+    except KeyError:
+        user = Usuario.objects.get(id_usuario=idU)
+
+        context = {
+
+            'user':user
+        }
+        return render(request, 'verCurriculum.html', context)
 
 def calificarEntrevista(request):
     if request.method != 'POST':

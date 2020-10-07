@@ -11,7 +11,8 @@ urlpatterns = [
     path('entrevistas/', views.Entrevistas, name='entrevistas'),
     path('calificar/', views.Calificar, name='calificar'),
     path('iniciar-sesion/', views.IniciarSesion, name='iniciar-sesion'),
-    path('verCV/', views.VerCV, name='VerCV'),
+    path('verCV/', views.verCV, name='verCV'),
+    path('hacerCV/', views.hacerCV, name='hacerCV'),
 
     # -------------- FUNCIONALIDADES JULIO---------------------------------
     path('registrarUsuario/', views.RegistrarUsuario, name='registrarUsuario'),
@@ -27,6 +28,8 @@ urlpatterns = [
     path('definirFechaEntrevista/', views.definirFechaEntrevista, name='definirFechaEntrevista'),
     path('verFechasDeEntrevista/', views.verFechasDeEntrevista, name='verFechasDeEntrevista'),
     path('mostrarPostulantesCalificar/', views.mostrarPostulantesCalificar, name='mostrarPostulantesCalificar'),
-    path('calificarEntrevista/', views.calificarEntrevista, name='calificarEntrevista')
+    path('calificarEntrevista/', views.calificarEntrevista, name='calificarEntrevista'),
+    path('cargarCV/', views.cargarCV, name='cargarCV')
+
 
 ]

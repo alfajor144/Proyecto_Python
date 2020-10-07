@@ -81,7 +81,14 @@
 			{% for p in Postulantes %}
 			<div class="list-group-item list-group-item-action">
 				<h5 class="mb-1">{{ p.nombre}}</h5>
-				<a href="/verCV">Ver CV</a>
+
+				<form action="{% url 'verCV' %}" method="post">
+					{% csrf_token %}
+					<button class="btn btn-success" type="submit" name='idU' value={{p.id_usuario}} >
+						Ver CV
+					</button>
+				</form>
+
 				<form role="form" action="{% url 'fijarFechaEntrevista' %}" method="post">
 					{% csrf_token %}
 					<div class="form-group">

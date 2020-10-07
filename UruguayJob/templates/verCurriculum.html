@@ -32,46 +32,43 @@
 <!-- Detalles del llamado -->
 <div class="col-md-6" style="padding-top: 100px; width: fit-content;margin: auto;">
 	<div class="row" >
-		<div class="col-1 col-md-2"></div>
-		<div class="col-10 col-md-8">
-			<h1 class="text-primary">Currículum Vitae</h1>
+		<h1 class="text-primary">Currículum Vitae</h1>
+		<div class="col-1 col-md-1"></div>
+		<div class="col-10 col-md-10">
 			<br>
 			<div class="row">
-				<div class="col-12 col-md-6">
+				<div class="col-12 col-md-5">
 
 					<span>Nombre completo:</span>
-					<h4>Juan Pedro Hernandez Gomez</h4><br>
+					<h4>{{ user.nombre }} {{ user.apellido }}</h4><br>
 
 					<span>Telefono:</span>
-					<h4>3243253</h4><br>
+					<h4>{{ cv.telefono }}</h4><br>
 
 					<span>Direccion:</span>
-					<h4>sadsadf efwef 33</h4><br>
+					<h4>{{ cv.direccion }}</h4><br>
 
 					<span>C.I:</span>
-					<h4>3 234 325 4</h4><br>
+					<h4>{{ cv.ci }}</h4><br>
 
 					<span>Correo:</span>
-					<h4>fulanito@gmail.com</h4><br>
+					<h4>{{ user.email }}</h4><br>
 
 				</div>
+				<div class="col-12 col-md-1"></div>
 				<div class="col-12 col-md-6">
 					<span>Foto:</span><br>
-					<img src="" alt="" height="200px" width="200px"><br><br>
+					<img src="cv.foto.url" alt="" height="200px" width="200px"><br><br>
 
 					<span>Formacion:</span>
-					<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem aliquid quae tempore
-						saepe, sed vel fugit assumenda, veniam architecto odio iure eaque reiciendis, non expedita animi
-						molestias incidunt! Molestias, nisi!</p>
+					<p>{{ cv.formacion }}</p>
 
 					<span>Experiencia:</span>
-					<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fuga ex laudantium nobis
-						ut iure corporis quasi, molestiae error officiis quae iste provident nisi ipsam delectus quod.
-						Sequi cupiditate distinctio quod?</p>
+					<p>{{ cv.experiencia }}</p>
 				</div>
 			</div>
 		</div>
-		<div class="col-1 col-md-2"></div>
+		<div class="col-1 col-md-1"></div>
 	</div>
 </div>
 
