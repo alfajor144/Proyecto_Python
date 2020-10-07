@@ -31,59 +31,59 @@
 
 <div class="separador"></div>
 
-<div class="row row-ofertas">
+<div class="row"  style="min-height: 400px;">
 	<!-- Lista de resultados de la busqueda -->
-	<div class="col-md-5 lista-ofertas">
+	<div class="col-md-5">
 		<h3 class="text-primary">Ofertas Laborales</h3>
 		<div class="list-group">
 
 			{% for oferta in Ofertas %}
-
-			<a href="#" class="list-group-item list-group-item-action">
+				<form class="list-group-item list-group-item-action" action="{% url 'mostrarPostulantesCalificar' %}" method="post">
+					{% csrf_token %}
+					<div class="d-flex w-100 justify-content-between">
+						<h5 class="mb-1">{{ oferta.titulo }}</h5>
+					</div>
+					<!--<p class="mb-1">{{ oferta.fecha_final }}</p>-->
+					<br>
+					<button type="submit" class="btn btn-success" name='idOf' value={{oferta.id_oferta}}>ver postulantes</button>
+				</form>
+			{% empty %}
+			<div class="list-group-item list-group-item-action">
 				<div class="d-flex w-100 justify-content-between">
-					<h5 class="mb-1">{{ oferta }}</h5>
+					<h5 class="mb-1">Ya no hay más Ofertas.</h5>
 				</div>
-				<p class="mb-1">Se busca individuo con capasidad para amasar.</p>
-				<small>desde 20/09/2020 al 25/09/2020</small>
-			</a>
-
+			</div>
 			{% endfor %}
-
-		</div>
-		<div class="mt-3">
-			<nav aria-label="Page navigation example">
-				<ul class="pagination">
-					<li class="page-item"><a class="page-link" href="#">Previo</a></li>
-					<li class="page-item"><a class="page-link" href="#">1</a></li>
-					<li class="page-item"><a class="page-link" href="#">2</a></li>
-					<li class="page-item"><a class="page-link" href="#">3</a></li>
-					<li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
-				</ul>
-			</nav>
+			<br>
 		</div>
 	</div>
 	<!-- Detalles del llamado -->
 	<div class="col-md-7">
 		<h3 class="text-primary">Postulantes</h3>
 		<div class="list-group">
+	
 
+
+			{% for p in Postulantes %}
 			<div class="list-group-item list-group-item-action">
 				<div class="row">
 					<div class="col-12 col-md-6">
-						<h4 class="mt-4">Hernesto ponse</h4>
+						<h4 class="mt-4">{{ p.nombre}}</h4>
 					</div>
 					<div class="col-12 col-md-6">
-						<form role="form">
+						<form role="form" action="{% url 'calificarEntrevista' %}" method="post">
+							{% csrf_token %}
 							<div class="form-group">
+								<input type="hidden" name="idoff" value={{idOF}} >
 								<label for="exampleFormControlSelect1">Calificacion</label>
-								<select class="form-control" id="exampleFormControlSelect1">
+								<select class="form-control" name="calif" id="exampleFormControlSelect1">
 									<option>1</option>
 									<option>2</option>
 									<option>3</option>
 									<option>4</option>
 									<option>5</option>
 								</select>
-								<button type="submit" class="mt-2 btn btn-success">
+								<button type="submit" class="mt-2 btn btn-success" name='idU' value={{p.id_usuario}}>
 									Calificar
 								</button>
 							</div>
@@ -91,89 +91,15 @@
 					</div>
 				</div>
 			</div>
-
-
+			{% empty %}
 			<div class="list-group-item list-group-item-action">
-				<div class="row">
-					<div class="col-12 col-md-6">
-						<h4 class="mt-4">Marco aurelio</h4>
-					</div>
-					<div class="col-12 col-md-6">
-						<form role="form">
-							<div class="form-group">
-								<label for="exampleFormControlSelect1">Calificacion</label>
-								<select class="form-control" id="exampleFormControlSelect1">
-									<option>1</option>
-									<option>2</option>
-									<option>3</option>
-									<option>4</option>
-									<option>5</option>
-								</select>
-								<button type="submit" class="mt-2 btn btn-success">
-									Calificar
-								</button>
-							</div>
-						</form>
-					</div>
-				</div>
+				<h5 class="mb-1">Seleccione Oferta</h5>
 			</div>
-
-
-			<div class="list-group-item list-group-item-action">
-				<div class="row">
-					<div class="col-12 col-md-6">
-						<h4 class="mt-4">Pedro Ponse</h4>
-					</div>
-					<div class="col-12 col-md-6">
-						<form role="form">
-							<div class="form-group">
-								<label for="exampleFormControlSelect1">Calificacion</label>
-								<select class="form-control" id="exampleFormControlSelect1">
-									<option>1</option>
-									<option>2</option>
-									<option>3</option>
-									<option>4</option>
-									<option>5</option>
-								</select>
-								<button type="submit" class="mt-2 btn btn-success">
-									Calificar
-								</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-
-
-			<div class="list-group-item list-group-item-action">
-				<div class="row">
-					<div class="col-12 col-md-6">
-						<h4 class="mt-4">Hernesto ponse</h4>
-					</div>
-					<div class="col-12 col-md-6">
-						<form role="form">
-							<div class="form-group">
-								<label for="exampleFormControlSelect1">Calificacion</label>
-								<select class="form-control" id="exampleFormControlSelect1">
-									<option>1</option>
-									<option>2</option>
-									<option>3</option>
-									<option>4</option>
-									<option>5</option>
-								</select>
-								<button type="submit" class="mt-2 btn btn-success">
-									Calificar
-								</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
+			{% endfor %}
 
 
 
 		</div>
-
 	</div>
 </div>
 

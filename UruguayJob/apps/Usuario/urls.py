@@ -25,5 +25,8 @@ urlpatterns = [
     path('mostrarPostulantes/', views.mostrarPostulantes, name='mostrarPostulantes'),
     path('fijarFechaEntrevista/', views.fijarFechaEntrevista, name='fijarFechaEntrevista'),
     path('definirFechaEntrevista/', views.definirFechaEntrevista, name='definirFechaEntrevista'),
-    path('verFechasDeEntrevista/', views.verFechasDeEntrevista, name='verFechasDeEntrevista')
+    path('verFechasDeEntrevista/', views.verFechasDeEntrevista, name='verFechasDeEntrevista'),
+    path('mostrarPostulantesCalificar/', views.mostrarPostulantesCalificar, name='mostrarPostulantesCalificar'),
+    path('calificarEntrevista/', views.calificarEntrevista, name='calificarEntrevista')
+
 ]

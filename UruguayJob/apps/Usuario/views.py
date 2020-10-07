@@ -279,6 +279,47 @@ def traerPostulante(request):
 
     return res2
 
+def traerPostulanteCal(request):
+    idOf = request.POST['idOf']
+    allpost = Postulacion.objects.filter(id_oferta=idOf)
+    res=[]
+    for p in allpost:
+        if p.calificacion is None and p.fecha_Definitiva is not None and p.fecha_uno is not None:
+            res.append(p.id_usuario)
+
+    users = Usuario.objects.all()
+    res2=[]
+    for o in users:
+        if o in res:
+            res2.append(o)
+
+    return res2
+
+def mostrarPostulantesCalificar(request):
+    if request.method != 'POST':
+        request.session.flush()
+        return render(request, 'iniciarSesion.html')
+
+    allpost = Postulacion.objects.all()
+    res=[]
+    for p in allpost:
+        if p.calificacion is None and p.fecha_Definitiva is not None and p.fecha_uno is not None:
+            res.append(p.id_oferta)
+
+    ofs = Oferta.objects.all()
+    res2=[]
+    for o in ofs:
+        if o in res:
+            res2.append(o)
+
+    context = {
+        #'Ofertas': LoMasRecienteRec(request)
+        'Ofertas': res2,
+        'Postulantes' : traerPostulanteCal(request),
+        'idOF': request.POST['idOf']
+    }
+    return render(request, 'calificarEntrevista.html',context)
+
 def mostrarPostulantes(request):
     if request.method != 'POST':
         request.session.flush()
@@ -372,7 +413,7 @@ def definirFechaEntrevista(request):
         postu.fecha_Definitiva=definitiva
         postu.save()
         mensaje =""
-        
+
     mensaje="Seleccione una fecha"
 
     print("-------------")
@@ -417,10 +458,57 @@ def Entrevistas(request):
 def VerCV(request):
     return render(request, 'verCurriculum.html')
 
-def Calificar(request):
-    ListaOfertas = ["Panadero", "Verdulero", "Carnicero"]
+def calificarEntrevista(request):
+    if request.method != 'POST':
+        request.session.flush()
+        return render(request, 'iniciarSesion.html')
+
+    calif = request.POST['calif']
+    idOf = request.POST['idoff']
+    idU = request.POST['idU']
+        
+    postu = Postulacion.objects.get(id_usuario = idU, id_oferta=idOf)
+    postu.calificacion = calif
+    postu.save()
+    
+    allpost = Postulacion.objects.all()
+    res=[]
+    for p in allpost:
+        if p.calificacion is None and p.fecha_Definitiva is not None and p.fecha_uno is not None:
+            res.append(p.id_oferta)
+
+    ofs = Oferta.objects.all()
+    res2=[]
+    for o in ofs:
+        if o in res:
+            res2.append(o)
+
+    rett=[]
     context = {
-        'Ofertas': ListaOfertas,
+        #'Ofertas': LoMasRecienteRec(request)
+        'Ofertas': res2,
+        'Postulantes' : rett
+    }
+    return render(request, 'calificarEntrevista.html',context)
+
+def Calificar(request):
+    allpost = Postulacion.objects.all()
+    res=[]
+    for p in allpost:
+        if p.calificacion is None and p.fecha_Definitiva is not None and p.fecha_uno is not None:
+            res.append(p.id_oferta)
+
+    ofs = Oferta.objects.all()
+    res2=[]
+    for o in ofs:
+        if o in res:
+            res2.append(o)
+
+    rett=[]
+    context = {
+        #'Ofertas': LoMasRecienteRec(request)
+        'Ofertas': res2,
+        'Postulantes' : rett
     }
     return render(request, 'calificarEntrevista.html', context )
 
