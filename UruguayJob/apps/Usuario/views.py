@@ -7,12 +7,15 @@ def NotieneCV(request):
     idU = request.session['id_usuario']
     try:
         Curriculum.objects.get(idUsu=idU)
-        return False
+        return False # si tiene cv
     except Curriculum.DoesNotExist:
-        return True
+        return True # no tiene cv
 
 
 def postularme(request):
+    if request.method != 'POST':
+        request.session.flush()
+        return render(request, 'iniciarSesion.html')
 
     p = Postulacion()
     p.id_oferta = Oferta.objects.get(id_oferta=request.POST['idOf']) 
@@ -45,7 +48,8 @@ def postularmeBusquedas(request):
         'esUsuario': True,
         'Categorias':CargarCategorias(request),
         'OfertasRec' : recortarDescripcion(request),
-        'Ofertas' : filtrarOfertas(request)
+        'Ofertas' : filtrarOfertas(request),
+        'NotieneCV':  NotieneCV(request)
     }
     return render(request, 'busquedas.html', context )
 
@@ -99,9 +103,6 @@ def cargarUruguayConcursaJson(request):
         'Categorias':CargarCategorias(request)
     }
     return render(request, 'hInvitado.html', context)
-
-def updateFoto(request):
-    print("hola")
     
 def CargarCategorias(request):
     Categorias = Categoria.objects.all() 
@@ -142,8 +143,7 @@ def HomeAdmin(request):
 
 def HomeUser(request):
     try:
-        request.session['nombre']
-        
+        request.session['nombre']   
         if(request.session['isAdmin'] == 0):
             context = {
                 'userNombre': request.session['nombre'],
@@ -774,7 +774,8 @@ def Buscar(request):
             'esUsuario': True,
             'Categorias':CargarCategorias(request),
             'OfertasRec' : recortarDescripcion(request),
-            'Ofertas' : filtrarOfertas(request)
+            'Ofertas' : filtrarOfertas(request),
+            'NotieneCV':  NotieneCV(request)
         }
         return render(request, 'busquedas.html', context )
     except KeyError:
@@ -784,7 +785,8 @@ def Buscar(request):
             'esUsuario': False,
             'Categorias':CargarCategorias(request),
             'OfertasRec' : recortarDescripcion(request),
-            'Ofertas' : filtrarOfertas(request)
+            'Ofertas' : filtrarOfertas(request),
+            'NotieneCV':  NotieneCV(request)
         }
         return render(request, 'busquedas.html', context )
 

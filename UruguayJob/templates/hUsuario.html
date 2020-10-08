@@ -27,7 +27,7 @@
 			<a href="/hacerCV"><i class="fa fa-fw fa-envelope" style="width:30px"></i>
 				Crear CV</a>
 			{% endif %}
-			
+
 			<a href="/cerrarSesion"><i class="fa fa-fw fa-user" style="width:30px; padding-right: 10px;"></i>
 				Cerrar Sesion</a>
 		</div>
@@ -100,8 +100,8 @@
 				<img src="{% static 'img/izq .jpg' %}" class="card-img-top">
 				<div class="card-body">
 					<h5 class="card-title">Yerba Mate Cagales, Compuesta Cabral</h5>
-				<p class="card-text">Ideal para personas que disfrutan tomar mate pero son sensibles al consumo de
-					estimulantes.</p>
+					<p class="card-text">Ideal para personas que disfrutan tomar mate pero son sensibles al consumo de
+						estimulantes.</p>
 				</div>
 			</div>
 
@@ -144,10 +144,15 @@
 								</div>
 							</div>
 							<div class="modal-footer">
-								<form action="{% url 'postularme' %}" method="post">
-									{% csrf_token %}
-									 <button type="submit" class="btn btn-success" name='idOf' value={{oferta.id_oferta}}>Postularme</button>
-								</form>
+								{% if NotieneCV %}
+									<span style="color: red;">Crea curriculum para Postularte</span>
+								{% else %}
+									<form action="{% url 'postularme' %}" method="post">
+										{% csrf_token %}
+										<button type="submit" class="btn btn-success" name='idOf'
+											value={{oferta.id_oferta}}>Postularme</button>
+									</form>
+								{% endif %}
 								<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
 							</div>
 						</div>
@@ -164,7 +169,9 @@
 				<img src="{% static 'img/der.jpg' %}" class="card-img-top">
 				<div class="card-body">
 					<h5 class="card-title">Credito del Mate</h5>
-				<p class="card-text">Credito del Mate es una red de locales de pagos y cobranzas de Uruguay que comprende unos 240 locales en Montevideo y otros 240 en más de 100 localidades del interior. La empresa se creó en 1993 por iniciativa de los agentes de quinielas de Montevideo.</p>
+					<p class="card-text">Credito del Mate es una red de locales de pagos y cobranzas de Uruguay que
+						comprende unos 240 locales en Montevideo y otros 240 en más de 100 localidades del interior. La
+						empresa se creó en 1993 por iniciativa de los agentes de quinielas de Montevideo.</p>
 				</div>
 			</div>
 		</div>

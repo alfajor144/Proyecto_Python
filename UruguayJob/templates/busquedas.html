@@ -20,20 +20,24 @@
 		<div class="navbar ml-md-auto" style=" display: table-cell;">
 			<!--	<a href="/busquedas"><i class="fas fa-search" style="width:30px"></i> Busquedas</a> -->
 			{% if esUsuario %}
-			<a href="/entrevistas"><i class="fas fa-bell" style="width:30px"></i> Entrevistas</a>
-			<a href="/estadistica"><i class="fas fa-chart-pie" style="width:30px"></i>
-				Estadísticas</a>
-			<a href="/hacerCV"><i class="fa fa-fw fa-envelope" style="width:30px"></i>
-				Crear CV</a>
-			<a href="/"><i class="fa fa-fw fa-user" style="width:30px; padding-right: 10px;"></i>
-				Cerrar Sesion</a>
+				<a href="/entrevistas"><i class="fas fa-bell" style="width:30px"></i> Entrevistas</a>
+				<a href="/estadistica"><i class="fas fa-chart-pie" style="width:30px"></i>
+					Estadísticas</a>
+
+					{% if NotieneCV %}
+					<a href="/hacerCV"><i class="fa fa-fw fa-envelope" style="width:30px"></i>
+						Crear CV</a>
+					{% endif %}
+
+				<a href="/"><i class="fa fa-fw fa-user" style="width:30px; padding-right: 10px;"></i>
+					Cerrar Sesion</a>
 			{% else %}
-			<a href="/hacerCV"><i class="fa fa-fw fa-envelope" style="width:30px"></i>
-				Crear CV</a>
-			<a href="/iniciar-sesion"><i class="fa fa-fw fa-user" style="width:30px; padding-right: 10px;"></i>
-				Iniciar sesión</a>
-			<a href="/registrarse"><i class="fa fa-fw fa-user" style="width:30px; padding-right: 10px;"></i>
-				Registrarme</a>
+				<a href="/hacerCV"><i class="fa fa-fw fa-envelope" style="width:30px"></i>
+					Crear CV</a>
+				<a href="/iniciar-sesion"><i class="fa fa-fw fa-user" style="width:30px; padding-right: 10px;"></i>
+					Iniciar sesión</a>
+				<a href="/registrarse"><i class="fa fa-fw fa-user" style="width:30px; padding-right: 10px;"></i>
+					Registrarme</a>
 			{% endif %}
 		</div>
 	</div>
@@ -141,10 +145,16 @@
 				<div class="row">
 					<div class="col-3">
 						{% if esUsuario %}
-							<form class="m-1 p-1" action="{% url 'postularmeBusquedas' %}" method="post">
-								{% csrf_token %}
-								<button type="submit" class="btn btn-success" name='idOf' value={{o.id_oferta}}>Postularme</button>
-							</form>
+
+							{% if NotieneCV %}
+									<span style="color: red;">Crea curriculum para Postularte</span>
+							{% else %}
+								<form class="m-1 p-1" action="{% url 'postularmeBusquedas' %}" method="post">
+									{% csrf_token %}
+									<button type="submit" class="btn btn-success" name='idOf' value={{o.id_oferta}}>Postularme</button>
+								</form>
+							{% endif %}
+
 						{% endif %}
 					</div>
 					<div class="col-9 mt-2">
