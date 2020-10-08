@@ -22,8 +22,12 @@
 			<a href="/entrevistas"><i class="fas fa-bell" style="width:30px"></i> Entrevistas</a>
 			<a href="/estadistica"><i class="fas fa-chart-pie" style="width:30px"></i>
 				Estadísticas</a>
+
+			{% if NotieneCV %}
 			<a href="/hacerCV"><i class="fa fa-fw fa-envelope" style="width:30px"></i>
 				Crear CV</a>
+			{% endif %}
+			
 			<a href="/cerrarSesion"><i class="fa fa-fw fa-user" style="width:30px; padding-right: 10px;"></i>
 				Cerrar Sesion</a>
 		</div>

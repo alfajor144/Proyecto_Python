@@ -33,29 +33,47 @@
 {% load static %}
 <!-- Detalles del llamado -->
 <div class="col-md-6" style="padding-top: 100px; width: fit-content;margin: auto;">
-	<div class="row" >
+	<div class="row">
 		<h1 class="text-primary">Currículum Vitae</h1>
 		<br>
-		<form action="{% url 'cargarCV' %}" method="post">
+		<form action="{% url 'cargarCV' %}" method="post" enctype="multipart/form-data">
 			{% csrf_token %}
 			<div class="form-group">
-				<label for="direccionid">Direccion</label>
-				<input type="text" class="form-control" name="direccion" id="direccionid">
 
-				<label for="telefonoid">telefono</label>
-				<input type="text" class="form-control" name="telefono" id="telefonoid">
+				<div class="row">
+					<div class="col-12 col-md-8">
+						<label for="direccionid">Direccion</label>
+						<input type="text" class="form-control" name="direccion" id="direccionid">
 
-				<label for="ciid">C.I.</label>
-				<input type="text" class="form-control" name="ci" id="ciid">
+						<label for="telefonoid">telefono</label>
+						<input type="text" class="form-control" name="telefono" id="telefonoid">
+
+						<label for="ciid">C.I.</label>
+						<input type="text" class="form-control" name="ci" id="ciid">
+					</div>
+					<div class="col-12 col-md-4">
+						<label for="fotoid">Foto</label><br>
+						<img src="" alt="" height="200px" width="200px" id="output"><br><br>
+						<input id="fotoid" type="file" name="foto" class="form-control-file" accept="image/*"
+							onchange="loadFile(event)">
+					</div>
+				</div>
+
+				<script>
+					var loadFile = function (event) {
+						var output = document.getElementById('output');
+						output.src = URL.createObjectURL(event.target.files[0]);
+						output.onload = function () {
+							URL.revokeObjectURL(output.src) // free memory
+						}
+					};
+				</script>
 
 				<label for="experienciaid">Experiencia</label>
 				<textarea class="form-control" id="experienciaid" name="experiencia" rows="3"></textarea>
 
 				<label for="formacionid">formacion</label>
 				<textarea class="form-control" id="formacionid" name="formacion" rows="3"></textarea>
-
-				<label for="fotoid">Foto</label>
-				<input type="file" class="form-control-file" name="foto" id="fotoid">
 			</div>
 			<br>
 			<button class="btn btn-danger" data-dismiss="modal">Cancelar</button>

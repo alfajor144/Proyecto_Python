@@ -3,6 +3,15 @@ from apps.Usuario.models import Usuario, Oferta, Categoria, masBuscados, Curricu
 
 import json
 
+def NotieneCV(request):
+    idU = request.session['id_usuario']
+    try:
+        Curriculum.objects.get(idUsu=idU)
+        return False
+    except Curriculum.DoesNotExist:
+        return True
+
+
 def postularme(request):
 
     p = Postulacion()
@@ -14,9 +23,12 @@ def postularme(request):
         'userNombre': request.session['nombre'],
         'Ofertas': LoMasReciente(request),
         'OfertasRec': LoMasRecienteRec(request),
-        'Categorias': CargarCategorias(request)
+        'Categorias': CargarCategorias(request),
+        'NotieneCV': NotieneCV(request)
     }
     return render(request, 'hUsuario.html', context)
+
+
 
 def postularmeBusquedas(request):
     if request.method != 'POST':
@@ -114,7 +126,8 @@ def HomeAdmin(request):
                 'userNombre': request.session['nombre'],
                 'Ofertas': LoMasReciente(request),
                 'OfertasRec': LoMasRecienteRec(request),
-                'Categorias': CargarCategorias(request)
+                'Categorias': CargarCategorias(request),
+                'NotieneCV': NotieneCV(request)
             }
             return render(request, 'hUsuario.html', context)
     except KeyError: 
@@ -136,7 +149,8 @@ def HomeUser(request):
                 'userNombre': request.session['nombre'],
                 'Ofertas': LoMasReciente(request),
                 'OfertasRec': LoMasRecienteRec(request),
-                'Categorias':CargarCategorias(request)
+                'Categorias':CargarCategorias(request),
+                'NotieneCV': NotieneCV(request)
             }
             return render(request, 'hUsuario.html', context)
         else:
@@ -469,7 +483,6 @@ def cargarCV(request):
     ci= request.POST['ci']
     experiencia= request.POST['experiencia']
     formacion= request.POST['formacion']
-    foto= request.POST['foto']
 
     cv = Curriculum()
     cv.direccion =direccion 
@@ -477,7 +490,7 @@ def cargarCV(request):
     cv.ci =ci
     cv.experiencia =experiencia
     cv.formacion =formacion
-    cv.foto = foto
+    cv.foto = request.FILES.get('foto')
     cv.idUsu = idUsu
     cv.save()
 
@@ -488,7 +501,8 @@ def cargarCV(request):
         'userNombre': request.session['nombre'],
         'Ofertas': LoMasReciente(request),
         'OfertasRec': LoMasRecienteRec(request),
-        'Categorias': CargarCategorias(request)
+        'Categorias': CargarCategorias(request),
+        'NotieneCV': NotieneCV(request)
     }
     return render(request, 'hUsuario.html', context)
 
@@ -801,7 +815,8 @@ def RegistrarUsuario(request):
        
         context = {
             'userNombre': request.session['nombre'],
-            'Categorias':CargarCategorias(request)
+            'Categorias':CargarCategorias(request),
+            'NotieneCV': NotieneCV(request)
         }
         return render(request, 'hUsuario.html', context)
 
@@ -832,7 +847,8 @@ def InciarSesion(request):
                     'userNombre': request.session['nombre'],
                     'Ofertas': LoMasReciente(request),
                     'OfertasRec': LoMasRecienteRec(request),
-                    'Categorias':CargarCategorias(request)
+                    'Categorias':CargarCategorias(request),
+                    'NotieneCV': NotieneCV(request)
                 }
                 return render(request, 'hUsuario.html', context)
         else:

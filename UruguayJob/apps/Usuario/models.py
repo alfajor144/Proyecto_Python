@@ -17,7 +17,7 @@ class Curriculum(models.Model):
     ci = models.CharField('telefono', max_length = 10, blank = True, null = True)
     experiencia = models.TextField(blank = True, null = True)
     formacion = models.TextField(blank = True, null = True)
-    foto = models.ImageField(upload_to='updateFoto', blank=True, null=True)
+    foto = models.ImageField(upload_to='updateFoto/', blank=True, null=True)
     idUsu = models.OneToOneField(Usuario, on_delete=models.CASCADE)
 
 class Oferta(models.Model):
