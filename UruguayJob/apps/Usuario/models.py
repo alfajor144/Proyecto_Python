@@ -29,6 +29,8 @@ class Oferta(models.Model):
     fecha_final = models.DateField('fecha final')
     Usuario_id = models.ManyToManyField(Usuario, related_name='Postulacion', through='Postulacion')
 
+    #puesto = models.IntegerField('puesto', blank = True, null = True)
+
 class Postulacion(models.Model):
     id_oferta = models.ForeignKey(Oferta, on_delete = models.CASCADE)
     id_usuario = models.ForeignKey(Usuario, on_delete = models.CASCADE)
@@ -47,11 +49,6 @@ class SubCategoria(models.Model):
     id_Sub =  models.AutoField(primary_key = True)
     nombre = models.CharField('Nombre', max_length = 50, blank = False, null = False)
     id_Categoria = models.ForeignKey(Categoria, on_delete = models.CASCADE, null = True)
-
-class masBuscados(models.Model):
-    id_buscado =  models.AutoField(primary_key = True)
-    puesto = models.IntegerField(blank = False, null = False)
-    id_Oferta = models.ForeignKey(Oferta, on_delete = models.CASCADE, null = True)
 
 class UruguayConcursa(models.Model):
     nro_llamado = models.CharField(primary_key = True, max_length = 100)

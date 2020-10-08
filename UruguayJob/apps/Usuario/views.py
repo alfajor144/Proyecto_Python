@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from apps.Usuario.models import Usuario, Oferta, Categoria, masBuscados, Curriculum, UruguayConcursa,Postulacion
+from apps.Usuario.models import Usuario, Oferta, Categoria, Curriculum, UruguayConcursa,Postulacion
 
 import json
 
@@ -10,7 +10,6 @@ def NotieneCV(request):
         return False # si tiene cv
     except Curriculum.DoesNotExist:
         return True # no tiene cv
-
 
 def postularme(request):
     if request.method != 'POST':
@@ -43,7 +42,6 @@ def postularmeBusquedas(request):
     p.id_usuario = Usuario.objects.get(id_usuario=request.session['id_usuario'])
     p.save()
 
-    #ingresarOfertasAMasBuscados(request, filtrarOfertas(request))
     context = {
         'esUsuario': True,
         'Categorias':CargarCategorias(request),
@@ -83,7 +81,7 @@ def cargarUruguayConcursaJson(request):
             uc.organismo = p['organismo']
             uc.comentario_interes = p['comentario_interes']
             uc.save()
-    
+
     allUC = UruguayConcursa.objects.all() 
     for uc in allUC:
         o = Oferta()
@@ -94,6 +92,11 @@ def cargarUruguayConcursaJson(request):
         o.fecha_inicio = uc.fecha_inicio
         o.fecha_final = uc.fecha_fin
         o.save()
+
+        c = Categoria()
+        c.nombre = uc.tipo_tarea
+        c.id_Oferta = Oferta.objects.get(id_oferta=uc.nro_llamado)
+        c.save()
 
     #lo siguiente puede que no valla, vos ves
     request.session.flush()
@@ -740,36 +743,15 @@ def recortarDescripcion(request):
         o.descripcion = o.descripcion[:101] + "..."
     return Ofertas
 
-def ingresarOfertasAMasBuscados(request, listOfertas):
-    #mbssss =  masBuscados.objects.all()
-    #if len(mbssss) > 0:
-
-     #   for o in listOfertas:
-    #    mbs = masBuscados.objects.all()
-     #       for m in mbs:
-     #           if m.id_Oferta == o:
-     #               m.puesto = m.puesto + 1
-     #               m.save()
-
-    #else:
-     #   for o in listOfertas:
-     #       mbs = masBuscados()
-     #       mbs.puesto = 1
-      #      mbs.id_Oferta = Oferta.objects.get(id_oferta=o.id_oferta) 
-      #      mbs.save()
-      print("ingresarOfertasAMasBuscados")
+def incrementarPuesto(request, listOfertas):
+    print("hola")
 
 def Buscar(request):
-    if request.method != 'POST':
-        request.session.flush()
-        return render(request, 'iniciarSesion.html')
     #print(request.POST['keyWord'])
     try:
         request.session['nombre']
 
-        #--- algoritmo para buscar ofertas y determinar lo mas buscado-------- 
-
-        ingresarOfertasAMasBuscados(request, filtrarOfertas(request))
+        #incrementarPuesto(request, filtrarOfertas(request))
         context = {
             'esUsuario': True,
             'Categorias':CargarCategorias(request),
@@ -780,13 +762,12 @@ def Buscar(request):
         return render(request, 'busquedas.html', context )
     except KeyError:
 
-        ingresarOfertasAMasBuscados(request, filtrarOfertas(request))
+        #incrementarPuesto(request, filtrarOfertas(request))
         context = {
             'esUsuario': False,
             'Categorias':CargarCategorias(request),
             'OfertasRec' : recortarDescripcion(request),
-            'Ofertas' : filtrarOfertas(request),
-            'NotieneCV':  NotieneCV(request)
+            'Ofertas' : filtrarOfertas(request)
         }
         return render(request, 'busquedas.html', context )
 
