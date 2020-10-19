@@ -541,9 +541,11 @@ def calificarEntrevista(request):
     calif = request.POST['calif']
     idOf = request.POST['idoff']
     idU = request.POST['idU']
+    comentario = request.POST['comentario']
         
     postu = Postulacion.objects.get(id_usuario = idU, id_oferta=idOf)
     postu.calificacion = calif
+    postu.comentario = comentario
     postu.save()
     
     allpost = Postulacion.objects.all()

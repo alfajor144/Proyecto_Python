@@ -39,6 +39,7 @@ class Postulacion(models.Model):
     fecha_dos = models.DateField('fecha dos',blank = True, null = True)
     fecha_tres = models.DateField('fecha tres',blank = True, null = True)
     fecha_Definitiva = models.DateField('Definitiva',blank = True, null = True)
+    comentario = models.TextField(blank = True, null = True)
 
 class Categoria(models.Model):
     id =  models.AutoField(primary_key = True)
@@ -58,13 +59,13 @@ class UruguayConcursa(models.Model):
     tipo_tarea = models.CharField('tipo_tarea', max_length = 100, blank = False, null = False)
     tipo_vinculo = models.CharField('tipo_vinculo', max_length = 100, blank = False, null = False)
     tiempo_contrato = models.CharField('tiempo_contrato', max_length = 100, blank = False, null = False)
-    descripcion = models.CharField('descripcion', max_length = 100, blank = False, null = False)
-    requisitos = models.CharField('requisitos', max_length = 100, blank = False, null = False)
-    recepcion_postulaciones = models.CharField('recepcion_postulaciones', max_length = 100, blank = False, null = False)
-    recepcion_consultas = models.CharField('recepcion_consultas', max_length = 100, blank = False, null = False)
+    descripcion =  models.TextField(blank = True, null = True)
+    requisitos =  models.TextField(blank = True, null = True)
+    recepcion_postulaciones = models.TextField(blank = True, null = True)
+    recepcion_consultas =  models.TextField(blank = True, null = True)
     telefono_consultas = models.CharField('telefono_consultas', max_length = 100, blank = False, null = False)
     organismo = models.CharField('organismo', max_length = 100, blank = False, null = False)
-    comentario_interes = models.CharField('comentario_interes', max_length = 100, blank = False, null = False)
+    comentario_interes =  models.TextField(blank = True, null = True)
 
 
 
