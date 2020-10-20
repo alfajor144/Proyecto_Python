@@ -25,13 +25,12 @@ def postularme(request):
         'userNombre': request.session['nombre'],
         'Ofertas': LoMasReciente(request),
         'OfertasRec': LoMasRecienteRec(request),
-        'Categorias': CargarCategorias(request),
+        'CategoriasBJ': CargarCategoriasBJ(request),
+        'CategoriasUC': CargarCategoriasUC(request),
         'NotieneCV': NotieneCV(request),
         'SubCategorias':CargarSubCategorias(request)
     }
     return render(request, 'hUsuario.html', context)
-
-
 
 def postularmeBusquedas(request):
     if request.method != 'POST':
@@ -45,10 +44,12 @@ def postularmeBusquedas(request):
 
     context = {
         'esUsuario': True,
-        'Categorias':CargarCategorias(request),
+        'CategoriasBJ': CargarCategoriasBJ(request),
+        'CategoriasUC': CargarCategoriasUC(request),
         'OfertasRec' : recortarDescripcion(request),
         'Ofertas' : filtrarOfertas(request),
-        'NotieneCV':  NotieneCV(request)
+        'NotieneCV':  NotieneCV(request),
+        'SubCategorias':CargarSubCategorias(request)
     }
     return render(request, 'busquedas.html', context )
 
@@ -61,7 +62,6 @@ def formatDate(request, oldDate):
 
 def formatDateTime(request, oldDate):
     return oldDate[0:10]
-
 
 def CargarSubCategorias(request):
     Sub = SubCategoriaBJ.objects.all() 
@@ -159,7 +159,8 @@ def cargarBuscoJobJson(request):
     context = {
         'Ofertas': LoMasReciente(request),
         'OfertasRec': LoMasRecienteRec(request),
-        'Categorias':CargarCategorias(request),
+        'CategoriasBJ': CargarCategoriasBJ(request),
+        'CategoriasUC': CargarCategoriasUC(request),
         'SubCategorias':CargarSubCategorias(request)
     }
     return render(request, 'hInvitado.html', context)
@@ -213,7 +214,8 @@ def cargarUruguayConcursaJson(request):
     context = {
         'Ofertas': LoMasReciente(request),
         'OfertasRec': LoMasRecienteRec(request),
-        'Categorias':CargarCategorias(request),
+        'CategoriasBJ': CargarCategoriasBJ(request),
+        'CategoriasUC': CargarCategoriasUC(request),
         'SubCategorias':CargarSubCategorias(request)
     }
     return render(request, 'hInvitado.html', context)
@@ -787,18 +789,20 @@ def getOfertasCategoria(request, allOfertas):
         if request.POST['categoria'] != 'N/A':
             ofertCat = []
             allCategorias = CategoriaUC.objects.all()
+
             for n in allCategorias:
                 if n.nombre == request.POST['categoria']:
                     ofertCat.append(n) 
-
+                    
             res=[]
             for d in ofertCat:
-                res.append(d.id_Oferta)
+                res.append(d.id)
 
             result=[]
             for of in allOfertas:
                 if of in res:
                     result.append(of)
+                    
             return result
         else:
             return allOfertas
@@ -815,7 +819,7 @@ def getOfertasCategoria(request, allOfertas):
 
                 res=[]
                 for d in ofertCat:
-                    res.append(d.id_Oferta)
+                    res.append(d.id)
 
                 result=[]
                 for of in allOfertas:
@@ -836,7 +840,7 @@ def getOfertasCategoria(request, allOfertas):
 
                 res=[]
                 for d in ofertCat:
-                    res.append(d.id_Oferta)
+                    res.append(d.id)
 
                 result=[]
                 for of in allOfertas:
@@ -930,7 +934,6 @@ def RegistrarUsuario(request):
             'userNombre': request.session['nombre'],
             'CategoriasBJ': CargarCategoriasBJ(request),
             'CategoriasUC': CargarCategoriasUC(request),
-            'SubCategorias':CargarSubCategorias(request),
             'NotieneCV': NotieneCV(request),
             'SubCategorias':CargarSubCategorias(request)
         }
@@ -965,7 +968,6 @@ def InciarSesion(request):
                     'OfertasRec': LoMasRecienteRec(request),
                     'CategoriasBJ': CargarCategoriasBJ(request),
                     'CategoriasUC': CargarCategoriasUC(request),
-                    'SubCategorias':CargarSubCategorias(request),
                     'NotieneCV': NotieneCV(request),
                     'SubCategorias':CargarSubCategorias(request)
                 }
@@ -999,7 +1001,6 @@ def CerrarSesion(request):
         'OfertasRec': LoMasRecienteRec(request),
         'CategoriasBJ': CargarCategoriasBJ(request),
         'CategoriasUC': CargarCategoriasUC(request),
-        'SubCategorias':CargarSubCategorias(request),
         'SubCategorias':CargarSubCategorias(request)
     }
     return render(request, 'hInvitado.html', context)

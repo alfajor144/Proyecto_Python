@@ -109,6 +109,7 @@
 
 					<script>
 						function mostrarDetalle(val) {
+							
 							op = document.getElementById(val);
 							var idCateg = op.getAttribute("name");
 
@@ -120,17 +121,12 @@
 							}
 							else {
 
-
 								divSubC.style.display = "block";
 								selectSub = document.getElementById('sub');
 								var ops = selectSub.options;
 								
 								$(function () {
 									$(ops).each(function (i) {
-
-										console.log($(this).attr('id'));
-
-
 										if ($(this).attr('id') == idCateg) {
 											$(this).css("display", "block");
 										}
