@@ -31,22 +31,24 @@
 
 <div class="separador"></div>
 
-<div class="row"  style="min-height: 400px;">
+<div class="row" style="min-height: 400px;">
 	<!-- Lista de resultados de la busqueda -->
 	<div class="col-md-5">
 		<h3 class="text-primary">Ofertas Laborales</h3>
 		<div class="list-group">
 
 			{% for oferta in Ofertas %}
-				<form class="list-group-item list-group-item-action" action="{% url 'mostrarPostulantesCalificar' %}" method="post">
-					{% csrf_token %}
-					<div class="d-flex w-100 justify-content-between">
-						<h5 class="mb-1">{{ oferta.titulo }}</h5>
-					</div>
-					<!--<p class="mb-1">{{ oferta.fecha_final }}</p>-->
-					<br>
-					<button type="submit" class="btn btn-success" name='idOf' value={{oferta.id_oferta}}>ver postulantes</button>
-				</form>
+			<form class="list-group-item list-group-item-action" action="{% url 'mostrarPostulantesCalificar' %}"
+				method="post">
+				{% csrf_token %}
+				<div class="d-flex w-100 justify-content-between">
+					<h5 class="mb-1">{{ oferta.titulo }}</h5>
+				</div>
+				<!--<p class="mb-1">{{ oferta.fecha_final }}</p>-->
+				<br>
+				<button type="submit" class="btn btn-success" name='idOf' value={{oferta.id_oferta}}>ver
+					postulantes</button>
+			</form>
 			{% empty %}
 			<div class="list-group-item list-group-item-action">
 				<div class="d-flex w-100 justify-content-between">
@@ -61,43 +63,55 @@
 	<div class="col-md-7">
 		<h3 class="text-primary">Postulantes</h3>
 		<div class="list-group">
-	
+
 
 
 			{% for p in Postulantes %}
 			<div class="list-group-item list-group-item-action">
-				<div class="row">
-					<div class="col-12 col-md-6">
-						<h4 class="mt-4">{{ p.nombre}}</h4>
-					</div>
-					<div class="col-12 col-md-6">
+				
+					
+						<h4 class="mt-4">{{ p.nombre}} {{ p.apellido}}</h4>
+					
+					
 						<form role="form" action="{% url 'calificarEntrevista' %}" method="post">
 							{% csrf_token %}
-							<div class="form-group">
-								<input type="hidden" name="idoff" value={{idOF}} >
-								<label for="exampleFormControlSelect1">Calificacion</label>
+							<div class="row">
+								<div class="col-12 col-md-9">
+									<div class="form-group">
+										<label for="comentario">Comentario</label>
+										<textarea class="form-control" id="comentario" name="comentario"
+											rows="3"></textarea>
+									</div>
+								</div>
+								<div class="col-12 col-md-3">
+									<div class="form-group">
+										<input type="hidden" name="idoff" value={{idOF}}>
+										<label for="exampleFormControlSelect1">Calificacion</label>
 
-								<input type="text" name="comentario">
-
-								<select class="form-control" name="calif" id="exampleFormControlSelect1">
-									<option>1</option>
-									<option>2</option>
-									<option>3</option>
-									<option>4</option>
-									<option>5</option>
-									<option>6</option>
-									<option>7</option>
-									<option>8</option>
-									<option>9</option>
-									<option>10</option>
-								</select>
-								<button type="submit" class="mt-2 btn btn-success" name='idU' value={{p.id_usuario}}>
-									Calificar
-								</button>
+										<select class="form-control" name="calif" id="exampleFormControlSelect1">
+											<option>1</option>
+											<option>2</option>
+											<option>3</option>
+											<option>4</option>
+											<option>5</option>
+											<option>6</option>
+											<option>7</option>
+											<option>8</option>
+											<option>9</option>
+											<option>10</option>
+										</select>
+										<button type="submit" class="mt-2 btn btn-success" name='idU'
+											value={{p.id_usuario}}>
+											Calificar
+										</button>
+									</div>
+								</div>
 							</div>
+
+
 						</form>
-					</div>
-				</div>
+					
+				
 			</div>
 			{% empty %}
 			<div class="list-group-item list-group-item-action">
