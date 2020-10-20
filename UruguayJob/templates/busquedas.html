@@ -57,35 +57,96 @@
 			{% csrf_token %}
 			<div class="row">
 				<div class="col-12 col-lg-4">
+
 					<div class="form-group">
-						<label for="exampleInputEmail1">
+						<label for="qb">
 							¿Qué estás buscando?
 						</label>
-						<input type="text" name="keyWord" class="form-control" id="exampleInputEmail1">
+						<input type="text" name="keyWord" class="form-control" id="qb">
 					</div>
+
+					<div class="form-group">
+						<label for="cat">Categoría</label>
+						<select class="form-control" name="categoria" id="cat"
+							onchange="mostrarDetalle(this.value);return false;">
+							<option id="N/A" name="N/A">N/A</option>
+							{% for Categoria in CategoriasBJ %}
+							<option id="{{ Categoria.nombre }}" name="{{ Categoria.id }}">{{ Categoria.nombre }}
+							</option>
+							{% endfor %}
+
+							{% for CategoriaUC in CategoriasUC %}
+							<option id="{{ CategoriaUC.nombre }}" name="name">{{ CategoriaUC.nombre }}
+							</option>
+							{% endfor %}
+						</select>
+					</div>
+
 				</div>
 				<div class="col-12 col-lg-5">
 
 					<div class="form-group">
-						<label for="exampleFormControlSelect1">País</label>
-						<select class="form-control" name="pais" id="exampleFormControlSelect1">
+						<label for="loca">Locación</label>
+						<select class="form-control" name="pais" id="loca">
 							<option>N/A</option>
 							<option>Uruguay</option>
-							<option>Argentina</option>
+							<option>Freelance</option>
 						</select>
 					</div>
 
 					<div class="form-group">
-						<label for="exampleFormControlSelect1">Categoría</label>
-						<select class="form-control" name="categoria" id="exampleFormControlSelect1">
-							<option>N/A</option>
-							{% for Categoria in Categorias %}
-							<option>{{ Categoria }}</option>
-							{% endfor %}
-						</select>
+						<!--<div id="subC" style="display: none;">-->
+						<div id="subC">
+							<label for="sub">Sub Categoría</label>
+							<select class="form-control" name="subCategoria" id="sub">
+								<option id="N/A">N/A</option>
+								{% for sub in SubCategorias %}
+								<option id="{{ sub.CategoriaUC.id }}" style="display: none;">{{ sub.nombre }}</option>
+								{% endfor %}
+							</select>
+						</div>
 					</div>
-				</div>
 
+					<script>
+						function mostrarDetalle(val) {
+							op = document.getElementById(val);
+							var idCateg = op.getAttribute("name");
+
+							divSubC = document.getElementById('subC');
+
+							Selectcat = document.getElementById('cat');
+							if (Selectcat.value == 'N/A') {
+								//divSubC.style.display = "none";
+							}
+							else {
+
+
+								divSubC.style.display = "block";
+								selectSub = document.getElementById('sub');
+								var ops = selectSub.options;
+								
+								$(function () {
+									$(ops).each(function (i) {
+
+										console.log($(this).attr('id'));
+
+
+										if ($(this).attr('id') == idCateg) {
+											$(this).css("display", "block");
+										}
+										else {
+											$(this).css("display", "none");
+										}
+									});
+								});
+
+							}
+
+						}
+					</script>
+
+
+				</div>
 				<div class="col-12 col-lg-3">
 					<div class="form-group my-4">
 						<button type="submit" class="btn btn-success">

@@ -20,6 +20,19 @@ class Curriculum(models.Model):
     foto = models.ImageField(upload_to='updateFoto/', blank=True, null=True)
     idUsu = models.OneToOneField(Usuario, on_delete=models.CASCADE)
 
+class CategoriaUC(models.Model):
+    id =  models.AutoField(primary_key = True)
+    nombre = models.CharField('Nombre', max_length = 50, blank = False, null = False)
+
+class CategoriaBJ(models.Model):
+    id =  models.AutoField(primary_key = True)
+    nombre = models.CharField('Nombre', max_length = 50, blank = False, null = False)
+
+class SubCategoriaBJ(models.Model):
+    id_Sub =  models.AutoField(primary_key = True)
+    nombre = models.CharField('Nombre', max_length = 50, blank = False, null = False)
+    CategoriaUC = models.ForeignKey(CategoriaBJ, on_delete = models.CASCADE, null = True)
+
 class Oferta(models.Model):
     id_oferta =  models.CharField(primary_key = True, max_length = 100)
     titulo = models.CharField('Titulo', max_length = 200, blank = False, null = False)
@@ -28,7 +41,8 @@ class Oferta(models.Model):
     fecha_inicio = models.DateField('fecha inicio')
     fecha_final = models.DateField('fecha final')
     Usuario_id = models.ManyToManyField(Usuario, related_name='Postulacion', through='Postulacion')
-
+    CategoriaUC = models.ForeignKey(CategoriaUC, on_delete = models.CASCADE, null = True)
+    SubCategoriaBJ = models.ForeignKey(SubCategoriaBJ, on_delete = models.CASCADE, null = True)
     #puesto = models.IntegerField('puesto', blank = True, null = True)
 
 class Postulacion(models.Model):
@@ -41,15 +55,7 @@ class Postulacion(models.Model):
     fecha_Definitiva = models.DateField('Definitiva',blank = True, null = True)
     comentario = models.TextField(blank = True, null = True)
 
-class Categoria(models.Model):
-    id =  models.AutoField(primary_key = True)
-    nombre = models.CharField('Nombre', max_length = 50, blank = False, null = False)
-    id_Oferta = models.ForeignKey(Oferta, on_delete = models.CASCADE, null = True)
 
-class SubCategoria(models.Model):
-    id_Sub =  models.AutoField(primary_key = True)
-    nombre = models.CharField('Nombre', max_length = 50, blank = False, null = False)
-    id_Categoria = models.ForeignKey(Categoria, on_delete = models.CASCADE, null = True)
 
 class UruguayConcursa(models.Model):
     nro_llamado = models.CharField(primary_key = True, max_length = 100)
