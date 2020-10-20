@@ -40,34 +40,103 @@
 			{% csrf_token %}
 			<div class="row">
 				<div class="col-12 col-lg-4">
+
 					<div class="form-group">
-						<label for="exampleInputEmail1">
+						<label for="qb">
 							¿Qué estás buscando?
 						</label>
-						<input type="text" name="keyWord" class="form-control" id="exampleInputEmail1">
-					</div>
-				</div>
-				<div class="col-12 col-lg-5">
-
-					<div class="form-group">
-						<label for="exampleFormControlSelect1">País</label>
-						<select class="form-control" name="pais" id="exampleFormControlSelect1">
-							<option>N/A</option>
-							<option>Uruguay</option>
-							<option>Argentina</option>
-						</select>
+						<input type="text" name="keyWord" class="form-control" id="qb">
 					</div>
 
 					<div class="form-group">
-						<label for="exampleFormControlSelect1">Categoría</label>
-						<select class="form-control" name="categoria" id="exampleFormControlSelect1">
-							<option>N/A</option>
+						<label for="cat">Categoría</label>
+						<select class="form-control" name="categoria" id="cat"
+							onchange="mostrarDetalle(this.value);return false;">
+							<option id="N/A" name="N/A">N/A</option>
 							{% for Categoria in Categorias %}
-							<option>{{ Categoria }}</option>
+							<option id="{{ Categoria.nombre }}" name="{{ Categoria.id }}">{{ Categoria.nombre }}
+							</option>
 							{% endfor %}
 						</select>
 					</div>
 
+				</div>
+				<div class="col-12 col-lg-5">
+
+					<div class="form-group">
+						<label for="loca">Locación</label>
+						<select class="form-control" name="pais" id="loca">
+							<option>N/A</option>
+							<option>Uruguay</option>
+							<option>Freelance</option>
+						</select>
+					</div>
+
+					<div class="form-group">
+						<div id="subC" style="display: none;">
+							<label for="sub">Sub Categoría</label>
+							<select class="form-control" name="subCategoria" id="sub">
+								<option id="N/A">N/A</option>
+								{% for sub in SubCategorias %}
+								<option id="{{ sub.id_Categoria.id }}" style="display: none;">{{ sub.nombre }}</option>
+								{% endfor %}
+							</select>
+						</div>
+					</div>
+
+					<script>
+						function mostrarDetalle(val) {
+							op = document.getElementById(val);
+							var idCateg = op.getAttribute("name");
+
+							divSubC = document.getElementById('subC');
+
+							Selectcat = document.getElementById('cat');
+							if (Selectcat.value == 'N/A') {
+								divSubC.style.display = "none";
+							}
+							else {
+								divSubC.style.display = "block";
+
+								selectSub = document.getElementById('sub');
+
+								var ops = selectSub.options;
+
+								
+
+								$(function () {
+									$(ops).each(function (i) {
+										
+										
+										console.log($(this).attr('id'));
+										console.log(idCateg);
+
+
+										if ($(this).attr('id') == idCateg) {
+											$(this).css("display", "block");
+										}
+										else{
+											$(this).css("display", "none");
+										}
+									});
+								});
+
+								//ops.forEach(element => console.log(element));
+
+								/*
+								ops.forEach(element => {
+									if(element.getAttribute('id') == idCateg){
+										element.style.visibility = 'visible';
+									}
+									console.log(element);
+								});
+								*/
+								// document.getElementById(idCateg)
+
+							}
+
+						}
+					</script>
 
 
 				</div>
@@ -93,7 +162,9 @@
 			<img src="{% static 'img/izq .jpg' %}" class="card-img-top">
 			<div class="card-body">
 				<h5 class="card-title">La mejor opcion en busqueda de trabajo</h5>
-				<p class="card-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nisi aspernatur magni asperiores, hic ipsa, id assumenda deleniti neque, laudantium debitis et facilis nihil aliquid? Asperiores placeat vero corrupti repellendus velit.</p>
+				<p class="card-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nisi aspernatur magni
+					asperiores, hic ipsa, id assumenda deleniti neque, laudantium debitis et facilis nihil aliquid?
+					Asperiores placeat vero corrupti repellendus velit.</p>
 			</div>
 		</div>
 
@@ -151,7 +222,9 @@
 			<img src="{% static 'img/der.jpg' %}" class="card-img-top">
 			<div class="card-body">
 				<h5 class="card-title">Te aseguramos un futuro</h5>
-				<p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda ducimus odio dolor exercitationem distinctio adipisci dolorem. Non amet eaque commodi esse cumque, fuga ab natus nostrum repellendus ut doloribus ad!</p>
+				<p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda ducimus odio
+					dolor exercitationem distinctio adipisci dolorem. Non amet eaque commodi esse cumque, fuga ab natus
+					nostrum repellendus ut doloribus ad!</p>
 			</div>
 		</div>
 	</div>

@@ -26,7 +26,8 @@ def postularme(request):
         'Ofertas': LoMasReciente(request),
         'OfertasRec': LoMasRecienteRec(request),
         'Categorias': CargarCategorias(request),
-        'NotieneCV': NotieneCV(request)
+        'NotieneCV': NotieneCV(request),
+        'SubCategorias':CargarSubCategorias(request)
     }
     return render(request, 'hUsuario.html', context)
 
@@ -60,6 +61,11 @@ def formatDate(request, oldDate):
 
 def formatDateTime(request, oldDate):
     return oldDate[0:10]
+
+
+def CargarSubCategorias(request):
+    Sub = SubCategoria.objects.all() 
+    return Sub 
 
 def cargarBuscoJobJson(request):
     #http://localhost:8000/loadBJ
@@ -106,7 +112,9 @@ def cargarBuscoJobJson(request):
         c.save()
 
         sb = SubCategoria()
-        sb.nombre = BuscoJob.objects.get(nro_llamado = bj.nro_llamado).subCategoria
+        e = BuscoJob.objects.get(nro_llamado = bj.nro_llamado).subCategoria[2:]
+        f=e[:-2]
+        sb.nombre = f
         sb.id_Categoria = Categoria.objects.get(id=c.id)
         sb.save()
 
@@ -115,7 +123,8 @@ def cargarBuscoJobJson(request):
     context = {
         'Ofertas': LoMasReciente(request),
         'OfertasRec': LoMasRecienteRec(request),
-        'Categorias':CargarCategorias(request)
+        'Categorias':CargarCategorias(request),
+        'SubCategorias':CargarSubCategorias(request)
     }
     return render(request, 'hInvitado.html', context)
 
@@ -164,18 +173,18 @@ def cargarUruguayConcursaJson(request):
     context = {
         'Ofertas': LoMasReciente(request),
         'OfertasRec': LoMasRecienteRec(request),
-        'Categorias':CargarCategorias(request)
+        'Categorias':CargarCategorias(request),
+        'SubCategorias':CargarSubCategorias(request)
     }
     return render(request, 'hInvitado.html', context)
     
 def CargarCategorias(request):
     Categorias = Categoria.objects.all() 
-
-    final_list = [] 
-    for num in Categorias: 
-        if num.nombre not in final_list: 
-            final_list.append(num.nombre) 
-    return final_list 
+    res=[]
+    for x in Categorias:
+        if x.nombre not in res:
+            res.append(x)
+    return res 
 
 def HomeAdmin(request):
     try:
@@ -192,7 +201,8 @@ def HomeAdmin(request):
                 'Ofertas': LoMasReciente(request),
                 'OfertasRec': LoMasRecienteRec(request),
                 'Categorias': CargarCategorias(request),
-                'NotieneCV': NotieneCV(request)
+                'NotieneCV': NotieneCV(request),
+                'SubCategorias':CargarSubCategorias(request)
             }
             return render(request, 'hUsuario.html', context)
     except KeyError: 
@@ -201,7 +211,8 @@ def HomeAdmin(request):
             context = {
                 'Ofertas': LoMasReciente(request),
                 'OfertasRec': LoMasRecienteRec(request),
-                'Categorias':CargarCategorias(request)
+                'Categorias':CargarCategorias(request),
+                'SubCategorias':CargarSubCategorias(request)
             }
             return render(request, 'hInvitado.html', context)
 
@@ -214,7 +225,8 @@ def HomeUser(request):
                 'Ofertas': LoMasReciente(request),
                 'OfertasRec': LoMasRecienteRec(request),
                 'Categorias':CargarCategorias(request),
-                'NotieneCV': NotieneCV(request)
+                'NotieneCV': NotieneCV(request),
+                'SubCategorias':CargarSubCategorias(request)
             }
             return render(request, 'hUsuario.html', context)
         else:
@@ -223,7 +235,8 @@ def HomeUser(request):
             context = {
                 'Ofertas': LoMasReciente(request),
                 'OfertasRec': LoMasRecienteRec(request),
-                'Categorias':CargarCategorias(request)
+                'Categorias':CargarCategorias(request),
+                'SubCategorias':CargarSubCategorias(request)
             }
             return render(request, 'hInvitado.html', context)
     except KeyError: 
@@ -232,7 +245,8 @@ def HomeUser(request):
             context = {
                 'Ofertas': LoMasReciente(request),
                 'OfertasRec': LoMasRecienteRec(request),
-                'Categorias':CargarCategorias(request)
+                'Categorias':CargarCategorias(request),
+                'SubCategorias':CargarSubCategorias(request)
             }
             return render(request, 'hInvitado.html', context)
 
@@ -256,7 +270,8 @@ def HomeInvitado(request):
     context = {
         'Ofertas': LoMasReciente(request),
         'OfertasRec': LoMasRecienteRec(request),
-        'Categorias':CargarCategorias(request)
+        'Categorias':CargarCategorias(request),
+        'SubCategorias':CargarSubCategorias(request)
         
     }
     return render(request, 'hInvitado.html', context)
@@ -566,7 +581,8 @@ def cargarCV(request):
         'Ofertas': LoMasReciente(request),
         'OfertasRec': LoMasRecienteRec(request),
         'Categorias': CargarCategorias(request),
-        'NotieneCV': NotieneCV(request)
+        'NotieneCV': NotieneCV(request),
+        'SubCategorias':CargarSubCategorias(request)
     }
     return render(request, 'hUsuario.html', context)
 
@@ -862,7 +878,8 @@ def RegistrarUsuario(request):
         context = {
             'userNombre': request.session['nombre'],
             'Categorias':CargarCategorias(request),
-            'NotieneCV': NotieneCV(request)
+            'NotieneCV': NotieneCV(request),
+            'SubCategorias':CargarSubCategorias(request)
         }
         return render(request, 'hUsuario.html', context)
 
@@ -894,7 +911,8 @@ def InciarSesion(request):
                     'Ofertas': LoMasReciente(request),
                     'OfertasRec': LoMasRecienteRec(request),
                     'Categorias':CargarCategorias(request),
-                    'NotieneCV': NotieneCV(request)
+                    'NotieneCV': NotieneCV(request),
+                    'SubCategorias':CargarSubCategorias(request)
                 }
                 return render(request, 'hUsuario.html', context)
         else:
@@ -924,7 +942,8 @@ def CerrarSesion(request):
         
         'Ofertas': LoMasReciente(request),
         'OfertasRec': LoMasRecienteRec(request),
-        'Categorias':CargarCategorias(request)
+        'Categorias':CargarCategorias(request),
+        'SubCategorias':CargarSubCategorias(request)
     }
     return render(request, 'hInvitado.html', context)
 
