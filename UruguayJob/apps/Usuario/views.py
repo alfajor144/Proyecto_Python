@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from apps.Usuario.models import Usuario, Oferta, Categoria, Curriculum, UruguayConcursa,Postulacion
+from apps.Usuario.models import Usuario, Oferta, Categoria, Curriculum, UruguayConcursa,Postulacion,BuscoJob, SubCategoria
 
 import json
 
@@ -58,8 +58,69 @@ def formatDate(request, oldDate):
     newDate = year + "-" + month + "-" + day
     return newDate
 
+def formatDateTime(request, oldDate):
+    return oldDate[0:10]
+
+def cargarBuscoJobJson(request):
+    #http://localhost:8000/loadBJ
+    #para verlas ir adamin
+    with open('buscojobs.json',encoding='utf8') as json_file:
+        data = json.load(json_file)
+        for p in data:
+            bj = BuscoJob()
+            bj.nro_llamado = p['nro_llamado']
+            bj.fecha_inicio = formatDateTime(request, p['fecha_inicio']) 
+            bj.fecha_fin = formatDateTime(request, p['fecha_fin'])
+            bj.titulo = p['titulo']
+
+            desc = ""
+            for n in p['descripcion']:
+                desc = desc + n + ", "
+            desc = desc + "fin."
+
+            bj.descripcion = desc
+
+            bj.empresa_nombre =p['empresa_nombre']
+            bj.lugar = p['lugar']
+            bj.jornada_laboral = p['jornada_laboral']
+            bj.puestos_vacantes = p['puestos_vacantes']
+            bj.categoria = p['categoria_padre']
+            bj.subCategoria = p['categoria']
+            bj.requisitos = p['requisitos']
+            bj.save()
+
+    allBJ = BuscoJob.objects.all() 
+    for bj in allBJ:
+        o = Oferta()
+        o.id_oferta = bj.nro_llamado
+        o.titulo = bj.titulo
+        o.descripcion = bj.descripcion 
+        o.pais = "Uruguay"
+        o.fecha_inicio = bj.fecha_inicio
+        o.fecha_final = bj.fecha_fin
+        o.save()
+
+        c = Categoria()
+        c.nombre = bj.categoria
+        c.id_Oferta = Oferta.objects.get(id_oferta=bj.nro_llamado)
+        c.save()
+
+        sb = SubCategoria()
+        sb.nombre = BuscoJob.objects.get(nro_llamado = bj.nro_llamado).subCategoria
+        sb.id_Categoria = Categoria.objects.get(id=c.id)
+        sb.save()
+
+    #lo siguiente puede que no valla, vos ves
+    request.session.flush()
+    context = {
+        'Ofertas': LoMasReciente(request),
+        'OfertasRec': LoMasRecienteRec(request),
+        'Categorias':CargarCategorias(request)
+    }
+    return render(request, 'hInvitado.html', context)
+
 def cargarUruguayConcursaJson(request):
-    #http://localhost:8000/loadUC
+    #http://localhost:8000/loadBJ
     #para verlas ir adamin
 
     with open('datos.json',encoding='utf8') as json_file:

@@ -14,13 +14,15 @@ urlpatterns = [
     path('verCV/', views.verCV, name='verCV'),
     path('hacerCV/', views.hacerCV, name='hacerCV'),
 
-    # -------------- FUNCIONALIDADES JULIO---------------------------------
+    # -------------- CARGA DE DATOS DESDE JSONs--------------------------------
+    path('loadUC/', views.cargarUruguayConcursaJson, name='cargarUruguayConcursaJson'),
+    path('loadBJ/', views.cargarBuscoJobJson, name='cargarBuscoJobJson'),
+    # -------------- FUNCIONALIDADES---------------------------------
     path('registrarUsuario/', views.RegistrarUsuario, name='registrarUsuario'),
     path('inciarSesion/', views.InciarSesion, name='inciarSesion'),
     path('buscar/', views.Buscar, name='buscar'),
     path('getAllUsers/', views.GetAllUsers, name='getAllUsers'),
     path('cerrarSesion/', views.CerrarSesion, name='cerrarSesion'),
-    path('loadUC/', views.cargarUruguayConcursaJson, name='cargarUruguayConcursaJson'),
     path('postularme/', views.postularme, name='postularme'),
     path('postularmeBusquedas/', views.postularmeBusquedas, name='postularmeBusquedas'),
     path('mostrarPostulantes/', views.mostrarPostulantes, name='mostrarPostulantes'),

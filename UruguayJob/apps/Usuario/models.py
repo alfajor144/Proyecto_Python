@@ -67,6 +67,20 @@ class UruguayConcursa(models.Model):
     organismo = models.CharField('organismo', max_length = 100, blank = False, null = False)
     comentario_interes =  models.TextField(blank = True, null = True)
 
+class BuscoJob(models.Model):
+    nro_llamado = models.CharField(primary_key = True, max_length = 100)
+    fecha_inicio = models.DateField('fecha_inicio', max_length = 100, blank = False, null = False)
+    fecha_fin = models.DateField('fecha_fin', max_length = 100, blank = False, null = False)
+    titulo = models.CharField('titulo', max_length = 100, blank = False, null = False)
+    descripcion =  models.TextField(blank = True, null = True)
+    empresa_nombre = models.CharField('empresa_nombre', max_length = 100, blank = False, null = False)
+    lugar = models.CharField('lugar', max_length = 100, blank = False, null = False)
+    jornada_laboral = models.CharField('jornada_laboral', max_length = 100, blank = False, null = False)
+    puestos_vacantes = models.CharField('puestos_vacantes', max_length = 100, blank = False, null = False)
+    categoria = models.CharField('categoria', max_length = 100, blank = False, null = False)
+    subCategoria = models.CharField('subCategoria', max_length = 100, blank = False, null = False)
+    requisitos = models.CharField('requisitos', max_length = 100, blank = False, null = False)
+    
 
 
 
