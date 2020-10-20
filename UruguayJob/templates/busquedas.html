@@ -67,8 +67,10 @@
 
 					<div class="form-group">
 						<label for="cat">Categoría</label>
+
 						<select class="form-control" name="categoria" id="cat"
-							onchange="mostrarDetalle(this.value);return false;">
+							onchange="foo(this.value);">
+
 							<option id="N/A" name="N/A">N/A</option>
 							{% for Categoria in CategoriasBJ %}
 							<option id="{{ Categoria.nombre }}" name="{{ Categoria.id }}">{{ Categoria.nombre }}
@@ -108,19 +110,18 @@
 					</div>
 
 					<script>
-						function mostrarDetalle(val) {
-							
+						function foo(val){
 							op = document.getElementById(val);
 							var idCateg = op.getAttribute("name");
-
 							divSubC = document.getElementById('subC');
-
 							Selectcat = document.getElementById('cat');
+							
 							if (Selectcat.value == 'N/A') {
 								//divSubC.style.display = "none";
+								
 							}
 							else {
-
+								
 								divSubC.style.display = "block";
 								selectSub = document.getElementById('sub');
 								var ops = selectSub.options;
@@ -137,7 +138,6 @@
 								});
 
 							}
-
 						}
 					</script>
 

@@ -782,73 +782,60 @@ def getOfertasPais(request, allOfertas):
             else:
                 return allOfertas
 
-
 def getOfertasCategoria(request, allOfertas):
-
     try:
         if request.POST['categoria'] != 'N/A':
-            ofertCat = []
-            allCategorias = CategoriaUC.objects.all()
+            if existeCatUC(request, request.POST['categoria']):
+                catUC = CategoriaUC.objects.get(nombre=request.POST['categoria'])
+                res=[]
+                for of in allOfertas:
+                    if of.CategoriaUC == catUC:
+                        res.append(of)
+                return res
+            else: 
+                if existeCatBJ(request, request.POST['categoria']):
+                    catBJ = CategoriaBJ.objects.get(nombre=request.POST['categoria'])
 
-            for n in allCategorias:
-                if n.nombre == request.POST['categoria']:
-                    ofertCat.append(n) 
-                    
-            res=[]
-            for d in ofertCat:
-                res.append(d.id)
+                    if request.POST['subCategoria'] != 'N/A':
 
-            result=[]
-            for of in allOfertas:
-                if of in res:
-                    result.append(of)
-                    
-            return result
+                        subCat = SubCategoriaBJ.objects.get(nombre=request.POST['subCategoria'])
+                        oferts=[]
+                        for of in allOfertas:
+                            if of.SubCategoriaBJ == subCat:
+                                oferts.append(of)
+                        return oferts
+                    else:
+                        allSubCats = SubCategoriaBJ.objects.all()
+
+                        subCats = []
+                        for s in allSubCats:
+                            if s.CategoriasBJ == catBJ:
+                                subCats.append(s)
+
+                        oferts=[]
+                        for of in allOfertas:
+                            if of.SubCategoriaBJ in subCats:
+                                oferts.append(of)
+                        return oferts
+                else:
+                    return allOfertas
         else:
             return allOfertas
-
     except KeyError:
         try:
             categoria = request.session['categoria']
             if categoria != 'N/A':
-                ofertCat = []
-                allCategorias = CategoriaUC.objects.all()
-                for n in allCategorias:
-                    if n.nombre == categoria:
-                        ofertCat.append(n) 
-
+                catUC = CategoriaUC.objects.get(nombre=request.POST['categoria'])
                 res=[]
-                for d in ofertCat:
-                    res.append(d.id)
-
-                result=[]
                 for of in allOfertas:
-                    if of in res:
-                        result.append(of)
-                return result
+                    if of.CategoriaUC == catUC:
+                        res.append(of)
+                return res
             else:
                 return allOfertas
 
         except KeyError:
-            categoria = "N/A"
-            if categoria != 'N/A':
-                ofertCat = []
-                allCategorias = CategoriaUC.objects.all()
-                for n in allCategorias:
-                    if n.nombre == categoria:
-                        ofertCat.append(n) 
-
-                res=[]
-                for d in ofertCat:
-                    res.append(d.id)
-
-                result=[]
-                for of in allOfertas:
-                    if of in res:
-                        result.append(of)
-                return result
-            else:
-                return allOfertas
+            return allOfertas
 
 def getAllOfertasMenosPostuladas(request):
     try: 
@@ -983,7 +970,6 @@ def InciarSesion(request):
             'msg2':"No hay ningun usuario con ese correo :("
         }
         return render(request, 'iniciarSesion.html', context)
-
 
 def GetAllUsers(request):
     Usuarios = Usuario.objects.all()
