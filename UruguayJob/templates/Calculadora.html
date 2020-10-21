@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+<title>Ver CV</title>
+{% endblock %}
+
+{% block header %}
+{% load static %}
+<nav class="navbar navbar-toggleable-md navbar-expand-lg navbar-light  fixed-top bg-primary">
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+		<a class="m-0 ml-3 p-0" href="/usuario">
+			<img class="m-0 p-0" src="{% static 'img/logo.jpg' %}" alt="Logo"
+				style="width:50px; height: 50px; border-radius: 30px;">
+		</a>
+
+		<div class="navbar ml-md-auto" style=" display: table-cell;">
+			<!--	<a href="/busquedas"><i class="fas fa-search" style="width:30px"></i> Busquedas</a> -->
+			<a href="/entrevistas"><i class="fas fa-bell" style="width:30px"></i>Entrevistas</a>
+			<a href="/estadistica"><i class="fas fa-chart-pie" style="width:30px"></i>
+				Estadísticas</a>
+
+			{% if NotieneCV %}
+			<a href="/hacerCV"><i class="fa fa-fw fa-envelope" style="width:30px"></i>
+				Crear CV</a>
+			{% endif %}
+
+			<a href="/cerrarSesion"><i class="fa fa-fw fa-user" style="width:30px; padding-right: 10px;"></i>
+				Cerrar Sesion</a>
+		</div>
+	</div>
+</nav>
+{% endblock %}
+
+{% block body %}
+{% load static %}
+<!-- Detalles del llamado -->
+<div class="col-md-6" style="padding-top: 100px; width: fit-content;margin: auto;">
+	<div class="row">
+		<h1 class="text-primary">Calculadora de Habilidades</h1>
+		<br>
+		<form action="{% url 'Calcular' %}" method="post">
+			{% csrf_token %}
+			<div class="form-group">
+				<div class="row mt-2">
+					<div class="col-9 col-md-10">
+						<label for="direccionid">Ingrese habilidad</label>
+						<input type="text" class="form-control" name="habilidad" id="habilidadid">
+					</div>
+					<div class="col-3 col-md-2">
+						<button type="button" name="btn" class="btn btn-primary m-2 mt-4"
+							onclick="cargar(event);">Agregar</button>
+					</div>
+				</div>
+				<label for="habilidadesid">Lista de habilidad:</label>
+				<textarea readonly class="form-control" name="habilidades" id="habilidadesid" rows="2"
+					style="width: 100%;"></textarea>
+
+				<script>
+					function cargar(event) {
+						inputEl = document.getElementById('habilidadid');
+						textAr = document.getElementById('habilidadesid').value += inputEl.value + "; ";
+						inputEl.value = "";
+					}
+				</script>
+			</div>
+			<hr>
+			<div class="form-group">
+				<div class="row mt-2">
+					<div class="col-9 col-md-10">
+						<label>Posible sueldo:</label>
+						<textarea readonly class="form-control" name="sueldo" id="habilidadesid" rows="1"
+							style="width: 100%;">{{ Sueldo }}</textarea>
+					</div>
+					<div class="col-3 col-md-2">
+						<button type="submit" name="btn" class="btn btn-primary m-2 mt-4">Consultar</button>
+					</div>
+				</div>
+			</div>
+			<br>
+		</form>
+	</div>
+</div>
+
+{% endblock %}

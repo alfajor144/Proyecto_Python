@@ -3,6 +3,33 @@ from apps.Usuario.models import Usuario, Oferta, SubCategoriaBJ, Curriculum, Uru
 
 import json
 
+def getSueldo(request, habilidades):
+    
+    habs = habilidades.split("; ")
+    
+    return 23
+
+def calculadora(request):
+
+    context = {
+        'userNombre': request.session['nombre'],
+        'NotieneCV': NotieneCV(request),
+        'Sueldo' : ""
+    }
+    return render(request, 'Calculadora.html', context)
+
+def Calcular(request):
+    if request.method != 'POST':
+        request.session.flush()
+        return render(request, 'iniciarSesion.html')
+
+    context = {
+        'userNombre': request.session['nombre'],
+        'NotieneCV': NotieneCV(request),
+        'Sueldo' : getSueldo(request, request.POST['habilidades'])
+    }
+    return render(request, 'Calculadora.html', context)
+
 def NotieneCV(request):
     idU = request.session['id_usuario']
     try:
@@ -915,6 +942,7 @@ def RegistrarUsuario(request):
         request.session['id_usuario'] = usr.id_usuario
         request.session['nombre'] = usr.nombre
         request.session['apellido'] = usr.apellido
+        request.session['email'] = usr.email
         request.session['isAdmin'] = usr.isAdmin
        
         context = {
@@ -938,6 +966,7 @@ def InciarSesion(request):
                 request.session['id_usuario'] = usr.id_usuario
                 request.session['nombre'] = usr.nombre
                 request.session['apellido'] = usr.apellido
+                request.session['email'] = usr.email
                 request.session['isAdmin'] = usr.isAdmin
                 context = {
                     'userNombre': request.session['nombre']

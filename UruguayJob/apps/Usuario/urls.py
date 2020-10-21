@@ -13,6 +13,7 @@ urlpatterns = [
     path('iniciar-sesion/', views.IniciarSesion, name='iniciar-sesion'),
     path('verCV/', views.verCV, name='verCV'),
     path('hacerCV/', views.hacerCV, name='hacerCV'),
+    path('calculadora/', views.calculadora, name='calculadora'),
 
     # -------------- CARGA DE DATOS DESDE JSONs--------------------------------
     path('loadUC/', views.cargarUruguayConcursaJson, name='cargarUruguayConcursaJson'),
@@ -31,7 +32,8 @@ urlpatterns = [
     path('verFechasDeEntrevista/', views.verFechasDeEntrevista, name='verFechasDeEntrevista'),
     path('mostrarPostulantesCalificar/', views.mostrarPostulantesCalificar, name='mostrarPostulantesCalificar'),
     path('calificarEntrevista/', views.calificarEntrevista, name='calificarEntrevista'),
-    path('cargarCV/', views.cargarCV, name='cargarCV')
+    path('cargarCV/', views.cargarCV, name='cargarCV'),
+    path('Calcular/', views.Calcular, name='Calcular')
 
 
 ]
