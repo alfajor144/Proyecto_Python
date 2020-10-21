@@ -55,8 +55,6 @@ class Postulacion(models.Model):
     fecha_Definitiva = models.DateField('Definitiva',blank = True, null = True)
     comentario = models.TextField(blank = True, null = True)
 
-
-
 class UruguayConcursa(models.Model):
     nro_llamado = models.CharField(primary_key = True, max_length = 100)
     titulo = models.CharField('titulo', max_length = 100, blank = False, null = False)
@@ -87,6 +85,17 @@ class BuscoJob(models.Model):
     subCategoria = models.CharField('subCategoria', max_length = 100, blank = False, null = False)
     requisitos = models.CharField('requisitos', max_length = 100, blank = False, null = False)
     
+class Perfil(models.Model):
+    id_perfil = models.CharField(primary_key = True, max_length = 100)
+    saldo = models.DecimalField(max_digits=5, decimal_places=2)
+
+class Habilidad(models.Model):
+    nombre = models.CharField(primary_key = True, max_length = 100)
+    id_Perfil = models.ManyToManyField(Perfil, related_name='HPer', through='HPer')
+
+class HPer(models.Model):
+    id_perf = models.ForeignKey(Perfil, on_delete = models.CASCADE)
+    nomb_hab = models.ForeignKey(Habilidad, on_delete = models.CASCADE)
 
 
 

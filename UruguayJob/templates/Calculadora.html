@@ -45,25 +45,24 @@
 		<form action="{% url 'Calcular' %}" method="post">
 			{% csrf_token %}
 			<div class="form-group">
-				<div class="row mt-2">
-					<div class="col-9 col-md-10">
-						<label for="direccionid">Ingrese habilidad</label>
-						<input type="text" class="form-control" name="habilidad" id="habilidadid">
-					</div>
-					<div class="col-3 col-md-2">
-						<button type="button" name="btn" class="btn btn-primary m-2 mt-4"
-							onclick="cargar(event);">Agregar</button>
-					</div>
-				</div>
+				
+				<label for="selectHabId">Ingrese habilidad</label>
+
+				<select class="form-control" name="habilidad" id="selectHabId" onchange="foo(this.value);">
+					<option id=""></option>
+					{% for habilidad in habilidades %}
+					<option id="{{ habilidad.nombre }}">{{ habilidad.nombre }}</option>
+					{% endfor %}
+				</select>
+
+
 				<label for="habilidadesid">Lista de habilidad:</label>
 				<textarea readonly class="form-control" name="habilidades" id="habilidadesid" rows="2"
 					style="width: 100%;"></textarea>
 
 				<script>
-					function cargar(event) {
-						inputEl = document.getElementById('habilidadid');
-						textAr = document.getElementById('habilidadesid').value += inputEl.value + "; ";
-						inputEl.value = "";
+					function foo(val){
+						document.getElementById('habilidadesid').value += val + "; ";
 					}
 				</script>
 			</div>

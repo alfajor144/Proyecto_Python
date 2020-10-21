@@ -1,19 +1,108 @@
 from django.shortcuts import render, redirect
-from apps.Usuario.models import Usuario, Oferta, SubCategoriaBJ, Curriculum, UruguayConcursa,Postulacion,BuscoJob, CategoriaUC, CategoriaBJ
+from apps.Usuario.models import Usuario, Oferta, SubCategoriaBJ, Curriculum, UruguayConcursa,Postulacion,BuscoJob, CategoriaUC, CategoriaBJ, Perfil, Habilidad, HPer
 
 import json
+
+
+def existeHab(request, nombre):
+    try:
+        Habilidad.objects.get(nombre = nombre)
+        return True
+    except Habilidad.DoesNotExist:
+        return False
+
+def existePer(request, id_perfil):
+    try:
+        Perfil.objects.get(id_perfil = id_perfil)
+        return True
+    except Perfil.DoesNotExist:
+        return False
+
+def cargarHabilidades(request):
+     #http://localhost:8000/loadHab
+    #para verlas ir adamin
+    with open('perfiles.json',encoding='utf8') as json_file:
+        data = json.load(json_file)
+        for p in data:
+            if not existePer(request, p['id_perfil']):
+                pe = Perfil()
+                pe.id_perfil = p['id_perfil']
+                pe.saldo = p['precio']
+                pe.save()
+
+            for hab in p['habilidades']:
+                if not existeHab(request, p['habilidades']):
+                    h = Habilidad()
+                    h.nombre = hab
+                    h.save()
+
+                    hp = HPer()
+                    hp.id_perf =Perfil.objects.get(id_perfil = p['id_perfil'])
+                    hp.nomb_hab = Habilidad.objects.get(nombre = hab)
+                    hp.save()
+
+    request.session.flush()
+    context = {
+        'Ofertas': LoMasReciente(request),
+        'OfertasRec': LoMasRecienteRec(request),
+        'CategoriasBJ': CargarCategoriasBJ(request),
+        'CategoriasUC': CargarCategoriasUC(request),
+        'SubCategorias':CargarSubCategorias(request)
+    }
+    return render(request, 'hInvitado.html', context)
+
+def getPreciosMax(request, hh):
+    allHPer = HPer.objects.all()
+
+    precios=[]
+    for hp in allHPer:
+        if hp.nomb_hab.nombre == hh.nombre:
+            precios.append(hp.id_perf.saldo)
+    return max(precios)
+
+def getPreciosMin(request, hh):
+    allHPer = HPer.objects.all()
+
+    precios=[]
+    for hp in allHPer:
+        if hp.nomb_hab.nombre == hh.nombre:
+            precios.append(hp.id_perf.saldo)
+    return min(precios)
 
 def getSueldo(request, habilidades):
     
     habs = habilidades.split("; ")
+    res=[]
+    for h in habs:
+        if h != '':
+            res.append(h)
     
-    return 23
+    habis=[]
+    for r in res:
+        h = Habilidad.objects.get(nombre=r)
+        habis.append(h)
+
+    perciosMin=[]
+    for hh in habis:
+        perciosMin.append(getPreciosMin(request, hh))
+
+    minimo = sum(perciosMin)
+
+    perciosMax=[]
+    for hh in habis:
+        perciosMax.append(getPreciosMax(request, hh))
+
+    maximo = sum(perciosMax)
+
+    msg = "Desde: $"+ str(minimo*50) + ", Hasta: $"+str(maximo*50)+"."
+    return msg
 
 def calculadora(request):
 
     context = {
         'userNombre': request.session['nombre'],
         'NotieneCV': NotieneCV(request),
+        'habilidades':Habilidad.objects.all(),
         'Sueldo' : ""
     }
     return render(request, 'Calculadora.html', context)
@@ -26,6 +115,7 @@ def Calcular(request):
     context = {
         'userNombre': request.session['nombre'],
         'NotieneCV': NotieneCV(request),
+        'habilidades':Habilidad.objects.all(),
         'Sueldo' : getSueldo(request, request.POST['habilidades'])
     }
     return render(request, 'Calculadora.html', context)
@@ -357,17 +447,32 @@ def Registrarse(request):
 def IniciarSesion(request):
     return render(request, 'iniciarSesion.html')
 
+def chartPieData(request):
+
+    datos=[]
+    allHab = Habilidad.objects.all()
+    for ha in allHab:
+        dato = {
+            "habilidad": ha.nombre,
+            "Sueldo": getPreciosMin(request, ha)*50
+        }
+        datos.append(dato)
+
+    return datos
+
 def Estadistica(request):
     try:
         request.session['nombre']
         context = {
             'isLoged': True,
+            'datos': chartPieData(request)
         }
         return render(request, 'estadistica.html',context) 
     except KeyError: 
         request.session.flush()
         context = {
             'isLoged': False,
+            'datos': chartPieData(request)
         }
         return render(request, 'estadistica.html',context)
 

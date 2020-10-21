@@ -18,6 +18,7 @@ urlpatterns = [
     # -------------- CARGA DE DATOS DESDE JSONs--------------------------------
     path('loadUC/', views.cargarUruguayConcursaJson, name='cargarUruguayConcursaJson'),
     path('loadBJ/', views.cargarBuscoJobJson, name='cargarBuscoJobJson'),
+    path('loadHab/', views.cargarHabilidades, name='cargarHabilidades'),
     # -------------- FUNCIONALIDADES---------------------------------
     path('registrarUsuario/', views.RegistrarUsuario, name='registrarUsuario'),
     path('inciarSesion/', views.InciarSesion, name='inciarSesion'),
