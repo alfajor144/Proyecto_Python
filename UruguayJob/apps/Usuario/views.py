@@ -58,6 +58,10 @@ def getPreciosMax(request, hh):
     for hp in allHPer:
         if hp.nomb_hab.nombre == hh.nombre:
             precios.append(hp.id_perf.saldo)
+    
+    #per = sum(precios)/len(precios)
+    #red = round(per, 2)
+    #return red
     return max(precios)
 
 def getPreciosMin(request, hh):
@@ -454,7 +458,8 @@ def chartPieData(request):
     for ha in allHab:
         dato = {
             "habilidad": ha.nombre,
-            "Sueldo": getPreciosMin(request, ha)*50
+            "SueldoMax": getPreciosMin(request, ha)*50,
+            "SueldoMin": getPreciosMax(request, ha)*50
         }
         datos.append(dato)
 
