@@ -169,16 +169,24 @@
 		<div class="list-group">
 
 			{% for OfertasRe in OfertasRec %}
-			<a href="#" data-toggle="modal" data-target="#{{ forloop.counter }}"
-				class="list-group-item list-group-item-action">
-				<div class="d-flex w-100 justify-content-between">
-					<h5 class="mb-1">{{ OfertasRe.titulo }}</h5>
+			<!--
+				<a href="#" data-toggle="modal" data-target="#{{ forloop.counter }}"
+					class="list-group-item list-group-item-action">
+					<div class="d-flex w-100 justify-content-between">
+						<h5 class="mb-1">{{ OfertasRe.titulo }}</h5>
+					</div>
+					<p class="mb-1">{{ OfertasRe.descripcion }}</p>
+				</a>-->
+				<div class="list-group-item list-group-item-action">
+					<div class="d-flex w-100 justify-content-between">
+						<h5 class="mb-1">{{ OfertasRe.titulo }}</h5>
+					</div>
+					<p class="mb-1">{{ OfertasRe.descripcion }}</p>
 				</div>
-				<p class="mb-1">{{ OfertasRe.descripcion }}</p>
-			</a>
 			{% endfor %}
 
 			{% for oferta in Ofertas %}
+			<!--
 			<div class="modal fade" id="{{ forloop.counter }}" tabindex="-1" role="dialog"
 				aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog" role="document">
@@ -199,6 +207,7 @@
 					</div>
 				</div>
 			</div>
+			-->
 			{% endfor %}
 
 		</div>

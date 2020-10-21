@@ -2,7 +2,49 @@ from django.shortcuts import render, redirect
 from apps.Usuario.models import Usuario, Oferta, SubCategoriaBJ, Curriculum, UruguayConcursa,Postulacion,BuscoJob, CategoriaUC, CategoriaBJ, Perfil, Habilidad, HPer
 
 import json
+#python manage.py makemigrations
+#python manage.py migrate
+#python manage.py runserver
+#http://localhost:8000/loadBJ
+#http://localhost:8000/loadUC
+#http://localhost:8000/loadHab
 
+#http://localhost:8000/cargarBD
+
+def cargarBD(request):
+    cargarUruguayConcursaJson(request)
+    cargarBuscoJobJson(request)
+    cargarTwagoJson(request)
+    cargarHabilidades(request)
+    request.session.flush()
+    context = {
+        'Ofertas': LoMasReciente(request),
+        'OfertasRec': LoMasRecienteRec(request),
+        'CategoriasBJ': CargarCategoriasBJ(request),
+        'CategoriasUC': CargarCategoriasUC(request),
+        'SubCategorias':CargarSubCategorias(request)
+    }
+    return render(request, 'hInvitado.html', context)
+
+def cargarTwagoJson(request):
+    with open('ofertas_twago.json',encoding='utf8') as json_file:
+        data = json.load(json_file)
+        for p in data:
+            o = Oferta()
+            o.id_oferta = p['id_oferta']
+            o.titulo = p['titulo']
+            o.descripcion = p['descripcion'] + ", Presupuesto: "+ p['presupuesto'] + "."
+            o.pais = 'Freelancer'
+            o.fecha_inicio = p['fecha_inicio']
+            o.fecha_final = p['fecha_fin']
+            if not existeCatUC(request, p['requisitos'][0]):
+                cuc = CategoriaUC()
+                cuc.nombre= p['requisitos'][0]
+                cuc.save()
+                o.CategoriaUC = cuc
+            else:
+                o.CategoriaUC = CategoriaUC.objects.get(nombre = p['requisitos'][0])
+            o.save()
 
 def existeHab(request, nombre):
     try:
@@ -40,16 +82,6 @@ def cargarHabilidades(request):
                     hp.id_perf =Perfil.objects.get(id_perfil = p['id_perfil'])
                     hp.nomb_hab = Habilidad.objects.get(nombre = hab)
                     hp.save()
-
-    request.session.flush()
-    context = {
-        'Ofertas': LoMasReciente(request),
-        'OfertasRec': LoMasRecienteRec(request),
-        'CategoriasBJ': CargarCategoriasBJ(request),
-        'CategoriasUC': CargarCategoriasUC(request),
-        'SubCategorias':CargarSubCategorias(request)
-    }
-    return render(request, 'hInvitado.html', context)
 
 def getPreciosMax(request, hh):
     allHPer = HPer.objects.all()
@@ -220,7 +252,6 @@ def cargarBuscoJobJson(request):
     #http://localhost:8000/loadBJ
     #para verlas ir adamin
 
-
     with open('buscojobs.json',encoding='utf8') as json_file:
         data = json.load(json_file)
         for p in data:
@@ -275,17 +306,6 @@ def cargarBuscoJobJson(request):
         o.SubCategoriaBJ = SubCategoriaBJ.objects.get(nombre = m)
         o.save()
 
-    #lo siguiente puede que no valla, vos ves
-    request.session.flush()
-    context = {
-        'Ofertas': LoMasReciente(request),
-        'OfertasRec': LoMasRecienteRec(request),
-        'CategoriasBJ': CargarCategoriasBJ(request),
-        'CategoriasUC': CargarCategoriasUC(request),
-        'SubCategorias':CargarSubCategorias(request)
-    }
-    return render(request, 'hInvitado.html', context)
-
 def cargarUruguayConcursaJson(request):
     #http://localhost:8000/loadUC
     #para verlas ir adamin
@@ -329,17 +349,6 @@ def cargarUruguayConcursaJson(request):
         catUC = UruguayConcursa.objects.get(nro_llamado = uc.nro_llamado).tipo_tarea
         o.CategoriaUC = CategoriaUC.objects.get(nombre = catUC )
         o.save()
-
-    #lo siguiente puede que no valla, vos ves
-    request.session.flush()
-    context = {
-        'Ofertas': LoMasReciente(request),
-        'OfertasRec': LoMasRecienteRec(request),
-        'CategoriasBJ': CargarCategoriasBJ(request),
-        'CategoriasUC': CargarCategoriasUC(request),
-        'SubCategorias':CargarSubCategorias(request)
-    }
-    return render(request, 'hInvitado.html', context)
     
 def CargarCategoriasUC(request):
     catsUC = CategoriaUC.objects.all()
