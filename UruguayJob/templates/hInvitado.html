@@ -55,12 +55,14 @@
 							onchange="mostrarDetalle(this.value);return false;">
 							<option id="N/A" name="N/A">N/A</option>
 							{% for Categoria in CategoriasBJ %}
-							<option id="{{ Categoria.nombre }}" name="{{ Categoria.id }}">{{ Categoria.nombre }}
+							<option id="{{ Categoria.nombre }}" name="{{ Categoria.id }}" style="display: none;">
+								{{ Categoria.nombre }}
 							</option>
 							{% endfor %}
 
 							{% for CategoriaUC in CategoriasUC %}
-							<option id="{{ CategoriaUC.nombre }}" name="name">{{ CategoriaUC.nombre }}
+							<option id="{{ CategoriaUC.nombre }}" name="{{ CategoriaUC.isFreelancer }}"
+								style="display: none;">{{ CategoriaUC.nombre }}
 							</option>
 							{% endfor %}
 						</select>
@@ -71,12 +73,68 @@
 
 					<div class="form-group">
 						<label for="loca">Locación</label>
-						<select class="form-control" name="pais" id="loca">
+						<select class="form-control" name="pais" id="loca" onchange="montrarFreelancer(this.value);"
+							onload="montrarFreelancer(this.value);">
 							<option>N/A</option>
 							<option>Uruguay</option>
-							<option>Freelance</option>
+							<option>Freelancer</option>
 						</select>
 					</div>
+					<script>
+
+						document.addEventListener("DOMContentLoaded", () => {
+							selectSub = document.getElementById('cat');
+								var ops = selectSub.options;
+								$(function () {
+									$(ops).each(function (i) {
+
+										if ($(this).attr('name') == "True") {
+											$(this).css("display", "none");
+										}
+										else {
+											$(this).css("display", "block");
+										}
+									});
+								});
+						});
+
+						function montrarFreelancer(val) {
+
+							selec = document.getElementById("loca");
+							if (selec.value == 'Freelancer') {
+
+								selectSub = document.getElementById('cat');
+								var ops = selectSub.options;
+								$(function () {
+									$(ops).each(function (i) {
+
+										if ($(this).attr('name') == "True") {
+											$(this).css("display", "block");
+										}
+										else {
+											$(this).css("display", "none");
+										}
+									});
+								});
+							}
+							else {
+								selectSub = document.getElementById('cat');
+								var ops = selectSub.options;
+								$(function () {
+									$(ops).each(function (i) {
+
+										if ($(this).attr('name') == "True") {
+											$(this).css("display", "none");
+										}
+										else {
+											$(this).css("display", "block");
+										}
+									});
+								});
+							}
+
+						}
+					</script>
 
 					<div class="form-group">
 						<!--<div id="subC" style="display: none;">-->
@@ -85,7 +143,7 @@
 							<select class="form-control" name="subCategoria" id="sub">
 								<option id="N/A">N/A</option>
 								{% for sub in SubCategorias %}
-								<option id="{{ sub.CategoriaUC.id }}" style="display: none;">{{ sub.nombre }}</option>
+								<option id="{{ sub.CategoriaBJ.id }}" style="display: none;">{{ sub.nombre }}</option>
 								{% endfor %}
 							</select>
 						</div>
@@ -108,7 +166,7 @@
 								divSubC.style.display = "block";
 								selectSub = document.getElementById('sub');
 								var ops = selectSub.options;
-								
+
 								$(function () {
 									$(ops).each(function (i) {
 
@@ -177,12 +235,12 @@
 					</div>
 					<p class="mb-1">{{ OfertasRe.descripcion }}</p>
 				</a>-->
-				<div class="list-group-item list-group-item-action">
-					<div class="d-flex w-100 justify-content-between">
-						<h5 class="mb-1">{{ OfertasRe.titulo }}</h5>
-					</div>
-					<p class="mb-1">{{ OfertasRe.descripcion }}</p>
+			<div class="list-group-item list-group-item-action">
+				<div class="d-flex w-100 justify-content-between">
+					<h5 class="mb-1">{{ OfertasRe.titulo }}</h5>
 				</div>
+				<p class="mb-1">{{ OfertasRe.descripcion }}</p>
+			</div>
 			{% endfor %}
 
 			{% for oferta in Ofertas %}

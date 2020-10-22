@@ -23,6 +23,7 @@ class Curriculum(models.Model):
 class CategoriaUC(models.Model):
     id =  models.AutoField(primary_key = True)
     nombre = models.CharField('Nombre', max_length = 50, blank = False, null = False)
+    isFreelancer = models.BooleanField(default=False)
 
 class CategoriaBJ(models.Model):
     id =  models.AutoField(primary_key = True)
@@ -31,7 +32,7 @@ class CategoriaBJ(models.Model):
 class SubCategoriaBJ(models.Model):
     id_Sub =  models.AutoField(primary_key = True)
     nombre = models.CharField('Nombre', max_length = 50, blank = False, null = False)
-    CategoriaUC = models.ForeignKey(CategoriaBJ, on_delete = models.CASCADE, null = True)
+    CategoriaBJ = models.ForeignKey(CategoriaBJ, on_delete = models.CASCADE, null = True)
 
 class Oferta(models.Model):
     id_oferta =  models.CharField(primary_key = True, max_length = 100)

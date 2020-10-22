@@ -5,9 +5,6 @@ import json
 #python manage.py makemigrations
 #python manage.py migrate
 #python manage.py runserver
-#http://localhost:8000/loadBJ
-#http://localhost:8000/loadUC
-#http://localhost:8000/loadHab
 
 #http://localhost:8000/cargarBD
 
@@ -40,6 +37,7 @@ def cargarTwagoJson(request):
             if not existeCatUC(request, p['requisitos'][0]):
                 cuc = CategoriaUC()
                 cuc.nombre= p['requisitos'][0]
+                cuc.isFreelancer=True
                 cuc.save()
                 o.CategoriaUC = cuc
             else:
@@ -266,7 +264,7 @@ def cargarBuscoJobJson(request):
             if not existeSubCatBJ(request, p['categoria'][0]):
                 sbj = SubCategoriaBJ()
                 sbj.nombre = p['categoria'][0]
-                sbj.CategoriaUC = CategoriaBJ.objects.get(nombre = p['categoria_padre'])
+                sbj.CategoriaBJ = CategoriaBJ.objects.get(nombre = p['categoria_padre'])
                 sbj.save()
 
     with open('buscojobs.json',encoding='utf8') as json_file:
@@ -301,8 +299,6 @@ def cargarBuscoJobJson(request):
         o.fecha_inicio = bj.fecha_inicio
         o.fecha_final = bj.fecha_fin
         m=BuscoJob.objects.get(nro_llamado = bj.nro_llamado).subCategoria
-        print("-------------------------------")
-        print(m)
         o.SubCategoriaBJ = SubCategoriaBJ.objects.get(nombre = m)
         o.save()
 
@@ -703,9 +699,6 @@ def definirFechaEntrevista(request):
 
     mensaje="Seleccione una fecha"
 
-    print("-------------")
-    print(definitiva)
-
     postulaciones = Postulacion.objects.filter(id_usuario = request.session['id_usuario'])
 
     ret=[]
@@ -766,8 +759,6 @@ def cargarCV(request):
     cv.foto = request.FILES.get('foto')
     cv.idUsu = idUsu
     cv.save()
-
-    print("---------dsds----------------")
 
 
     context = {
@@ -952,11 +943,13 @@ def getOfertasCategoria(request, allOfertas):
                         return oferts
                     else:
                         allSubCats = SubCategoriaBJ.objects.all()
-
                         subCats = []
                         for s in allSubCats:
-                            if s.CategoriasBJ == catBJ:
+                            if s.CategoriaBJ == catBJ:
                                 subCats.append(s)
+
+                        for s in subCats:
+                            print(s.nombre)
 
                         oferts=[]
                         for of in allOfertas:
@@ -1005,9 +998,6 @@ def recortarDescripcion(request):
         o.descripcion = o.descripcion[:100]
         o.descripcion = o.descripcion[:101] + "..."
     return Ofertas
-
-def incrementarPuesto(request, listOfertas):
-    print("hola")
 
 def Buscar(request):
     #print(request.POST['keyWord'])
