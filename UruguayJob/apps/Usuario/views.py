@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from apps.Usuario.models import Usuario, Oferta, SubCategoriaBJ, Curriculum, UruguayConcursa,Postulacion,BuscoJob, CategoriaUC, CategoriaBJ, Perfil, Habilidad, HPer, PerfHabs
+from apps.Usuario.models import Usuario, Oferta, SubCategoriaBJ, Curriculum, UruguayConcursa,Postulacion,BuscoJob, CategoriaUC, CategoriaBJ, PerfHabs
 
 
 import json
@@ -13,7 +13,6 @@ def cargarBD(request):
     cargarUruguayConcursaJson(request)
     cargarBuscoJobJson(request)
     cargarTwagoJson(request)
-    cargarHabilidades(request)
     cargarPerfHabilidades(request)
 
     request.session.flush()
@@ -63,66 +62,6 @@ def cargarTwagoJson(request):
                 o.CategoriaUC = CategoriaUC.objects.get(nombre = p['requisitos'][0])
             o.save()
 
-def existeHab(request, nombre):
-    try:
-        Habilidad.objects.get(nombre = nombre)
-        return True
-    except Habilidad.DoesNotExist:
-        return False
-
-def existePer(request, id_perfil):
-    try:
-        Perfil.objects.get(id_perfil = id_perfil)
-        return True
-    except Perfil.DoesNotExist:
-        return False
-
-def cargarHabilidades(request):
-     #http://localhost:8000/loadHab
-    #para verlas ir adamin
-    with open('perfiles.json',encoding='utf8') as json_file:
-        data = json.load(json_file)
-        for p in data:
-            if not existePer(request, p['id_perfil']):
-                pe = Perfil()
-                pe.id_perfil = p['id_perfil']
-                pe.saldo = p['precio']
-                pe.save()
-
-            for hab in p['habilidades']:
-                if not existeHab(request, p['habilidades']):
-                    h = Habilidad()
-                    h.nombre = hab
-                    h.save()
-
-                    hp = HPer()
-                    hp.id_perf =Perfil.objects.get(id_perfil = p['id_perfil'])
-                    hp.nomb_hab = Habilidad.objects.get(nombre = hab)
-                    hp.save()
-
-def getPreciosMax(request, hh):
-    allHPer = HPer.objects.all()
-
-    precios=[]
-    for hp in allHPer:
-        if hp.nomb_hab.nombre == hh.nombre:
-            precios.append(hp.id_perf.saldo)
-    
-    #per = sum(precios)/len(precios)
-    #red = round(per, 2)
-    #return red
-    return max(precios)
-
-def getPreciosMin(request, hh):
-    allHPer = HPer.objects.all()
-
-    precios=[]
-    for hp in allHPer:
-        if hp.nomb_hab.nombre == hh.nombre:
-            precios.append(hp.id_perf.saldo)
-    return min(precios)
-
-
 #---------------------------Calculadora--------------------------
 def isEqualSkills(request, Ph_habis, str_habis):
     Ph_habis_lst = Ph_habis.split("; ")
@@ -152,10 +91,8 @@ def esteSi(request, shp, habis, someHPer):
             cont = cont + 1
     
     if cont == numeroH:
-        print("ttttttttttttttttttttttttttttt")
         return True
     else:
-        print("wwwwwwwwwwwwwwwwwwwwwwwwwwww")
         return False
 
 def getSueldoN(request, habilidades, moneda, tipoSalario):
@@ -210,34 +147,6 @@ def getSueldoN(request, habilidades, moneda, tipoSalario):
     
     return "Error"
 #-----------------------------------------------------------------
-
-def getSueldo(request, habilidades):
-    
-    habs = habilidades.split("; ")
-    res=[]
-    for h in habs:
-        if h != '':
-            res.append(h)
-    
-    habis=[]
-    for r in res:
-        h = Habilidad.objects.get(nombre=r)
-        habis.append(h)
-
-    perciosMin=[]
-    for hh in habis:
-        perciosMin.append(getPreciosMin(request, hh))
-
-    minimo = sum(perciosMin)
-
-    perciosMax=[]
-    for hh in habis:
-        perciosMax.append(getPreciosMax(request, hh))
-
-    maximo = sum(perciosMax)
-
-    msg = "Desde: $"+ str(minimo*50) + ", Hasta: $"+str(maximo*50)+"."
-    return msg
 
 def cortarHabis(request, ph):
     str_habis=[]
@@ -594,20 +503,6 @@ def Registrarse(request):
 
 def IniciarSesion(request):
     return render(request, 'iniciarSesion.html')
-
-def chartPieData(request):
-
-    datos=[]
-    allHab = Habilidad.objects.all()
-    for ha in allHab:
-        dato = {
-            "habilidad": ha.nombre,
-            "SueldoMax": getPreciosMin(request, ha)*50,
-            "SueldoMin": getPreciosMax(request, ha)*50
-        }
-        datos.append(dato)
-
-    return datos
 
 def chartPieData2(request):
 
@@ -1105,9 +1000,6 @@ def getOfertasCategoria(request, allOfertas):
                         for s in allSubCats:
                             if s.CategoriaBJ == catBJ:
                                 subCats.append(s)
-
-                        for s in subCats:
-                            print(s.nombre)
 
                         oferts=[]
                         for of in allOfertas:
