@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from apps.Usuario.models import Usuario, Oferta, SubCategoriaBJ, Curriculum, UruguayConcursa,Postulacion,BuscoJob, CategoriaUC, CategoriaBJ, Perfil, Habilidad, HPer
+from apps.Usuario.models import Usuario, Oferta, SubCategoriaBJ, Curriculum, UruguayConcursa,Postulacion,BuscoJob, CategoriaUC, CategoriaBJ, Perfil, Habilidad, HPer, PerfHabs
 
 import json
 #python manage.py makemigrations
@@ -13,6 +13,8 @@ def cargarBD(request):
     cargarBuscoJobJson(request)
     cargarTwagoJson(request)
     cargarHabilidades(request)
+    cargarPerfHabilidades(request)
+
     request.session.flush()
     context = {
         'Ofertas': LoMasReciente(request),
@@ -22,6 +24,22 @@ def cargarBD(request):
         'SubCategorias':CargarSubCategorias(request)
     }
     return render(request, 'hInvitado.html', context)
+
+def cargarPerfHabilidades(request):
+    hab=""
+    with open('perfiles.json',encoding='utf8') as json_file:
+        data = json.load(json_file)
+        for p in data:
+            per = PerfHabs()
+            per.id_perfil = p['id_perfil']
+            per.precio= p['precio']
+
+            for n in p['habilidades']:
+                hab = hab + n + "; "
+
+            per.habilidades= hab
+            per.save()
+            hab=""
 
 def cargarTwagoJson(request):
     with open('ofertas_twago.json',encoding='utf8') as json_file:
@@ -103,6 +121,72 @@ def getPreciosMin(request, hh):
             precios.append(hp.id_perf.saldo)
     return min(precios)
 
+
+#---------------------------Calculadora--------------------------
+def isEqualSkills(request, Ph_habis, str_habis):
+    Ph_habis_lst = Ph_habis.split("; ")
+    str_habis_lst = str_habis.split("; ")
+
+    con = 0
+    for n in Ph_habis_lst:
+        if n in str_habis_lst:
+            con = con + 1
+    
+    if con == len(Ph_habis_lst):
+        return True
+    else:
+        return False
+
+def esteSi(request, shp, habis, someHPer):
+
+    numeroH = len(habis) # numero de habilidades
+
+    idPef =[] # lista de perfiles de someHPer
+    for p in someHPer:
+        idPef.append(p.id_perf)
+    
+    cont = 0 
+    for p in someHPer: 
+        if shp.id_perf in idPef:
+            cont = cont + 1
+    
+    if cont == numeroH:
+        print("ttttttttttttttttttttttttttttt")
+        return True
+    else:
+        print("wwwwwwwwwwwwwwwwwwwwwwwwwwww")
+        return False
+
+def getSueldoN(request, habilidades):
+
+    phs = PerfHabs.objects.all()
+
+    ret=[]
+    for ph in phs:
+        #if ph.habilidades == habilidades:
+        if isEqualSkills(request, ph.habilidades, habilidades):
+            ret.append(ph.precio)
+
+    if len(ret)==0:
+        return "No se encontaron resultados."
+    else:
+        if len(ret) == 1:
+            return str(ret[0] *50) + " UYU/hr"
+        else:
+            sumaPrecios=0
+            for n in ret:
+                sumaPrecios = sumaPrecios + n
+
+            cantPrecios = len(ret)
+            promedio= sumaPrecios/cantPrecios
+            redondeo = round(promedio,2)
+            pesos = redondeo * 50
+            strPesos = str(pesos)
+            return strPesos + " UYU/hr"
+    
+    return "Error"
+#-----------------------------------------------------------------
+
 def getSueldo(request, habilidades):
     
     habs = habilidades.split("; ")
@@ -150,7 +234,8 @@ def Calcular(request):
         'userNombre': request.session['nombre'],
         'NotieneCV': NotieneCV(request),
         'habilidades':Habilidad.objects.all(),
-        'Sueldo' : getSueldo(request, request.POST['habilidades'])
+        #'Sueldo' : getSueldo(request, request.POST['habilidades'])
+        'Sueldo' : getSueldoN(request, request.POST['habilidades'])
     }
     return render(request, 'Calculadora.html', context)
 

@@ -98,5 +98,10 @@ class HPer(models.Model):
     id_perf = models.ForeignKey(Perfil, on_delete = models.CASCADE)
     nomb_hab = models.ForeignKey(Habilidad, on_delete = models.CASCADE)
 
+class PerfHabs(models.Model):
+    id_perfil = models.CharField(primary_key = True, max_length = 100)
+    precio = models.IntegerField(blank = True, null = True)
+    habilidades = models.TextField(blank = True, null = True)
+
 
 
