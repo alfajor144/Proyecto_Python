@@ -25,4 +25,3 @@ class PerfilesItem(scrapy.Item):
     precio = scrapy.Field()
     habilidades = scrapy.Field()
     user_agent = scrapy.Field()
-

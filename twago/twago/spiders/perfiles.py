@@ -4,10 +4,13 @@ from twago.items import PerfilesItem
 from scrapy.exceptions import CloseSpider
 
 #import pdb; pdb.set_trace()
+
+
 class PerfilesSpider(scrapy.Spider):
     name = 'perfiles'
     allowed_domains = ['www.twago.es']
-    start_urls = ['https://www.twago.es/search/freelancer/?q=*&sortDirection=descending&cat=freelancer&sortField=default']
+    start_urls = [
+        'https://www.twago.es/search/freelancer/?q=*&sortDirection=descending&cat=freelancer&sortField=default']
     perfiles_count = 0
     page_count = 0
     perfiles_deletes = 0
@@ -53,17 +56,19 @@ class PerfilesSpider(scrapy.Spider):
             precio = precio.split(" ")
             precio = precio[0]
             self.perfiles_count += 1
+        else:
+            return
         habilidades = response.xpath(
             '//div[@class="company-skills-summary"]/span/text()').getall()
         item['id_perfil'] = id_perfil
         item['precio'] = precio
         item['habilidades'] = habilidades
-        
+
         try:
             if self.perfiles_count <= 211:
                 yield item
             else:
-                raise CloseSpider('Se alcanzó el máximo número de elementos a raspar!')
+                raise CloseSpider(
+                    'Se alcanzó el máximo número de elementos a raspar!')
         except CloseSpider as error:
             print("Error en perfiles.py, se alcanzo el límite a raspar.")
-

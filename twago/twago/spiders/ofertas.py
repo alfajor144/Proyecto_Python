@@ -5,10 +5,12 @@ from scrapy.exceptions import CloseSpider
 
 #import pdb; pdb.set_trace()
 
+
 class OfertasSpider(scrapy.Spider):
     name = 'ofertas'
     allowed_domains = ['www.twago.es']
-    start_urls = ['https://www.twago.es/search/projects/?q=*&sortDirection=descending&cat=projects&sortField=default']
+    start_urls = [
+        'https://www.twago.es/search/projects/?q=*&sortDirection=descending&cat=projects&sortField=default']
     item_count = 0
 
     def parse(self, response):
@@ -69,6 +71,6 @@ class OfertasSpider(scrapy.Spider):
         item['requisitos'] = requisitos
         self.item_count += 1
         print(self.item_count)
-        if self.item_count > 5:
+        if self.item_count > 400:
             raise CloseSpider('item_exceeded')
         yield item

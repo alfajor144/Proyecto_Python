@@ -23,14 +23,14 @@ class TwagoPipeline:
         if adapter.get('id_oferta'):
             return item
         # Si el item es de tipo perfil, cheque que tenta un precio; de lo contrario lo elimina
-        if adapter.get('id_perfil'):
-            try:
-                if adapter.get('precio'):
-                    return item
-                else:
-                    raise DropItem()
-            except DropItem as error:
-                print("Error en pipeline.py")
+        # if adapter.get('id_perfil'):
+        #    try:
+        #        if adapter.get('precio'):
+        #            return item
+        #        else:
+        #            raise DropItem()
+        #    except DropItem as error:
+        #        print("Error en pipeline.py")
         return item
 
     def get_fecha_fin(self, fecha_fin):

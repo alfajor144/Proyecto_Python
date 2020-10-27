@@ -14,7 +14,7 @@ NEWSPIDER_MODULE = 'twago.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36'
+#USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
@@ -51,22 +51,26 @@ ROBOTSTXT_OBEY = False
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-# DOWNLOADER_MIDDLEWARES = {
-#    'scrapy.dowloadermiddlewares.useragent.UserAgentMiddleware': None,
-#    'twago.middlewares.UserAgentRotatorMiddleware': 543,
+DOWNLOADER_MIDDLEWARES = {
+    'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 110,
+    'tor_ip_rotator.middlewares.TorProxyMiddleware': 100,
+    'scrapy.dowloadermiddlewares.useragent.UserAgentMiddleware': None,
+    'twago.middlewares.UserAgentRotatorMiddleware': 543
 #    'scrapy_splash.SplashCookiesMiddleware': 723,
 #    'scrapy_splash.SplashMiddleware': 725,
 #    'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,
-# }
+}
 
 # Configura el filtro para peticiones duplicadas de splash
 #DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
-# EXTENSIONS = {
+#EXTENSIONS = {
 #    'scrapy.extensions.telnet.TelnetConsole': None,
-# }
+#}
+TOR_IPROTATOR_ENABLED = True
+TOR_IPROTATOR_CHANGE_AFTER = 10
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
