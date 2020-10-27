@@ -48,13 +48,15 @@
 			<div class="form-group">
 
 				<label for="selectHabId">Ingrese habilidad</label>
-
 				<select class="form-control" name="habilidad" id="selectHabId" onchange="foo(this.value);">
 					<option id=""></option>
 					{% for habilidad in habilidades %}
 					<option id="{{ habilidad.nombre }}">{{ habilidad.nombre }}</option>
 					{% endfor %}
 				</select>
+				<samp class="text-muted">Puede seleccionar varias habilidades</samp>
+
+				<br>
 				<br>
 
 				<label for="habilidadesid">Lista de habilidad:</label>

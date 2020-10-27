@@ -90,23 +90,29 @@
 <br><br><br><br>
 
 <div class="m-4">
-	<h2>Estadísticas</h2>
+    <h1 class="text-primary">Estadísticas</h1>
 	<div class="m-4">
 
 		<figure class="highcharts-figure">
-			<div id="container"></div>
-			<p class="highcharts-description">
-			</p>
-		</figure>
+            <div id="container"></div>
+            <p class="highcharts-description">
+            </p>
+        </figure>
+
+        <br>
+        <br>
+
+        <figure class="highcharts-figure">
+            <div id="container2"></div>
+            <p class="highcharts-description">
+            </p>
+        </figure>
 
     </div>
     
 </div>
 
 <script>
-{% for dato in datos %}
-'{{ dato.habilidad }}',
-{% endfor %}
 
 
 Highcharts.chart('container', {
@@ -114,47 +120,114 @@ Highcharts.chart('container', {
         type: 'column'
     },
     title: {
-        text: 'Sueldo Estimado por hr'
+        text: 'Posibles sueldos por habilidades (Jornalero)'
+    },
+    subtitle: {
+        text: ''
     },
     xAxis: {
-        categories: [
-                        {% for dato in datos %}
-                            '{{ dato.habilidad }}'  ,
-                        {% endfor %}
-                    ]
+        type: 'category',
+        labels: {
+            rotation: -45,
+            style: {
+                fontSize: '13px',
+                fontFamily: 'Verdana, sans-serif'
+            }
+        }
     },
     yAxis: {
         min: 0,
         title: {
-            text: 'Sueldo estimado UYU/hr'
+            text: 'Sueldo (Pesos/hr)'
         }
+    },
+    legend: {
+        enabled: false
     },
     tooltip: {
-        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
-        shared: true
-    },
-    plotOptions: {
-        column: {
-            stacking: 'percent'
-        }
+        pointFormat: '<b>{point.y:.1f} Pesos/hr</b>'   
     },
     series: [{
-        name: 'Maximo Sueldo UYU/hr',
+        name: 'Population',
         data: [
-                {% for dato in datos %}
-                    {{ dato.SueldoMin }} ,
-                {% endfor %}
-        ]
-    }, {
-        name: 'Minimo Sueldo UYU/hr',
-        data: [
-                {% for dato in datos %}
-                    {{ dato.SueldoMax }} ,
-                {% endfor %}
-        ]
+
+            {% for dato in datos %}
+                ['{{ dato.habilidades }}', {{ dato.precio }}],
+            {% endfor %}
+            ['', ]
+
+        ],
+        dataLabels: {
+            enabled: true,
+            rotation: -90,
+            color: '#FFFFFF',
+            align: 'right',
+            format: '{point.y:.1f}', // one decimal
+            y: 10, // 10 pixels down from the top
+            style: {
+                fontSize: '13px',
+                fontFamily: 'Verdana, sans-serif'
+            }
+        }
     }]
 });
 
+
+Highcharts.chart('container2', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Posibles sueldos por habilidades (Mensula)'
+    },
+    subtitle: {
+        text: ''
+    },
+    xAxis: {
+        type: 'category',
+        labels: {
+            rotation: -45,
+            style: {
+                fontSize: '13px',
+                fontFamily: 'Verdana, sans-serif'
+            }
+        }
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Sueldo (Pesos/mes)'
+        }
+    },
+    legend: {
+        enabled: false
+    },
+    tooltip: {
+        pointFormat: '<b>{point.y:.1f} Pesos/mes</b>'  
+    },
+    series: [{
+        name: 'Population',
+        data: [
+
+            {% for dato in datos %}
+                ['{{ dato.habilidades }}', {{ dato.precio }} * 192],
+            {% endfor %}
+            ['', ]
+        ],
+        dataLabels: {
+            enabled: true,
+            rotation: -90,
+            color: '#FFFFFF',
+            align: 'right',
+            format: '{point.y:.1f}', // one decimal
+            y: 10, // 10 pixels down from the top
+            style: {
+                fontSize: '13px',
+                fontFamily: 'Verdana, sans-serif'
+            }
+        }
+    }]
+});
 
 
 </script>

@@ -579,19 +579,38 @@ def chartPieData(request):
 
     return datos
 
+def chartPieData2(request):
+
+    datos=[]
+    allHab = PerfHabs.objects.all()
+
+    res=[]
+    res = allHab[:10]
+
+    res2 = sorted(res, key=lambda x: x.precio, reverse=True)
+
+    for ha in res2:
+        dato = {
+            "precio": ha.precio * 50,
+            "habilidades": ha.habilidades
+        }
+        datos.append(dato)
+
+    return datos
+
 def Estadistica(request):
     try:
         request.session['nombre']
         context = {
             'isLoged': True,
-            'datos': chartPieData(request)
+            'datos': chartPieData2(request)
         }
         return render(request, 'estadistica.html',context) 
     except KeyError: 
         request.session.flush()
         context = {
             'isLoged': False,
-            'datos': chartPieData(request)
+            'datos': chartPieData2(request)
         }
         return render(request, 'estadistica.html',context)
 
