@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from apps.Usuario.models import Usuario, Oferta, SubCategoriaBJ, Curriculum, UruguayConcursa,Postulacion,BuscoJob, CategoriaUC, CategoriaBJ, Perfil, Habilidad, HPer, PerfHabs
 
+
 import json
 #python manage.py makemigrations
 #python manage.py migrate
@@ -157,7 +158,7 @@ def esteSi(request, shp, habis, someHPer):
         print("wwwwwwwwwwwwwwwwwwwwwwwwwwww")
         return False
 
-def getSueldoN(request, habilidades):
+def getSueldoN(request, habilidades, moneda, tipoSalario):
 
     phs = PerfHabs.objects.all()
 
@@ -167,22 +168,45 @@ def getSueldoN(request, habilidades):
         if isEqualSkills(request, ph.habilidades, habilidades):
             ret.append(ph.precio)
 
+    cambio = 0
+    if moneda =="Pesos":
+        cambio = 50
+    if moneda == "Dolares":
+        cambio = 0.85
+    if moneda == "Euros":
+        cambio = 1
+
     if len(ret)==0:
         return "No se encontaron resultados."
     else:
-        if len(ret) == 1:
-            return str(ret[0] *50) + " UYU/hr"
-        else:
-            sumaPrecios=0
-            for n in ret:
-                sumaPrecios = sumaPrecios + n
+        if tipoSalario == "Jornalero":
+            if len(ret) == 1:
+                return str(ret[0] * cambio) + " " + moneda +"/hr"
+            else:
+                sumaPrecios=0
+                for n in ret:
+                    sumaPrecios = sumaPrecios + n
 
-            cantPrecios = len(ret)
-            promedio= sumaPrecios/cantPrecios
-            redondeo = round(promedio,2)
-            pesos = redondeo * 50
-            strPesos = str(pesos)
-            return strPesos + " UYU/hr"
+                cantPrecios = len(ret)
+                promedio= sumaPrecios/cantPrecios
+                redondeo = round(promedio,2)
+                pesos = redondeo * cambio
+                strPesos = str(pesos)
+                return strPesos + " " + moneda +"/hr"
+        else:
+            if len(ret) == 1:
+                return str(ret[0] * cambio *192) + " " + moneda +"/mes"
+            else:
+                sumaPrecios=0
+                for n in ret:
+                    sumaPrecios = sumaPrecios + n
+
+                cantPrecios = len(ret)
+                promedio= sumaPrecios/cantPrecios
+                redondeo = round(promedio,2)
+                pesos = redondeo * cambio * 192
+                strPesos = str(pesos)
+                return strPesos + " " + moneda +"/mes"
     
     return "Error"
 #-----------------------------------------------------------------
@@ -235,7 +259,7 @@ def Calcular(request):
         'NotieneCV': NotieneCV(request),
         'habilidades':Habilidad.objects.all(),
         #'Sueldo' : getSueldo(request, request.POST['habilidades'])
-        'Sueldo' : getSueldoN(request, request.POST['habilidades'])
+        'Sueldo' : getSueldoN(request, request.POST['habilidades'], request.POST['moneda'], request.POST['tipoSalario'])
     }
     return render(request, 'Calculadora.html', context)
 
