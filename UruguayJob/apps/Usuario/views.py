@@ -239,12 +239,41 @@ def getSueldo(request, habilidades):
     msg = "Desde: $"+ str(minimo*50) + ", Hasta: $"+str(maximo*50)+"."
     return msg
 
+def cortarHabis(request, ph):
+    str_habis=[]
+
+    for s in ph.habilidades.split("; "):
+        if s != "":
+            str_habis.append(s)
+    return str_habis #lista de strings habis
+
+def getHabilidades(request):
+    allPH = PerfHabs.objects.all()
+
+    lst_habis = []
+    for ph in allPH:
+        for h in cortarHabis(request, ph):
+            lst_habis.append(h)
+
+    lst_habis = set(lst_habis)
+    lst_habis = list(lst_habis)
+
+    retDic=[]
+    for h in lst_habis:
+        dato = {
+            'nombre':h
+        }
+        retDic.append(dato)
+
+    return retDic
+
 def calculadora(request):
 
     context = {
         'userNombre': request.session['nombre'],
         'NotieneCV': NotieneCV(request),
-        'habilidades':Habilidad.objects.all(),
+        #'habilidades':Habilidad.objects.all(),
+        'habilidades':getHabilidades(request),
         'Sueldo' : ""
     }
     return render(request, 'Calculadora.html', context)
@@ -257,7 +286,8 @@ def Calcular(request):
     context = {
         'userNombre': request.session['nombre'],
         'NotieneCV': NotieneCV(request),
-        'habilidades':Habilidad.objects.all(),
+        #'habilidades':Habilidad.objects.all(),
+        'habilidades':getHabilidades(request),
         #'Sueldo' : getSueldo(request, request.POST['habilidades'])
         'Sueldo' : getSueldoN(request, request.POST['habilidades'], request.POST['moneda'], request.POST['tipoSalario'])
     }
