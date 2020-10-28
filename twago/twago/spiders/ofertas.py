@@ -9,9 +9,15 @@ from scrapy.exceptions import CloseSpider
 class OfertasSpider(scrapy.Spider):
     name = 'ofertas'
     allowed_domains = ['www.twago.es']
-    start_urls = [
-        'https://www.twago.es/search/projects/?q=*&sortDirection=descending&cat=projects&sortField=default']
-    item_count = 0
+    #start_urls = [
+    #    'https://www.twago.es/search/projects/?q=*&sortDirection=descending&cat=projects&sortField=default']
+    _items = 0
+    _pages = 1
+    pagination = ""
+
+    def start_requests(self):
+        url="https://www.twago.es/search/projects/?q=*&sortDirection=descending&cat=projects&sortField=default"
+        yield scrapy.Request(url, self.parse)
 
     def parse(self, response):
         logging.info(response.url)
@@ -21,18 +27,21 @@ class OfertasSpider(scrapy.Spider):
         for oferta in ofertas:
             oferta_link = oferta.xpath('./@href').get()
             yield response.follow(url=oferta_link, callback=self.parse_item)
-        # obtiene todas las etiquetas a del la paginación menos la ultima
-        pagination = response.xpath(
-            '//nav[@class="search-results-pager-links"]/a')
-        for i in range(len(pagination)-2):
-            clase_link = pagination[i].xpath('./@class').get()
+
+        import pdb; pdb.set_trace()
+        # trae todos los links del la paginación
+        self.pagination = response.xpath(
+           '//nav[@class="search-results-pager-links"]/a')
+        # extrae la clase del btn. del paginador de la pag. actual
+        for i in range(len(self.pagination)-1):
+            # primero obtiene el actual, que tiene la clase selected
+            clase_link = self.pagination[i].xpath('./@class').get()
             if clase_link == "search-results-page-link selected":
-                pagina_actual = int(pagination[i].xpath('./text()').get())
-                if pagina_actual < (len(pagination) - 2):
-                    next_page_url = pagination[i+1].xpath('./@href').get()
-                    break
+                next_page_url = self.pagination[i+1].xpath('./@href').get()
+                break
         # Avanza a la siguiente pagina de la paginación
         if next_page_url is not None:
+            self._pages += 1
             yield scrapy.Request(response.urljoin(next_page_url))
 
     def parse_item(self, response):
@@ -51,7 +60,7 @@ class OfertasSpider(scrapy.Spider):
             '//span[@class="job-public-tag"]/text()').getall()
         fecha_fin = response.xpath(
             'normalize-space(//div[@class="job-bid-info"]/span/text())').get()
-        #fecha_fin = fecha_fin.strip()
+        # fecha_fin = fecha_fin.strip()
         presupuesto = response.xpath(
             'normalize-space(//div[@class="job-proposal-content"][1]/p/text())').get()
         fecha_inicio = response.xpath(
@@ -69,8 +78,8 @@ class OfertasSpider(scrapy.Spider):
         item['fecha_fin'] = fecha_fin
         item['presupuesto'] = presupuesto
         item['requisitos'] = requisitos
-        self.item_count += 1
-        print(self.item_count)
-        if self.item_count > 400:
+        self._items += 1
+        print(self._items)
+        if self._items > 400:
             raise CloseSpider('item_exceeded')
         yield item

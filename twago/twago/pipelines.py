@@ -13,24 +13,17 @@ import calendar
 
 #import pdb; pdb.set_trace()
 class TwagoPipeline:
+
     def process_item(self, item, spider):
-        #import pdb; pdb.set_trace()
         adapter = ItemAdapter(item)
         if adapter.get('id_oferta'):
             fecha_fin = self.get_fecha_fin(item['fecha_fin'])
             item['fecha_fin'] = fecha_fin.strftime('%Y-%m-%d')
+        #import pdb; pdb.set_trace()
         # si el perfil raspado no trae precio es descartado
-        if adapter.get('id_oferta'):
-            return item
-        # Si el item es de tipo perfil, cheque que tenta un precio; de lo contrario lo elimina
-        # if adapter.get('id_perfil'):
-        #    try:
-        #        if adapter.get('precio'):
-        #            return item
-        #        else:
-        #            raise DropItem()
-        #    except DropItem as error:
-        #        print("Error en pipeline.py")
+        if adapter.get('id_perfil') is not None:
+            if adapter.get('precio') == "":
+                raise DropItem("ELIMINANDO perfil:")
         return item
 
     def get_fecha_fin(self, fecha_fin):

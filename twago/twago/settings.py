@@ -70,7 +70,7 @@ DOWNLOADER_MIDDLEWARES = {
 #    'scrapy.extensions.telnet.TelnetConsole': None,
 #}
 TOR_IPROTATOR_ENABLED = True
-TOR_IPROTATOR_CHANGE_AFTER = 10
+TOR_IPROTATOR_CHANGE_AFTER = 20
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
