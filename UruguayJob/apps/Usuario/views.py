@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from apps.Usuario.models import Usuario, Oferta, SubCategoriaBJ, Curriculum, UruguayConcursa,Postulacion,BuscoJob, CategoriaUC, CategoriaBJ, Perfil, Habilidad, HPer
+from apps.Usuario.models import Usuario, Oferta, SubCategoriaBJ, Curriculum, UruguayConcursa,Postulacion,BuscoJob, CategoriaUC, CategoriaBJ, PerfHabs
+
 
 import json
 #python manage.py makemigrations
@@ -12,7 +13,8 @@ def cargarBD(request):
     cargarUruguayConcursaJson(request)
     cargarBuscoJobJson(request)
     cargarTwagoJson(request)
-    cargarHabilidades(request)
+    cargarPerfHabilidades(request)
+
     request.session.flush()
     context = {
         'Ofertas': LoMasReciente(request),
@@ -22,6 +24,22 @@ def cargarBD(request):
         'SubCategorias':CargarSubCategorias(request)
     }
     return render(request, 'hInvitado.html', context)
+
+def cargarPerfHabilidades(request):
+    hab=""
+    with open('perfiles.json',encoding='utf8') as json_file:
+        data = json.load(json_file)
+        for p in data:
+            per = PerfHabs()
+            per.id_perfil = p['id_perfil']
+            per.precio= p['precio']
+
+            for n in p['habilidades']:
+                hab = hab + n + "; "
+
+            per.habilidades= hab
+            per.save()
+            hab=""
 
 def cargarTwagoJson(request):
     with open('ofertas_twago.json',encoding='utf8') as json_file:
@@ -44,99 +62,127 @@ def cargarTwagoJson(request):
                 o.CategoriaUC = CategoriaUC.objects.get(nombre = p['requisitos'][0])
             o.save()
 
-def existeHab(request, nombre):
-    try:
-        Habilidad.objects.get(nombre = nombre)
+#---------------------------Calculadora--------------------------
+def isEqualSkills(request, Ph_habis, str_habis):
+    Ph_habis_lst = Ph_habis.split("; ")
+    str_habis_lst = str_habis.split("; ")
+
+    con = 0
+    for n in Ph_habis_lst:
+        if n in str_habis_lst:
+            con = con + 1
+    
+    if con == len(Ph_habis_lst):
         return True
-    except Habilidad.DoesNotExist:
+    else:
         return False
 
-def existePer(request, id_perfil):
-    try:
-        Perfil.objects.get(id_perfil = id_perfil)
+def esteSi(request, shp, habis, someHPer):
+
+    numeroH = len(habis) # numero de habilidades
+
+    idPef =[] # lista de perfiles de someHPer
+    for p in someHPer:
+        idPef.append(p.id_perf)
+    
+    cont = 0 
+    for p in someHPer: 
+        if shp.id_perf in idPef:
+            cont = cont + 1
+    
+    if cont == numeroH:
         return True
-    except Perfil.DoesNotExist:
+    else:
         return False
 
-def cargarHabilidades(request):
-     #http://localhost:8000/loadHab
-    #para verlas ir adamin
-    with open('perfiles.json',encoding='utf8') as json_file:
-        data = json.load(json_file)
-        for p in data:
-            if not existePer(request, p['id_perfil']):
-                pe = Perfil()
-                pe.id_perfil = p['id_perfil']
-                pe.saldo = p['precio']
-                pe.save()
+def getSueldoN(request, habilidades, moneda, tipoSalario):
 
-            for hab in p['habilidades']:
-                if not existeHab(request, p['habilidades']):
-                    h = Habilidad()
-                    h.nombre = hab
-                    h.save()
+    phs = PerfHabs.objects.all()
 
-                    hp = HPer()
-                    hp.id_perf =Perfil.objects.get(id_perfil = p['id_perfil'])
-                    hp.nomb_hab = Habilidad.objects.get(nombre = hab)
-                    hp.save()
+    ret=[]
+    for ph in phs:
+        #if ph.habilidades == habilidades:
+        if isEqualSkills(request, ph.habilidades, habilidades):
+            ret.append(ph.precio)
 
-def getPreciosMax(request, hh):
-    allHPer = HPer.objects.all()
+    cambio = 0
+    if moneda =="Pesos":
+        cambio = 50
+    if moneda == "Dolares":
+        cambio = 0.85
+    if moneda == "Euros":
+        cambio = 1
 
-    precios=[]
-    for hp in allHPer:
-        if hp.nomb_hab.nombre == hh.nombre:
-            precios.append(hp.id_perf.saldo)
+    if len(ret)==0:
+        return "No se encontaron resultados."
+    else:
+        if tipoSalario == "Jornalero":
+            if len(ret) == 1:
+                return str(ret[0] * cambio) + " " + moneda +"/hr"
+            else:
+                sumaPrecios=0
+                for n in ret:
+                    sumaPrecios = sumaPrecios + n
+
+                cantPrecios = len(ret)
+                promedio= sumaPrecios/cantPrecios
+                redondeo = round(promedio,2)
+                pesos = redondeo * cambio
+                strPesos = str(pesos)
+                return strPesos + " " + moneda +"/hr"
+        else:
+            if len(ret) == 1:
+                return str(ret[0] * cambio *192) + " " + moneda +"/mes"
+            else:
+                sumaPrecios=0
+                for n in ret:
+                    sumaPrecios = sumaPrecios + n
+
+                cantPrecios = len(ret)
+                promedio= sumaPrecios/cantPrecios
+                redondeo = round(promedio,2)
+                pesos = redondeo * cambio * 192
+                strPesos = str(pesos)
+                return strPesos + " " + moneda +"/mes"
     
-    #per = sum(precios)/len(precios)
-    #red = round(per, 2)
-    #return red
-    return max(precios)
+    return "Error"
+#-----------------------------------------------------------------
 
-def getPreciosMin(request, hh):
-    allHPer = HPer.objects.all()
+def cortarHabis(request, ph):
+    str_habis=[]
 
-    precios=[]
-    for hp in allHPer:
-        if hp.nomb_hab.nombre == hh.nombre:
-            precios.append(hp.id_perf.saldo)
-    return min(precios)
+    for s in ph.habilidades.split("; "):
+        if s != "":
+            str_habis.append(s)
+    return str_habis #lista de strings habis
 
-def getSueldo(request, habilidades):
-    
-    habs = habilidades.split("; ")
-    res=[]
-    for h in habs:
-        if h != '':
-            res.append(h)
-    
-    habis=[]
-    for r in res:
-        h = Habilidad.objects.get(nombre=r)
-        habis.append(h)
+def getHabilidades(request):
+    allPH = PerfHabs.objects.all()
 
-    perciosMin=[]
-    for hh in habis:
-        perciosMin.append(getPreciosMin(request, hh))
+    lst_habis = []
+    for ph in allPH:
+        for h in cortarHabis(request, ph):
+            lst_habis.append(h)
 
-    minimo = sum(perciosMin)
+    lst_habis = set(lst_habis)
+    lst_habis = list(lst_habis)
 
-    perciosMax=[]
-    for hh in habis:
-        perciosMax.append(getPreciosMax(request, hh))
+    retDic=[]
+    for h in lst_habis:
+        dato = {
+            'nombre':h
+        }
+        retDic.append(dato)
 
-    maximo = sum(perciosMax)
-
-    msg = "Desde: $"+ str(minimo*50) + ", Hasta: $"+str(maximo*50)+"."
-    return msg
+    return retDic
 
 def calculadora(request):
 
     context = {
         'userNombre': request.session['nombre'],
         'NotieneCV': NotieneCV(request),
-        'habilidades':Habilidad.objects.all(),
+        #'habilidades':Habilidad.objects.all(),
+        'habilidades':getHabilidades(request),
         'Sueldo' : ""
     }
     return render(request, 'Calculadora.html', context)
@@ -149,8 +195,10 @@ def Calcular(request):
     context = {
         'userNombre': request.session['nombre'],
         'NotieneCV': NotieneCV(request),
-        'habilidades':Habilidad.objects.all(),
-        'Sueldo' : getSueldo(request, request.POST['habilidades'])
+        #'habilidades':Habilidad.objects.all(),
+        'habilidades':getHabilidades(request),
+        #'Sueldo' : getSueldo(request, request.POST['habilidades'])
+        'Sueldo' : getSueldoN(request, request.POST['habilidades'], request.POST['moneda'], request.POST['tipoSalario'])
     }
     return render(request, 'Calculadora.html', context)
 
@@ -456,15 +504,20 @@ def Registrarse(request):
 def IniciarSesion(request):
     return render(request, 'iniciarSesion.html')
 
-def chartPieData(request):
+def chartPieData2(request):
 
     datos=[]
-    allHab = Habilidad.objects.all()
-    for ha in allHab:
+    allHab = PerfHabs.objects.all()
+
+    res=[]
+    res = allHab[:10]
+
+    res2 = sorted(res, key=lambda x: x.precio, reverse=True)
+
+    for ha in res2:
         dato = {
-            "habilidad": ha.nombre,
-            "SueldoMax": getPreciosMin(request, ha)*50,
-            "SueldoMin": getPreciosMax(request, ha)*50
+            "precio": ha.precio * 50,
+            "habilidades": ha.habilidades
         }
         datos.append(dato)
 
@@ -475,14 +528,14 @@ def Estadistica(request):
         request.session['nombre']
         context = {
             'isLoged': True,
-            'datos': chartPieData(request)
+            'datos': chartPieData2(request)
         }
         return render(request, 'estadistica.html',context) 
     except KeyError: 
         request.session.flush()
         context = {
             'isLoged': False,
-            'datos': chartPieData(request)
+            'datos': chartPieData2(request)
         }
         return render(request, 'estadistica.html',context)
 
@@ -947,9 +1000,6 @@ def getOfertasCategoria(request, allOfertas):
                         for s in allSubCats:
                             if s.CategoriaBJ == catBJ:
                                 subCats.append(s)
-
-                        for s in subCats:
-                            print(s.nombre)
 
                         oferts=[]
                         for of in allOfertas:

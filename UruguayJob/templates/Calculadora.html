@@ -38,36 +38,62 @@
 {% block body %}
 {% load static %}
 <!-- Detalles del llamado -->
-<div class="col-md-6" style="padding-top: 100px; width: fit-content;margin: auto;">
-	<div class="row">
-		<h1 class="text-primary">Calculadora de Habilidades</h1>
+<div class="row" style="padding-top: 100px; width: fit-content;margin: auto;">
+	<h1 class="text-primary">Calculadora de Habilidades</h1>
+	<div class="col-12">
+
 		<br>
 		<form action="{% url 'Calcular' %}" method="post">
 			{% csrf_token %}
 			<div class="form-group">
-				
-				<label for="selectHabId">Ingrese habilidad</label>
 
+				<label for="selectHabId">Ingrese habilidad</label>
 				<select class="form-control" name="habilidad" id="selectHabId" onchange="foo(this.value);">
 					<option id=""></option>
 					{% for habilidad in habilidades %}
 					<option id="{{ habilidad.nombre }}">{{ habilidad.nombre }}</option>
 					{% endfor %}
 				</select>
+				<samp class="text-muted">Puede seleccionar varias habilidades</samp>
 
+				<br>
+				<br>
 
 				<label for="habilidadesid">Lista de habilidad:</label>
 				<textarea readonly class="form-control" name="habilidades" id="habilidadesid" rows="2"
 					style="width: 100%;"></textarea>
 
 				<script>
-					function foo(val){
+					function foo(val) {
 						document.getElementById('habilidadesid').value += val + "; ";
 					}
 				</script>
 			</div>
 			<hr>
 			<div class="form-group">
+
+
+				<div class="btn-group btn-group-toggle" data-toggle="buttons">
+					<label class="btn btn-success active">
+						<input type="radio" name="moneda" id="option1" autocomplete="off" checked value="Pesos"> Pesos
+					</label>
+					<label class="btn btn-success">
+						<input type="radio" name="moneda" id="option2" autocomplete="off" value="Dolares"> Dolares
+					</label>
+					<label class="btn btn-success">
+						<input type="radio" name="moneda" id="option3" autocomplete="off" value="Euros"> Euros
+					</label>
+				</div>
+				<br> <br>
+				<div class="btn-group btn-group-toggle" data-toggle="buttons">
+					<label class="btn btn-success active">
+						<input type="radio" name="tipoSalario" id="option1" autocomplete="off" checked value="Jornalero"> Jornalero
+					</label>
+					<label class="btn btn-success">
+						<input type="radio" name="tipoSalario" id="option2" autocomplete="off" value="Mensual"> Mensual
+					</label>
+				</div>
+
 				<div class="row mt-2">
 					<div class="col-9 col-md-10">
 						<label>Posible sueldo:</label>
@@ -82,6 +108,7 @@
 			<br>
 		</form>
 	</div>
+
 </div>
 
 {% endblock %}

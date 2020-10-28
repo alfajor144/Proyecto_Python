@@ -85,18 +85,11 @@ class BuscoJob(models.Model):
     categoria = models.CharField('categoria', max_length = 100, blank = False, null = False)
     subCategoria = models.CharField('subCategoria', max_length = 100, blank = False, null = False)
     requisitos = models.CharField('requisitos', max_length = 100, blank = False, null = False)
-    
-class Perfil(models.Model):
+
+class PerfHabs(models.Model):
     id_perfil = models.CharField(primary_key = True, max_length = 100)
-    saldo = models.DecimalField(max_digits=5, decimal_places=2)
-
-class Habilidad(models.Model):
-    nombre = models.CharField(primary_key = True, max_length = 100)
-    id_Perfil = models.ManyToManyField(Perfil, related_name='HPer', through='HPer')
-
-class HPer(models.Model):
-    id_perf = models.ForeignKey(Perfil, on_delete = models.CASCADE)
-    nomb_hab = models.ForeignKey(Habilidad, on_delete = models.CASCADE)
+    precio = models.IntegerField(blank = True, null = True)
+    habilidades = models.TextField(blank = True, null = True)
 
 
 
