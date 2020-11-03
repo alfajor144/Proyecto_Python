@@ -4,15 +4,13 @@
 # https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
 from scrapy import signals
+
+# useful for handling different item types with a single interface
+from itemadapter import is_item, ItemAdapter
 # Agregada para rotar el user-agent
 from scrapy.downloadermiddlewares.useragent import UserAgentMiddleware
 import random
 import logging
-
-# useful for handling different item types with a single interface
-from itemadapter import is_item, ItemAdapter
-
-# Clase para rotar el user-agent
 
 
 class UserAgentRotatorMiddleware(UserAgentMiddleware):
@@ -24,8 +22,7 @@ class UserAgentRotatorMiddleware(UserAgentMiddleware):
         'Mozilla/5.0 (X11; CrOS x86_64 12239.92.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.136 Safari/537.36',
         'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:54.0) Gecko/20100101 Firefox/54.0',
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:81.0) Gecko/20100101 Firefox/81.0',
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36'
-    ]
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36']
 
     def __init__(self, user_agent=''):
         self.user_agent = user_agent
@@ -39,8 +36,7 @@ class UserAgentRotatorMiddleware(UserAgentMiddleware):
         except IndexError:
             logging.error("No se puedo obtener el User-Agent")
 
-
-class TwagoSpiderMiddleware:
+class Twago3SpiderMiddleware:
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the spider middleware does not modify the
     # passed objects.
@@ -87,7 +83,7 @@ class TwagoSpiderMiddleware:
         spider.logger.info('Spider opened: %s' % spider.name)
 
 
-class TwagoDownloaderMiddleware:
+class Twago3DownloaderMiddleware:
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the downloader middleware does not modify the
     # passed objects.

@@ -17,6 +17,7 @@ class TwagoPipeline:
     def process_item(self, item, spider):
         adapter = ItemAdapter(item)
         if adapter.get('id_oferta'):
+            import pdb; pdb.set_trace()
             fecha_fin = self.get_fecha_fin(item['fecha_fin'])
             item['fecha_fin'] = fecha_fin.strftime('%Y-%m-%d')
         #import pdb; pdb.set_trace()
@@ -31,18 +32,19 @@ class TwagoPipeline:
         Obtiene la fecha de final a partir del string que recibe.
         """
         ahora = datetime.datetime.utcnow()  # Obtiene fecha y hora actual
-        fecha_fin = fecha_fin.strip()
-        fecha_split = fecha_fin.split()
-        cantidad = fecha_split[0]
-        fecha_split = fecha_split[1].split(",")
-        unidad_tiempo = fecha_split[0]
-        if cantidad == "un":
-            cantidad = "1"
-        cantidad = int(cantidad)
-
-        if unidad_tiempo == "días":
-            return (ahora + datetime.timedelta(days=cantidad))
-        elif unidad_tiempo == "día":
-            return (ahora + datetime.timedelta(hours=cantidad))
+        #import ipdb; ipdb.set_trace()
+        if fecha_fin != '' and fecha_fin is not None:
+            fecha_fin = fecha_fin.strip()
+            fecha_split = fecha_fin.split()
+            cantidad = fecha_split[0]
+            fecha_split = fecha_split[1].split(",")
+            unidad_tiempo = fecha_split[0]
+            if cantidad == "un":
+                cantidad = "1"
+            cantidad = int(cantidad)
+            if unidad_tiempo == "días":
+                return (ahora + datetime.timedelta(days=cantidad))
+            elif unidad_tiempo == "día":
+                return (ahora + datetime.timedelta(hours=cantidad))
         else:
             return ahora
