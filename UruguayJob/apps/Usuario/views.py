@@ -15,15 +15,11 @@ def cargarBD(request):
     cargarTwagoJson(request)
     cargarPerfHabilidades(request)
 
-    request.session.flush()
+
     context = {
-        'Ofertas': LoMasReciente(request),
-        'OfertasRec': LoMasRecienteRec(request),
-        'CategoriasBJ': CargarCategoriasBJ(request),
-        'CategoriasUC': CargarCategoriasUC(request),
-        'SubCategorias':CargarSubCategorias(request)
+        'userNombre': request.session['nombre']
     }
-    return render(request, 'hInvitado.html', context)
+    return render(request, 'hAdmin.html', context)
 
 def cargarPerfHabilidades(request):
     hab=""

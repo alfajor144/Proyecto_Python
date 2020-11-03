@@ -17,6 +17,7 @@
 		</a>
 
 		<div class="navbar ml-md-auto" style=" display: table-cell;">
+			<a href="/cargarBD" onclick="mgsUpdateBD()"><i style="width:30px"></i> Actualizar BD</a>
 			<a href="/entrevistar"><i style="width:30px"></i> Entrevistar</a>
 			<a href="/calificar"><i style="width:30px"></i>Calificar entrevistas</a>
 			<a href="/cerrarSesion"><i style="width:30px; padding-right: 10px;"></i>
@@ -24,6 +25,12 @@
 		</div>
 	</div>
 </nav>
+
+<script>
+	function mgsUpdateBD(){
+		alert("Se actualizará la base de dato\nesto puede tardar algunos minutos.");
+	}
+</script>
 {% endblock %}
 
 
@@ -36,14 +43,14 @@
 	<div class="col-md-8 div-buscador" style="height: 300px;">
 		<h3>Bienvenido Administrador {{ userNombre }}</h3>
 		<br><br>
-		<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptates, 
-			voluptatum. Sapiente necessitatibus reprehenderit quos error, rerum 
-			nisi ipsum non perspiciatis laudantium, nobis dolores quia harum? 
-			Eveniet ipsam et eligendi nesciunt.</p>
+		<div class="mx-5">
+			<p>Este es el sitio encargado de la administración de la información referente a la pagina UyJob donde el usuario administrador tendrá acceso a funcionalidades tales como actualizar la base de datos, la cual añadirá nuevas tuplas de ofertas laborales scrapeadas de los sitios predefinidos de búsqueda, entrevista, donde podrá programar entrevistas a los postulantes y calificar entrevistas, donde podrá asignar una nota a las entrevistas ya realizadas.</p>
+		</div>
 	</div>
 	<div class="col-md-2">
 	</div>
 </div>
 
 <hr>
+<br>
 {% endblock %}
