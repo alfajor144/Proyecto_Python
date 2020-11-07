@@ -8,12 +8,14 @@ import json
 #python manage.py runserver
 
 #http://localhost:8000/cargarBD
+def nombreJson(request, nombre):
+    return 'perfiles.json'
 
 def cargarBD(request):
     cargarUruguayConcursaJson(request)
     cargarBuscoJobJson(request)
     cargarTwagoJson(request)
-    cargarPerfHabilidades(request)
+    cargarPerfHabilidades(request, nombreJson(request, 'twago_perfiles'))
 
 
     context = {
@@ -21,9 +23,10 @@ def cargarBD(request):
     }
     return render(request, 'hAdmin.html', context)
 
-def cargarPerfHabilidades(request):
+def cargarPerfHabilidades(request, nombre_json):
+    # 'perfiles.json'
     hab=""
-    with open('perfiles.json',encoding='utf8') as json_file:
+    with open(nombre_json, encoding='utf8') as json_file:
         data = json.load(json_file)
         for p in data:
             per = PerfHabs()
