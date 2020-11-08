@@ -1,12 +1,17 @@
 import scrapy
 import logging
 import datetime
-from ..items import BuscojobsItem
+from jobs.items import BuscojobsItem
 from scrapy.exceptions import CloseSpider
 
 
 class UyBuscoJobSpider(scrapy.Spider):
     name = 'uybuscojob-ofertas'
+    nro_item = 0
+    limite = None
+    nro_item = 0
+    pages = 0
+    fecha_oferta = ""
     custom_settings = {
         'ROBOTSTXT_OBEY':True,
         'COOKIES_ENABLED':False,
@@ -14,7 +19,7 @@ class UyBuscoJobSpider(scrapy.Spider):
             'jobs.pipelines.UyBuscoJobPipeline': 300,
         },
         # Configuración para exportar a json automaticamente
-        'FEED_URI': 'uybuscojob-ofertas_' + datetime.datetime.today().strftime('%d_%m_%y') + '.json',
+        'FEED_URI': '../uybuscojob-ofertas_' + datetime.datetime.today().strftime('%y%m%d%H%M%S') + '.json',
         'FEED_FORMAT': 'json',
         'FEED_EXPORTERS': {
             'json': 'scrapy.exporters.JsonItemExporter',
@@ -23,8 +28,14 @@ class UyBuscoJobSpider(scrapy.Spider):
     }
     allowed_domains = ['www.buscojobs.com.uy']
     start_urls = ['https://www.buscojobs.com.uy/ofertas']
-    item_count = 0
-    fecha_oferta = ""
+
+    def __init__(self, limite=5, *args, **kwargs):
+        super(UyBuscoJobSpider, self).__init__(*args, **kwargs) # <- important
+        try:
+            self.limite = int(limite)
+        except ValueError:
+            #Si el limite ingresado no es válido
+            self.limite = 5
 
     def parse(self, response):
         logging.info(response.url)
@@ -39,6 +50,7 @@ class UyBuscoJobSpider(scrapy.Spider):
             yield response.follow(url=oferta_link, callback=self.parse_item )
         next_page_url = response.xpath('//*[@id="paginaSiguiente"]/a/@href').get()
         if next_page_url is not None:
+            self.pages += 1
             yield scrapy.Request(response.urljoin(next_page_url))
     
     def parse_item(self, response):
@@ -75,21 +87,21 @@ class UyBuscoJobSpider(scrapy.Spider):
                 if nombre == "Jornada Laboral:":
                     jornada_laboral = all_detalles2[i].xpath('.//span/text()').get() 
                     continue
-        items = BuscojobsItem()
-        items['nro_llamado'] = nro_llamado
-        items['fecha_inicio'] = self.fecha_oferta
-        items['fecha_fin'] = ""
-        items['titulo'] = titulo
-        items['descripcion']  = descripcion
-        items['empresa_nombre'] = empresa_nombre
-        items['empresa_imagen'] = empresa_imagen
-        items['lugar'] = lugar 
-        items['jornada_laboral'] = jornada_laboral 
-        items['puestos_vacantes'] = puestos
-        items['categoria'] = categoria 
-        items['categoria_padre'] = categoria_padre
-        items['requisitos'] = all_requisitos
-        self.item_count += 1
-        if self.item_count > 350 :
+        item = BuscojobsItem()
+        item['nro_llamado'] = nro_llamado
+        item['fecha_inicio'] = self.fecha_oferta
+        item['fecha_fin'] = ""
+        item['titulo'] = titulo
+        item['descripcion']  = descripcion
+        item['empresa_nombre'] = empresa_nombre
+        item['empresa_imagen'] = empresa_imagen
+        item['lugar'] = lugar 
+        item['jornada_laboral'] = jornada_laboral 
+        item['puestos_vacantes'] = puestos
+        item['categoria'] = categoria 
+        item['categoria_padre'] = categoria_padre
+        item['requisitos'] = all_requisitos
+        self.nro_item += 1
+        if self.nro_item > self.limite :
             raise CloseSpider('item_exceeded')
-        yield items
+        yield item

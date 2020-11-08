@@ -7,6 +7,11 @@ import datetime
 
 class PerfilesSpider(scrapy.Spider):
     name = 'twago-perfiles'
+    limite = None
+    nro_item = 0
+    pages = 0
+    perfiles_deletes = 0
+    pagination = ""
     custom_settings = {
         'ROBOTSTXT_OBEY':False,
         'COOKIES_ENABLED':False,
@@ -14,7 +19,7 @@ class PerfilesSpider(scrapy.Spider):
             'jobs.pipelines.TwagoPerfilesPipeline': 300,
         },
         # Configuración para exportar a json automaticamente
-        'FEED_URI': 'twago-perfiles_' + datetime.datetime.today().strftime('%d_%m_%y') + '.json',
+        'FEED_URI': '../twago-perfiles_' + datetime.datetime.today().strftime('%y%m%d%H%M%S') + '.json',
         'FEED_FORMAT': 'json',
         'FEED_EXPORTERS': {
             'json': 'scrapy.exporters.JsonItemExporter',
@@ -24,10 +29,14 @@ class PerfilesSpider(scrapy.Spider):
     allowed_domains = ['www.twago.es']
     start_urls = [
         'https://www.twago.es/search/freelancer/?q=*&sortDirection=descending&cat=freelancer&sortField=default']
-    _items = 0
-    _pages = 1
-    perfiles_deletes = 0
-    pagination = ""
+
+    def __init__(self, limite=5, *args, **kwargs):
+        super(PerfilesSpider, self).__init__(*args, **kwargs) # <- important
+        try:
+            self.limite = int(limite)
+        except ValueError:
+            #Si el limite ingresado no es válido
+            self.limite = 5
 
     def parse(self, response):
         logging.info(response.url)
@@ -50,7 +59,7 @@ class PerfilesSpider(scrapy.Spider):
                 break
 #        # Avanza a la siguiente pagina de la paginación
         if next_page_url is not None:
-            self._pages += 1
+            self.pages += 1
             yield scrapy.Request(response.urljoin(next_page_url))
 
 
@@ -74,9 +83,9 @@ class PerfilesSpider(scrapy.Spider):
             item['id_perfil'] = id_perfil
             item['precio'] = precio
             item['habilidades'] = habilidades
-            self._items += 1
-            print("pagina:", self._pages, ", item:", self._items)
-            if self._items >= 300:
+            self.nro_item += 1
+            print("pagina:", self.pages, ", item:", self.nro_item)
+            if self.nro_item > self.limite:
                 raise CloseSpider(
                     'Se alcanzó el máximo número de elementos a raspar!'
                     )

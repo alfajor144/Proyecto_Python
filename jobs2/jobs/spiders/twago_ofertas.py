@@ -6,6 +6,10 @@ import datetime
 
 class TwagoOfertasSpider(scrapy.Spider):
     name = 'twago-ofertas'
+    limite = None
+    nro_item = 0
+    pages = 0
+    pagination = None   
     custom_settings = {
         'ROBOTSTXT_OBEY':False,
         'COOKIES_ENABLED':False,
@@ -13,7 +17,7 @@ class TwagoOfertasSpider(scrapy.Spider):
             'jobs.pipelines.TwagoOfertasPipeline': 300,
         },
         # Configuración para exportar a json automaticamente
-        'FEED_URI': 'twago-ofertas_' + datetime.datetime.today().strftime('%d_%m_%y') + '.json',
+        'FEED_URI': '../twago-ofertas_' + datetime.datetime.today().strftime('%y%m%d%H%M%S') + '.json',
         'FEED_FORMAT': 'json',
         'FEED_EXPORTERS': {
             'json': 'scrapy.exporters.JsonItemExporter',
@@ -21,27 +25,30 @@ class TwagoOfertasSpider(scrapy.Spider):
         'FEED_EXPORT_ENCODING': 'utf-8',
     }
     allowed_domains = ['www.twago.es']
-    start_urls = [
-        'https://www.twago.es/search/projects/?q=*&sortDirection=descending&cat=projects&sortField=default']
-    count_items = 0
-    count_pages = 0
-    pagination = None   
+    start_urls = ['https://www.twago.es/search/projects/?q=*&sortDirection=descending&cat=projects&sortField=default']
+
+    def __init__(self, limite=5, *args, **kwargs):
+        super(TwagoOfertasSpider, self).__init__(*args, **kwargs) # <- important
+        try:
+            self.limite = int(limite)
+        except ValueError:
+            #Si el limite ingresado no es válido
+            self.limite = 5
 
     def parse(self, response):
         #import ipdb; ipdb.set_trace()
         self.logger.info('Función ofertas.parse %s', response.url)
-        self.count_pages += 1
+        self.pages += 1
         # obtiene todas los proyectos (ofertas) de la pagina actual
         ofertas = response.xpath('//div[@class="project-name"]/a')
         # ingresa a cada oferta de la pagina actual y luego la
-        #funcion parsecount_items obtiene los datos
+        #funcion parsenro_item obtiene los datos
         for oferta in ofertas:
             oferta_link = oferta.xpath('./@href').get()
             print("oferta_link:", oferta_link)
             yield response.follow(url=oferta_link, callback=self.parse_item)
         # trae todos los links del la paginación
-        self.pagination = response.xpath(
-           '//nav[@class="search-results-pager-links"]/a')
+        self.pagination = response.xpath('//nav[@class="search-results-pager-links"]/a')
         # extrae la clase del btn. del paginador de la pag. actual
         for i in range(len(self.pagination)-1):
             # primero obtiene el actual, que tiene la clase selected
@@ -49,10 +56,6 @@ class TwagoOfertasSpider(scrapy.Spider):
             if clase_link == "search-results-page-link selected":
                 next_page_url = self.pagination[i+1].xpath('./@href').get()
                 break
-        if self.count_items > 500:
-            raise CloseSpider(
-                'Se alcanzó el máximo número de elementos a raspar!'
-                )
         # Avanza a la siguiente pagina de la paginación
         if next_page_url is not None:
             yield scrapy.Request(response.urljoin(next_page_url))
@@ -71,24 +74,17 @@ class TwagoOfertasSpider(scrapy.Spider):
         str_url = str_url.split("/")
         id_oferta = str_url[len(str_url) - 2]
         titulo = response.xpath('//div[@class="job-controls-info"]/h1/text()').get()
-        lst_descripcion = response.xpath(
-            '//div[@class="job-public-description-text"][2]').getall()
+        lst_descripcion = response.xpath('//div[@class="job-public-description-text"][2]').getall()
         for parrafo in lst_descripcion:
             descripcion += parrafo
-        requisitos = response.xpath(
-            '//span[@class="job-public-tag"]/text()').getall()
-        fecha_fin = response.xpath(
-            'normalize-space(//div[@class="job-bid-info"]/span/text())').get()
-        lbl_presupuesto = response.xpath(
-            'normalize-space(//div[@class="job-proposal-content"][1]/span/text())')
+        requisitos = response.xpath('//span[@class="job-public-tag"]/text()').getall()
+        fecha_fin = response.xpath('normalize-space(//div[@class="job-bid-info"]/span/text())').get()
+        lbl_presupuesto = response.xpath('normalize-space(//div[@class="job-proposal-content"][1]/span/text())')
         if lbl_presupuesto == 'Presupuesto':
-            presupuesto = response.xpath(
-                'normalize-space(//div[@class="job-proposal-content"][1]/p/text())').get()
-        lbl_publicado = response.xpath(
-            'normalize-space(//div[@class="job-proposal-content"][2]/span/text())')
+            presupuesto = response.xpath('normalize-space(//div[@class="job-proposal-content"][1]/p/text())').get()
+        lbl_publicado = response.xpath('normalize-space(//div[@class="job-proposal-content"][2]/span/text())')
         if lbl_publicado == 'Publicado el':
-            fecha_inicio = response.xpath(
-                '//div[@class="job-proposal-content"][2]/p/text()').get()
+            fecha_inicio = response.xpath('//div[@class="job-proposal-content"][2]/p/text()').get()
         item = TwagoOfertasItem()
         item['id_oferta'] = id_oferta
         item['titulo'] = titulo
@@ -97,5 +93,9 @@ class TwagoOfertasSpider(scrapy.Spider):
         item['fecha_fin'] = fecha_fin
         item['presupuesto'] = presupuesto
         item['requisitos'] = requisitos
-        self.count_items += 1
-        yield item  
+        self.nro_item += 1
+        print("pagina:", self.pages, ", item:", self.nro_item)
+        if self.nro_item > self.limite:
+            raise CloseSpider('Se alcanzó el máximo número de elementos a raspar!')
+        else:
+            yield item
