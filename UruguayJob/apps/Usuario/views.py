@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from apps.Usuario.models import Usuario, Oferta, SubCategoriaBJ, Curriculum, UruguayConcursa,Postulacion,BuscoJob, CategoriaUC, CategoriaBJ, PerfHabs
+import os
 
 
 import json
@@ -9,14 +10,47 @@ import json
 
 #http://localhost:8000/cargarBD
 def nombreJson(request, nombre):
-    return 'perfiles.json'
+    dir_raiz = './'
+    nombre_actual = None
+    valor_actual = 0
+    with os.scandir(dir_raiz) as ficheros:
+        ficheros = [fichero.name for fichero in ficheros if fichero.is_file() and fichero.name.endswith('.json')]
+    for fichero in ficheros:
+        if nombre in fichero :
+            parte1 = fichero.split('_')
+            parte2 = parte1[1].split('.')
+            try:
+                valor_fichero = int(parte2[0])
+                if valor_fichero > valor_actual:
+                    nombre_actual = fichero
+                    valor_actual = valor_fichero
+            except ValueError as error:
+                print(f'No se pudo convertir a el string {parte2[0]} a int. Error: {error}')
+                return None
+            except :
+                print(f'Error desconocido al buscar el fichero {nombre}')
+                return None
+        
+    if nombre_actual is None:
+        print(f'No se encontró ningún fichero con el nombre "{nombre}_fechaHora.json"')
+    else:
+        print(f'El fichero más reciente para "{nombre}" es: "{nombre_actual}"')
+    return nombre_actual
+
 
 def cargarBD(request):
-    cargarUruguayConcursaJson(request)
-    cargarBuscoJobJson(request)
-    cargarTwagoJson(request)
-    cargarPerfHabilidades(request, nombreJson(request, 'twago_perfiles'))
-
+    name_concursa_json = nombreJson(request, 'concursa-ofertas_')
+    if name_concursa_json is not None:
+        cargarUruguayConcursaJson(request, name_concursa_json)
+    name_buscojob_json = nombreJson(request, 'uybuscojob-ofertas_')
+    if name_buscojob_json is not None:
+        cargarBuscoJobJson(request, name_buscojob_json)
+    name_twago_json = nombreJson(request, 'twago-ofertas_')
+    if name_twago_json is not None:
+        cargarTwagoJson(request, name_twago_json)
+    name_perfiles_json = nombreJson(request, 'twago-perfiles_')
+    if name_perfiles_json is not None:
+        cargarPerfHabilidades(request, name_perfiles_json)
 
     context = {
         'userNombre': request.session['nombre']
@@ -25,41 +59,52 @@ def cargarBD(request):
 
 def cargarPerfHabilidades(request, nombre_json):
     # 'perfiles.json'
-    hab=""
-    with open(nombre_json, encoding='utf8') as json_file:
-        data = json.load(json_file)
-        for p in data:
-            per = PerfHabs()
-            per.id_perfil = p['id_perfil']
-            per.precio= p['precio']
+    #import ipdb
+    try:
+        hab=""
+        with open(nombre_json, encoding='utf8') as json_file:
+            data = json.load(json_file)
+            for p in data:
+                per = PerfHabs()
+                per.id_perfil = p['id_perfil']
+                per.precio= p['precio']
 
-            for n in p['habilidades']:
-                hab = hab + n + "; "
+                for n in p['habilidades']:
+                    hab = hab + n + "; "
 
-            per.habilidades= hab
-            per.save()
-            hab=""
+                per.habilidades= hab
+                per.save()
+                hab=""
+    except NameError as error:
+        print(f'Error al intentar cargar PerHabilidades, nombre_json no es correcto. Error: {error}')
+#    except:
+#        print(f'Error desconocido al intentar cargar PerHabilidades')
 
-def cargarTwagoJson(request):
-    with open('ofertas_twago.json',encoding='utf8') as json_file:
-        data = json.load(json_file)
-        for p in data:
-            o = Oferta()
-            o.id_oferta = p['id_oferta']
-            o.titulo = p['titulo']
-            o.descripcion = p['descripcion'] + ", Presupuesto: "+ p['presupuesto'] + "."
-            o.pais = 'Freelancer'
-            o.fecha_inicio = p['fecha_inicio']
-            o.fecha_final = p['fecha_fin']
-            if not existeCatUC(request, p['requisitos'][0]):
-                cuc = CategoriaUC()
-                cuc.nombre= p['requisitos'][0]
-                cuc.isFreelancer=True
-                cuc.save()
-                o.CategoriaUC = cuc
-            else:
-                o.CategoriaUC = CategoriaUC.objects.get(nombre = p['requisitos'][0])
-            o.save()
+def cargarTwagoJson(request, nombre_json):
+    try:
+        with open(nombre_json ,encoding='utf8') as json_file:
+            data = json.load(json_file)
+            for p in data:
+                o = Oferta()
+                o.id_oferta = p['id_oferta']
+                o.titulo = p['titulo']
+                o.descripcion = p['descripcion'] + ", Presupuesto: "+ p['presupuesto'] + "."
+                o.pais = 'Freelancer'
+                o.fecha_inicio = p['fecha_inicio']
+                o.fecha_final = p['fecha_fin']
+                if not existeCatUC(request, p['requisitos'][0]):
+                    cuc = CategoriaUC()
+                    cuc.nombre= p['requisitos'][0]
+                    cuc.isFreelancer=True
+                    cuc.save()
+                    o.CategoriaUC = cuc
+                else:
+                    o.CategoriaUC = CategoriaUC.objects.get(nombre = p['requisitos'][0])
+                o.save()
+    except NameError as error:
+        print(f'Error al intentar cargar twagoJson, nombre_json no es correcto. Error: {error}')
+    except:
+        print(f'Error desconocido al intentar cargar twagoJson')
 
 #---------------------------Calculadora--------------------------
 def isEqualSkills(request, Ph_habis, str_habis):
@@ -293,105 +338,115 @@ def existeOferta(request, nombre):
     except Oferta.DoesNotExist:
         return False
 
-def cargarBuscoJobJson(request):
+def cargarBuscoJobJson(request, nombre_json):
     #http://localhost:8000/loadBJ
     #para verlas ir adamin
+    try:
+        with open(nombre_json, encoding='utf8') as json_file:
+            data = json.load(json_file)
+            for p in data:
+                if not existeCatBJ(request, p['categoria_padre']):
+                    cbj = CategoriaBJ()
+                    cbj.nombre = p['categoria_padre']
+                    cbj.save()
+            
+        with open( nombre_json, encoding='utf8') as json_file:
+            data = json.load(json_file)
+            for p in data:
+                if not existeSubCatBJ(request, p['categoria'][0]):
+                    sbj = SubCategoriaBJ()
+                    sbj.nombre = p['categoria'][0]
+                    sbj.CategoriaBJ = CategoriaBJ.objects.get(nombre = p['categoria_padre'])
+                    sbj.save()
 
-    with open('buscojobs.json',encoding='utf8') as json_file:
-        data = json.load(json_file)
-        for p in data:
-            if not existeCatBJ(request, p['categoria_padre']):
-                cbj = CategoriaBJ()
-                cbj.nombre = p['categoria_padre']
-                cbj.save()
-        
-    with open('buscojobs.json',encoding='utf8') as json_file:
-        data = json.load(json_file)
-        for p in data:
-            if not existeSubCatBJ(request, p['categoria'][0]):
-                sbj = SubCategoriaBJ()
-                sbj.nombre = p['categoria'][0]
-                sbj.CategoriaBJ = CategoriaBJ.objects.get(nombre = p['categoria_padre'])
-                sbj.save()
+        with open(nombre_json, encoding='utf8') as json_file:
+            data = json.load(json_file)
+            for p in data:
+                bj = BuscoJob()
+                bj.nro_llamado = p['nro_llamado']
+                bj.fecha_inicio = formatDateTime(request, p['fecha_inicio']) 
+                bj.fecha_fin = formatDateTime(request, p['fecha_fin'])
+                bj.titulo = p['titulo']
+                desc = ""
+                for n in p['descripcion']:
+                    desc = desc + n + ", "
+                desc = desc + "fin."
+                bj.descripcion = desc
+                bj.empresa_nombre =p['empresa_nombre']
+                bj.lugar = p['lugar']
+                bj.jornada_laboral = p['jornada_laboral']
+                bj.puestos_vacantes = p['puestos_vacantes']
+                bj.categoria = p['categoria_padre']
+                bj.subCategoria = p['categoria'][0]
+                bj.requisitos = p['requisitos']
+                bj.save()
 
-    with open('buscojobs.json',encoding='utf8') as json_file:
-        data = json.load(json_file)
-        for p in data:
-            bj = BuscoJob()
-            bj.nro_llamado = p['nro_llamado']
-            bj.fecha_inicio = formatDateTime(request, p['fecha_inicio']) 
-            bj.fecha_fin = formatDateTime(request, p['fecha_fin'])
-            bj.titulo = p['titulo']
-            desc = ""
-            for n in p['descripcion']:
-                desc = desc + n + ", "
-            desc = desc + "fin."
-            bj.descripcion = desc
-            bj.empresa_nombre =p['empresa_nombre']
-            bj.lugar = p['lugar']
-            bj.jornada_laboral = p['jornada_laboral']
-            bj.puestos_vacantes = p['puestos_vacantes']
-            bj.categoria = p['categoria_padre']
-            bj.subCategoria = p['categoria'][0]
-            bj.requisitos = p['requisitos']
-            bj.save()
+        allBJ = BuscoJob.objects.all() 
+        for bj in allBJ:
+            o = Oferta()
+            o.id_oferta = bj.nro_llamado
+            o.titulo = bj.titulo
+            o.descripcion = bj.descripcion 
+            o.pais = "Uruguay"
+            o.fecha_inicio = bj.fecha_inicio
+            o.fecha_final = bj.fecha_fin
+            m=BuscoJob.objects.get(nro_llamado = bj.nro_llamado).subCategoria
+            o.SubCategoriaBJ = SubCategoriaBJ.objects.get(nombre = m)
+            o.save()
+    except NameError as error:
+        print(f'Error al intentar cargar buscoJob, nombre_json no es correcto. Error: {error}')
+    except:
+        print(f'Error desconocido al intentar cargar buscoJob')
 
-    allBJ = BuscoJob.objects.all() 
-    for bj in allBJ:
-        o = Oferta()
-        o.id_oferta = bj.nro_llamado
-        o.titulo = bj.titulo
-        o.descripcion = bj.descripcion 
-        o.pais = "Uruguay"
-        o.fecha_inicio = bj.fecha_inicio
-        o.fecha_final = bj.fecha_fin
-        m=BuscoJob.objects.get(nro_llamado = bj.nro_llamado).subCategoria
-        o.SubCategoriaBJ = SubCategoriaBJ.objects.get(nombre = m)
-        o.save()
 
-def cargarUruguayConcursaJson(request):
+def cargarUruguayConcursaJson(request, nombre_json):
     #http://localhost:8000/loadUC
     #para verlas ir adamin
-    with open('datos.json',encoding='utf8') as json_file:
-        data = json.load(json_file)
-        for p in data:
-            if not existeCatUC(request, p['tipo_tarea']):
-                cbj = CategoriaUC()
-                cbj.nombre = p['tipo_tarea']
-                cbj.save()
+    try:
+        with open(nombre_json, encoding='utf8') as json_file:
+            data = json.load(json_file)
+            for p in data:
+                if not existeCatUC(request, p['tipo_tarea']):
+                    cbj = CategoriaUC()
+                    cbj.nombre = p['tipo_tarea']
+                    cbj.save()
 
-    with open('datos.json',encoding='utf8') as json_file:
-        data = json.load(json_file)
-        for p in data:
-            uc = UruguayConcursa()
-            uc.nro_llamado = p['nro_llamado']
-            uc.titulo = p['titulo']
-            uc.fecha_inicio = formatDate(request, p['fecha_inicio'])
-            uc.fecha_fin = formatDate(request, p['fecha_fin'])
-            uc.tipo_tarea = p['tipo_tarea']
-            uc.tipo_vinculo = p['tipo_vinculo']
-            uc.tiempo_contrato = p['tiempo_contrato']
-            uc.descripcion = p['descripcion']
-            uc.requisitos = p['requisitos']
-            uc.recepcion_postulaciones = p['recepcion_postulaciones']
-            uc.recepcion_consultas = p['recepcion_consultas']
-            uc.telefono_consultas = p['telefono_consultas']
-            uc.organismo = p['organismo']
-            uc.comentario_interes = p['comentario_interes']
-            uc.save()
+        with open( nombre_json ,encoding='utf8') as json_file:
+            data = json.load(json_file)
+            for p in data:
+                uc = UruguayConcursa()
+                uc.nro_llamado = p['nro_llamado']
+                uc.titulo = p['titulo']
+                uc.fecha_inicio = formatDate(request, p['fecha_inicio'])
+                uc.fecha_fin = formatDate(request, p['fecha_fin'])
+                uc.tipo_tarea = p['tipo_tarea']
+                uc.tipo_vinculo = p['tipo_vinculo']
+                uc.tiempo_contrato = p['tiempo_contrato']
+                uc.descripcion = p['descripcion']
+                uc.requisitos = p['requisitos']
+                uc.recepcion_postulaciones = p['recepcion_postulaciones']
+                uc.recepcion_consultas = p['recepcion_consultas']
+                uc.telefono_consultas = p['telefono_consultas']
+                uc.organismo = p['organismo']
+                uc.comentario_interes = p['comentario_interes']
+                uc.save()
 
-    allUC = UruguayConcursa.objects.all() 
-    for uc in allUC:
-        o = Oferta()
-        o.id_oferta = uc.nro_llamado
-        o.titulo = uc.titulo
-        o.descripcion = uc.descripcion + ",\n " + uc.requisitos + ",\n " + uc.tiempo_contrato + ",\n " +  uc.tipo_tarea  + ",\n " + uc.tipo_vinculo  + ",\n " + uc.organismo
-        o.pais = "Uruguay"
-        o.fecha_inicio = uc.fecha_inicio
-        o.fecha_final = uc.fecha_fin
-        catUC = UruguayConcursa.objects.get(nro_llamado = uc.nro_llamado).tipo_tarea
-        o.CategoriaUC = CategoriaUC.objects.get(nombre = catUC )
-        o.save()
+        allUC = UruguayConcursa.objects.all() 
+        for uc in allUC:
+            o = Oferta()
+            o.id_oferta = uc.nro_llamado
+            o.titulo = uc.titulo
+            o.descripcion = uc.descripcion + ",\n " + uc.requisitos + ",\n " + uc.tiempo_contrato + ",\n " +  uc.tipo_tarea  + ",\n " + uc.tipo_vinculo  + ",\n " + uc.organismo
+            o.pais = "Uruguay"
+            o.fecha_inicio = uc.fecha_inicio
+            o.fecha_final = uc.fecha_fin
+            catUC = UruguayConcursa.objects.get(nro_llamado = uc.nro_llamado).tipo_tarea
+            o.CategoriaUC = CategoriaUC.objects.get(nombre = catUC )
+            o.save()
+    except NameError as error:
+        print(f'Error al cargar UruguayConcursa: {error}')
+    except:
+        print(f'Error desconocido al intentar cargar UruguayConcursa')
     
 def CargarCategoriasUC(request):
     catsUC = CategoriaUC.objects.all()
@@ -410,7 +465,6 @@ def HomeAdmin(request):
             }
             return render(request, 'hAdmin.html', context)
         else:
-            
             context = {
                 'userNombre': request.session['nombre'],
                 'Ofertas': LoMasReciente(request),

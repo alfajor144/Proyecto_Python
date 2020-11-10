@@ -17,8 +17,12 @@ class TwagoPerfilesPipeline:
         # si el perfil raspado no trae precio es descartado
         adapter = ItemAdapter(item)
         if adapter.get('id_perfil') is not None:
-            if adapter.get('precio') == "":
+            largo =len(adapter.get('habilidades') )
+            if adapter.get('precio') == "" or largo  == 0:
                 raise DropItem("ELIMINANDO perfil:")
+            precio = adapter.get('precio').split(',')
+            item['precio'] = precio[0]
+             
         return item
 
 class TwagoOfertasPipeline:
