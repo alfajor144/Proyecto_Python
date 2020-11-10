@@ -59,7 +59,7 @@
 				<br>
 				<br>
 
-				<label for="habilidadesid">Lista de habilidad:</label>
+				<label for="habilidadesid">Lista de habilidades:</label>
 				<textarea readonly class="form-control" name="habilidades" id="habilidadesid" rows="2"
 					style="width: 100%;"></textarea>
 
@@ -75,13 +75,13 @@
 
 				<div class="btn-group btn-group-toggle" data-toggle="buttons">
 					<label class="btn btn-success active">
-						<input type="radio" name="moneda" id="option1" autocomplete="off" checked value="Pesos"> Pesos
+						<input type="radio" name="moneda" id="option1" autocomplete="off" checked value="UYU"> UYU
 					</label>
 					<label class="btn btn-success">
-						<input type="radio" name="moneda" id="option2" autocomplete="off" value="Dolares"> Dolares
+						<input type="radio" name="moneda" id="option2" autocomplete="off" value="USD"> USD
 					</label>
 					<label class="btn btn-success">
-						<input type="radio" name="moneda" id="option3" autocomplete="off" value="Euros"> Euros
+						<input type="radio" name="moneda" id="option3" autocomplete="off" value="EUR"> EUR
 					</label>
 				</div>
 				<br> <br>
@@ -96,7 +96,7 @@
 
 				<div class="row mt-2">
 					<div class="col-9 col-md-10">
-						<label>Posible sueldo:</label>
+						<label>Posible sueldo: {{habiSelected}}</label>
 						<textarea readonly class="form-control" name="sueldo" id="habilidadesid" rows="1"
 							style="width: 100%;">{{ Sueldo }}</textarea>
 					</div>

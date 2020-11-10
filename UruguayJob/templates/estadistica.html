@@ -16,14 +16,15 @@
 				style="width:50px; height: 50px; border-radius: 30px;">
 		</a>
 		<div class="navbar ml-md-auto" style=" display: table-cell;">
-			<a href="/entrevistas"><i class="fas fa-bell" style="width:30px"></i> Entrevistas</a>
+			
 
-			{% if isLoged %}
+            {% if isLoged %}
+            <a href="/entrevistas"><i class="fas fa-bell" style="width:30px"></i> Entrevistas</a>
 			<a href="/calculadora"><i class="fas fa-calculator" style="width:30px"></i>Calculadora</a>
 			<a href="/hacerCV"><i class="fa fa-fw fa-envelope" style="width:30px"></i>
 				Crear CV</a>
 			<a href="/"><i class="fa fa-fw fa-user" style="width:30px; padding-right: 10px;"></i>
-				Cerrar Sesion</a>
+				Cerrar Sesión</a>
 			{% else %}
 			<a href="/iniciar-sesion"><i class="fa fa-fw fa-user" style="width:30px; padding-right: 10px;"></i>
 				Iniciar sesión</a>
@@ -138,14 +139,14 @@ Highcharts.chart('container', {
     yAxis: {
         min: 0,
         title: {
-            text: 'Sueldo (Pesos/hr)'
+            text: 'Sueldo (UYU/hr)'
         }
     },
     legend: {
         enabled: false
     },
     tooltip: {
-        pointFormat: '<b>{point.y:.1f} Pesos/hr</b>'   
+        pointFormat: '<b>{point.y:.1f} UYU/hr</b>'   
     },
     series: [{
         name: 'Population',
@@ -178,7 +179,7 @@ Highcharts.chart('container2', {
         type: 'column'
     },
     title: {
-        text: 'Posibles sueldos por habilidades (Mensula)'
+        text: 'Posibles sueldos por habilidades (Mensual)'
     },
     subtitle: {
         text: ''
@@ -196,14 +197,14 @@ Highcharts.chart('container2', {
     yAxis: {
         min: 0,
         title: {
-            text: 'Sueldo (Pesos/mes)'
+            text: 'Sueldo (UYU/mes)'
         }
     },
     legend: {
         enabled: false
     },
     tooltip: {
-        pointFormat: '<b>{point.y:.1f} Pesos/mes</b>'  
+        pointFormat: '<b>{point.y:.1f} UYU/mes</b>'  
     },
     series: [{
         name: 'Population',

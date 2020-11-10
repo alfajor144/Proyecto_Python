@@ -24,7 +24,7 @@
 			<a href="/hacerCV"><i class="fa fa-fw fa-envelope" style="width:30px"></i>
 				Crear CV</a>
 			<a href="/"><i class="fa fa-fw fa-user" style="width:30px; padding-right: 10px;"></i>
-				Cerrar Sesion</a>
+				Cerrar Sesión</a>
 		</div>
 	</div>
 </nav>
@@ -38,7 +38,7 @@
 	</div>
 
 	<div class="col-md-10 ">
-		<h3 class="mb-2 text-primary">Entrevistas Pendientes</h3>
+		<h3 class="mb-2 text-primary">Entrevistas pendientes</h3>
 		<div class="list-group">
 
 			{% for oferta in Ofertas %}
@@ -46,15 +46,14 @@
 				<div class="row">
 					<div class="col-12 col-md-6">
 						<h5 class="mb-1">{{ oferta.titulo }}</h5>
-						<p class="mb-1">Buenos dias estimado, le solusitamos su presencia en Direccion, entre
-							los dias
+						<p class="mb-1">Buenos días estimado, le solicitamos su presencia en dirección, entre los días 
 							{{ oferta.fecha_inicio }}
-							y {{ oferta.fecha_final }} a las 9:00 hrs.
+							y {{ oferta.fecha_final }}.
 						</p>
 						<form class="m-1 p-1" action="{% url 'verFechasDeEntrevista' %}" method="post">
 							{% csrf_token %}
 							<button type="submit" class="my-2 btn btn-success" name="idO" value="{{ oferta.id_oferta }}">
-								Ver Fechas
+								Ver fechas
 							</button>
 						</form>
 					</div>

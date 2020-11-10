@@ -150,11 +150,11 @@ def getSueldoN(request, habilidades, moneda, tipoSalario):
             ret.append(ph.precio)
 
     cambio = 0
-    if moneda =="Pesos":
+    if moneda =="UYU":
         cambio = 50
-    if moneda == "Dolares":
-        cambio = 0.85
-    if moneda == "Euros":
+    if moneda == "USD":
+        cambio = 0.74
+    if moneda == "EUR":
         cambio = 1
 
     if len(ret)==0:
@@ -164,30 +164,51 @@ def getSueldoN(request, habilidades, moneda, tipoSalario):
             if len(ret) == 1:
                 return str(ret[0] * cambio) + " " + moneda +"/hr"
             else:
+                li=[]
+                li = sorted(ret)
+
+                mini =li[0]
+
                 sumaPrecios=0
                 for n in ret:
                     sumaPrecios = sumaPrecios + n
 
                 cantPrecios = len(ret)
                 promedio= sumaPrecios/cantPrecios
-                redondeo = round(promedio,2)
-                pesos = redondeo * cambio
+                redondeo = round(promedio)
+
+                pond = (mini + redondeo)/2 #Ponderacion con el minimo y el pormedio
+                pondRound = round(pond)
+                
+                pesos = pondRound * cambio
+
+                #pesos = redondeo * cambio
                 strPesos = str(pesos)
-                return strPesos + " " + moneda +"/hr"
+                return "Desde " +  str(mini*cambio) + ", hasta "+ strPesos + " " + moneda +"/hr"
         else:
             if len(ret) == 1:
                 return str(ret[0] * cambio *192) + " " + moneda +"/mes"
             else:
+                li=[]
+                li = sorted(ret)
+
+                mini =li[0]
+
                 sumaPrecios=0
                 for n in ret:
                     sumaPrecios = sumaPrecios + n
 
                 cantPrecios = len(ret)
                 promedio= sumaPrecios/cantPrecios
-                redondeo = round(promedio,2)
-                pesos = redondeo * cambio * 192
+                redondeo = round(promedio)
+
+                pond = (mini + redondeo)/2 #Ponderacion con el minimo y el pormedio
+                pondRound = round(pond)
+                
+                pesos = pondRound * cambio * 192
                 strPesos = str(pesos)
-                return strPesos + " " + moneda +"/mes"
+
+                return "Desde " +  str(mini*cambio+192) + ", hasta "+ strPesos + " " + moneda +"/mes"
     
     return "Error"
 #-----------------------------------------------------------------
@@ -231,17 +252,26 @@ def calculadora(request):
     }
     return render(request, 'Calculadora.html', context)
 
+def getHabiSelected(request , habilidades):
+    try:
+        request.POST['habilidades']
+        if habilidades is not None:
+            return habilidades
+        else:
+            return ""    
+    except:
+        return ""
+
 def Calcular(request):
     if request.method != 'POST':
         request.session.flush()
         return render(request, 'iniciarSesion.html')
 
     context = {
+        'habiSelected' : getHabiSelected(request , request.POST['habilidades']),
         'userNombre': request.session['nombre'],
         'NotieneCV': NotieneCV(request),
-        #'habilidades':Habilidad.objects.all(),
         'habilidades':getHabilidades(request),
-        #'Sueldo' : getSueldo(request, request.POST['habilidades'])
         'Sueldo' : getSueldoN(request, request.POST['habilidades'], request.POST['moneda'], request.POST['tipoSalario'])
     }
     return render(request, 'Calculadora.html', context)
@@ -1231,6 +1261,7 @@ def CerrarSesion(request):
         'SubCategorias':CargarSubCategorias(request)
     }
     return render(request, 'hInvitado.html', context)
+
 
 
 

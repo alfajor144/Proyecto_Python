@@ -30,45 +30,77 @@
 {% block body %}
 {% load static %}
 <!-- Detalles del llamado -->
-<div class="col-md-6" style="padding-top: 100px; width: fit-content;margin: auto;">
+<div class="col-md-6" style="padding-top: 100px; width: fit-content;margin: auto;"></div>
 	<div class="row" >
-		<h1 class="text-primary">Currículum Vitae</h1>
-		<div class="col-1 col-md-1"></div>
-		<div class="col-10 col-md-10">
+		<style>
+
+			#micol, h3{
+				color: rgb(16, 61, 37);
+				font-family: "Times New Roman", Times, serif;
+				font-size: 45px;
+			}
+			#micol, h4{
+				color: rgb(23, 85, 69);
+				font-family: "Times New Roman", Times, serif;
+				font-size: 34px;
+			}
+			#micol, h5{
+				color: rgb(23, 85, 69);
+				font-family: "Times New Roman", Times, serif;
+				font-size: 20px;
+			}
+			#micol, p{
+				color: rgb(0, 24, 11);
+				font-family: "Times New Roman", Times, serif;
+				font-size: 20px;
+			}
+
+			#micol, hr{
+				color: rgb(42, 99, 69);
+			}
+		</style>
+		<div class="col-10 col-md-10 mx-auto">
 			<br>
-			<div class="row">
-				<div class="col-12 col-md-5">
-
-					<span>Nombre completo:</span>
-					<h4>{{ user.nombre }} {{ user.apellido }}</h4><br>
-
-					<span>Telefono:</span>
-					<h4>{{ cv.telefono }}</h4><br>
-
-					<span>Direccion:</span>
-					<h4>{{ cv.direccion }}</h4><br>
-
-					<span>C.I:</span>
-					<h4>{{ cv.ci }}</h4><br>
-
-					<span>Correo:</span>
-					<h4>{{ user.email }}</h4><br>
-
+			<div class="row" id="micol">
+				<div class="col-4">
+					<img src="{{ cv.foto.url }}" alt="" height="200px" width="200px">
 				</div>
-				<div class="col-12 col-md-1"></div>
-				<div class="col-12 col-md-6">
-					<span>Foto:</span><br>
-					<img src="{{ cv.foto.url }}" alt="" height="200px" width="200px"><br><br>
-
-					<span>Formacion:</span>
+				<div class="col-7">
+					<h3>{{ user.nombre }} {{ user.apellido }}</h3>
+					<h5>{{ cv.direccion }}</h5>
+					<h5>{{ user.email }}</h5>
+					<h5>{{ cv.telefono }}</h5>
+					<h5>{{ cv.ci }}</h5>
+				</div>
+				<div class="col-1" >
+					<!--<a href="/descargarPDF" title="Download.pdf"> <img  src="{% static 'img/icn-save.jpg' %}"></a>-->
+				</div>
+			</div>
+			<hr class="my-5" >
+			<div class="row">
+				<div class="col-3">
+					<h4>Formación</h4>
+				</div>
+				<div class="col-9">
 					<p>{{ cv.formacion }}</p>
-
-					<span>Experiencia:</span>
+				</div>
+			</div>
+			<hr class="my-5" >
+			<div class="row">
+				<div class="col-3">
+					<h4>Experiencia</h4>
+				</div>
+				<div class="col-9">
 					<p>{{ cv.experiencia }}</p>
 				</div>
 			</div>
+			<br>
+			<br>
+
+
+
 		</div>
-		<div class="col-1 col-md-1"></div>
+		
 	</div>
 </div>
 

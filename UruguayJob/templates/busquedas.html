@@ -31,7 +31,7 @@
 					{% endif %}
 
 				<a href="/"><i class="fa fa-fw fa-user" style="width:30px; padding-right: 10px;"></i>
-					Cerrar Sesion</a>
+					Cerrar Sesión</a>
 			{% else %}
 				<a href="/hacerCV"><i class="fa fa-fw fa-envelope" style="width:30px"></i>
 					Crear CV</a>
@@ -53,7 +53,7 @@
 	<div class="col-md-2">
 	</div>
 	<div class="col-md-8 div-buscador">
-		<h2>Encentra tu próximo empleo aquí</h2>
+		<h2>Encuentra tu próximo empleo aquí</h2>
 		<form role="form" action="{% url 'buscar' %}" method="post">
 			{% csrf_token %}
 			<div class="row">
@@ -217,7 +217,7 @@
 <div class="row row-ofertas">
 	<!-- Lista de resultados de la busqueda -->
 	<div class="col-md-6">
-		<h3 class="text-primary">Resultados de la busqueda</h3>
+		<h3 class="text-primary">Resultados de la búsqueda</h3>
 		<div class="list-group">
 			{% for o in OfertasRec %}
 			<a href="#" class="list-group-item list-group-item-action"
@@ -260,7 +260,7 @@
 						{% if esUsuario %}
 
 							{% if NotieneCV %}
-									<span style="color: red;">Crea curriculum para Postularte</span>
+									<span style="color: red;">Crea currículum para postularte</span>
 							{% else %}
 								<form class="m-1 p-1" action="{% url 'postularmeBusquedas' %}" method="post">
 									{% csrf_token %}
@@ -269,7 +269,7 @@
 							{% endif %}
 						
 						{% else %}
-							<span style="color: red;">Inicie sesion para Postularte</span>
+							<span style="color: red;">Inicie sesión para postularte</span>
 						{% endif %}
 					</div>
 					<div class="col-9 mt-2">
