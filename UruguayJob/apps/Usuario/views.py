@@ -894,7 +894,11 @@ def cargarCV(request):
     cv.ci =ci
     cv.experiencia =experiencia
     cv.formacion =formacion
-    cv.foto = request.FILES.get('foto')
+    if request.FILES.get('foto') is None : 
+        cv.foto = ""
+    else:
+        cv.foto = request.FILES.get('foto')
+
     cv.idUsu = idUsu
     cv.save()
 

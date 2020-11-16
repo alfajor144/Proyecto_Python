@@ -21,10 +21,11 @@
 			<a href="/entrevistar"><i style="width:30px"></i> Entrevistar</a>
 			<a href="/calificar"><i style="width:30px"></i>Calificar entrevistas</a>
 			<a href="/"><i style="width:30px; padding-right: 10px;"></i>
-				Cerrar Sesion</a>
+				Cerrar Sesión</a>
 		</div>
 	</div>
 </nav>
+<link href="{% static 'css/verCV.css' %}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block body %}
@@ -32,66 +33,45 @@
 <!-- Detalles del llamado -->
 <div class="col-md-6" style="padding-top: 100px; width: fit-content;margin: auto;"></div>
 	<div class="row" >
-		<style>
-
-			#micol, h3{
-				color: rgb(16, 61, 37);
-				font-family: "Times New Roman", Times, serif;
-				font-size: 45px;
-			}
-			#micol, h4{
-				color: rgb(23, 85, 69);
-				font-family: "Times New Roman", Times, serif;
-				font-size: 34px;
-			}
-			#micol, h5{
-				color: rgb(23, 85, 69);
-				font-family: "Times New Roman", Times, serif;
-				font-size: 20px;
-			}
-			#micol, p{
-				color: rgb(0, 24, 11);
-				font-family: "Times New Roman", Times, serif;
-				font-size: 20px;
-			}
-
-			#micol, hr{
-				color: rgb(42, 99, 69);
-			}
-		</style>
+	
 		<div class="col-10 col-md-10 mx-auto">
 			<br>
-			<div class="row" id="micol">
-				<div class="col-4">
-					<img src="{{ cv.foto.url }}" alt="" height="200px" width="200px">
+			
+			<div class="row">
+				<div class="col-6 col-md-4">
+					{% if cv.foto.url != "" %}
+						<img src="{{ cv.foto.url }}" alt="" height="200px" width="200px " style="border: solid 1px;">
+					{% else %}
+						<img src="{% static 'img/ukp.jpg' %}" alt="" height="200px" width="200px" style="border: solid 1px;">	
+
+					{% endif %}
+
 				</div>
-				<div class="col-7">
-					<h3>{{ user.nombre }} {{ user.apellido }}</h3>
-					<h5>{{ cv.direccion }}</h5>
-					<h5>{{ user.email }}</h5>
-					<h5>{{ cv.telefono }}</h5>
-					<h5>{{ cv.ci }}</h5>
+				<div class="col-6 col-md-8">
+					<h3 id="paloma3">{{ user.nombre }} {{ user.apellido }}</h3>
+					<h5 id="paloma5"> {{ cv.direccion }}</h5>
+					<h5 id="paloma5"> {{ user.email }}</h5>
+					<h5 id="paloma5">{{ cv.telefono }}</h5>
+					<h5 id="paloma5">{{ cv.ci }}</h5>
 				</div>
-				<div class="col-1" >
-					<!--<a href="/descargarPDF" title="Download.pdf"> <img  src="{% static 'img/icn-save.jpg' %}"></a>-->
+			</div>
+			
+			<hr class="my-5" >
+			<div class="row">
+				<div class="col-12 col-md-4">
+					<h4 id="paloma4">Formación</h4>
+				</div>
+				<div class="col-12 col-md-8">
+					<p id="palomap">{{ cv.formacion }}</p>
 				</div>
 			</div>
 			<hr class="my-5" >
 			<div class="row">
-				<div class="col-3">
-					<h4>Formación</h4>
+				<div class="col-12 col-md-4">
+					<h4 id="paloma4">Experiencia</h4>
 				</div>
-				<div class="col-9">
-					<p>{{ cv.formacion }}</p>
-				</div>
-			</div>
-			<hr class="my-5" >
-			<div class="row">
-				<div class="col-3">
-					<h4>Experiencia</h4>
-				</div>
-				<div class="col-9">
-					<p>{{ cv.experiencia }}</p>
+				<div class="col-12 col-md-8">
+					<p id="palomap">{{ cv.experiencia }}</p>
 				</div>
 			</div>
 			<br>
