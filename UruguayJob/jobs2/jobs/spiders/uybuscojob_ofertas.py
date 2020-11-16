@@ -19,12 +19,21 @@ class UyBuscoJobSpider(scrapy.Spider):
             'jobs.pipelines.UyBuscoJobPipeline': 300,
         },
         # Configuración para exportar a json automaticamente
-        'FEED_URI': '../uybuscojob-ofertas_' + datetime.datetime.today().strftime('%y%m%d%H%M%S') + '.json',
+        'FEED_URI': 'Proyecto_Python/UruguayJob/uybuscojob-ofertas_' + datetime.datetime.today().strftime('%y%m%d%H%M%S') + '.json',
         'FEED_FORMAT': 'json',
         'FEED_EXPORTERS': {
             'json': 'scrapy.exporters.JsonItemExporter',
         },
         'FEED_EXPORT_ENCODING': 'utf-8',
+        'DOWNLOADER_MIDDLEWARES' : {
+        #    'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 110,
+        #    'tor_ip_rotator.middlewares.TorProxyMiddleware': 100,
+            'scrapy.dowloadermiddlewares.useragent.UserAgentMiddleware': None,
+            'jobs.middlewares.UserAgentRotatorMiddleware': 543,
+        #    'scrapy_splash.SplashCookiesMiddleware': 723,
+        #    'scrapy_splash.SplashMiddleware': 725,
+        #    'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,
+        },
     }
     allowed_domains = ['www.buscojobs.com.uy']
     start_urls = ['https://www.buscojobs.com.uy/ofertas']

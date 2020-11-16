@@ -21,21 +21,22 @@ class TwagoPerfilesPipeline:
             if adapter.get('precio') == "" or largo  == 0:
                 raise DropItem("ELIMINANDO perfil:")
             precio = adapter.get('precio').split(',')
+            precio = adapter.get('precio').split('.')
             item['precio'] = precio[0]
              
         return item
 
 class TwagoOfertasPipeline:
+
     def process_item(self, item, spider):
         adapter = ItemAdapter(item)
         if adapter.get('id_oferta'):
-            #import pdb; pdb.set_trace()
             fecha_inicio = self.get_fecha_inicio(item['fecha_inicio'])
             fecha_fin = self.get_fecha_fin(item['fecha_fin'])
             item['fecha_inicio'] = fecha_inicio.strftime('%Y-%m-%d')
             item['fecha_fin'] = fecha_fin.strftime('%Y-%m-%d')
-            item['descripcion'] = self.delete_tag('div', item['descripcion'])
-        #import pdb; pdb.set_trace()
+            item['descripcion'] = self.delete_tag('div', item['descripcion']) #Elimina las etiqutas div
+            item['descripcion'] = self.delete_tag('p', item['descripcion'])
         return item
 
     def get_fecha_fin(self, fecha_fin):
@@ -81,29 +82,44 @@ class TwagoOfertasPipeline:
         except expression as identifier:
             return ahora
 
-    def delete_tag(self, tag, txt):
-        apertura_ini = "<"+tag
-        apertura_fin = ">"
-        cierre = "</"+tag+">"
-        #Posicion inicial del tag de apertura
-        inicio = txt.find(apertura_ini)
-        #Selecciona el texto desde la posicion del tag
-        subtext = txt[inicio:]
-        #Posicion final del tag de apertura
-        fin = inicio + subtext.find(apertura_fin) + 1
-        #Quitando el tag de apertura
-        txt_anterior_tag = txt[:inicio]
-        txt_posterior_tag = txt[fin:]
-        txt = txt_anterior_tag + txt_posterior_tag
-        #Posicion inicial del tag de cierre
-        inicio = txt.find(cierre)
-        #Posicion final del tag de cierre
-        fin = inicio + len(cierre)
-        #Quitando el tag de cierre
-        txt_anterior_tag = txt[:inicio]
-        txt_posterior_tag = txt[fin:]
-        txt = txt_anterior_tag + txt_posterior_tag
-        return txt 
+    def delete_tag(self, tag, text):
+        apertura_inicial = "<"+tag
+        apertura_final = ">"
+        test = text.find("<"+tag)
+        while test > -1:
+            #import ipdb; ipdb.set_trace()
+            pos_tag_ini = text.find(apertura_inicial) # pocisión inicial del tag de apertura
+            pos_tag_fin = text.find(apertura_final, pos_tag_ini) # posición final del tag de apertura
+            tag_apertura = text[ pos_tag_ini : pos_tag_fin + 1 ] 
+            tag_cierre = "</"+tag+">"
+            text = text.replace(tag_apertura, " " )
+            text = text.replace(tag_cierre, " " )
+            test = text.find("<"+tag)
+        return text
+
+#    def delete_tag(self, tag, txt):
+#        apertura_ini = "<"+tag
+#        apertura_fin = ">"
+#        cierre = "</"+tag+">"
+#        #Posicion inicial del tag de apertura
+#        inicio = txt.find(apertura_ini)
+#        #Selecciona el texto desde la posicion del tag
+#        subtext = txt[inicio:]
+#        #Posicion final del tag de apertura
+#        fin = inicio + subtext.find(apertura_fin) + 1
+#        #Quitando el tag de apertura
+#        txt_anterior_tag = txt[:inicio]
+#        txt_posterior_tag = txt[fin:]
+#        txt = txt_anterior_tag + txt_posterior_tag
+#        #Posicion inicial del tag de cierre
+#        inicio = txt.find(cierre)
+#        #Posicion final del tag de cierre
+#        fin = inicio + len(cierre)
+#        #Quitando el tag de cierre
+#        txt_anterior_tag = txt[:inicio]
+#        txt_posterior_tag = txt[fin:]
+#        txt = txt_anterior_tag + txt_posterior_tag
+#        return txt 
 
 class UruguayConcursaPipeline:
     def process_item(self, item, spider):

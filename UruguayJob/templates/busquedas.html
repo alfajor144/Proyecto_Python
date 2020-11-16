@@ -53,7 +53,7 @@
 	<div class="col-md-2">
 	</div>
 	<div class="col-md-8 div-buscador">
-		<h2>Encuentra tu próximo empleo aquí</h2>
+		<h2 >Encuentra tu próximo empleo aquí</h2>
 		<form role="form" action="{% url 'buscar' %}" method="post">
 			{% csrf_token %}
 			<div class="row">
@@ -201,7 +201,7 @@
 				</div>
 				<div class="col-12 col-lg-3">
 					<div class="form-group my-4">
-						<button type="submit" class="btn btn-success">
+						<button type="submit" class="btn btn-primary">
 							Buscar Empleo
 						</button>
 					</div>
@@ -249,7 +249,7 @@
 
 		{% for o in Ofertas %}
 		<div id="{{ o.id_oferta }}" style="display: none;">
-			<div class="alert alert-success seleccion" role="alert">
+			<div class="alert alert-primary seleccion" role="alert">
 				<h2>{{ o.titulo }}</h2>
 				<p>{{ o.descripcion }}</p>
 				<small class="text-muted">Valido desde {{ o.fecha_inicio }} hasta {{ o.fecha_final }}</small>
@@ -264,7 +264,7 @@
 							{% else %}
 								<form class="m-1 p-1" action="{% url 'postularmeBusquedas' %}" method="post">
 									{% csrf_token %}
-									<button type="submit" class="btn btn-success" name='idOf' value={{o.id_oferta}}>Postularme</button>
+									<button type="submit" class="btn btn-primary" name='idOf' value={{o.id_oferta}}>Postularme</button>
 								</form>
 							{% endif %}
 						

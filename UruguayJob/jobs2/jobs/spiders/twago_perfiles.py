@@ -19,12 +19,21 @@ class PerfilesSpider(scrapy.Spider):
             'jobs.pipelines.TwagoPerfilesPipeline': 300,
         },
         # Configuración para exportar a json automaticamente
-        'FEED_URI': '../twago-perfiles_' + datetime.datetime.today().strftime('%y%m%d%H%M%S') + '.json',
+        'FEED_URI': 'Proyecto_Python/UruguayJob/twago-perfiles_' + datetime.datetime.today().strftime('%y%m%d%H%M%S') + '.json',
         'FEED_FORMAT': 'json',
         'FEED_EXPORTERS': {
             'json': 'scrapy.exporters.JsonItemExporter',
         },
         'FEED_EXPORT_ENCODING': 'utf-8',
+        # Para no usar el proxy y tor comentar comentar tor_ip_rotator
+        # Las últimas dos lineas son para rotar el usr-agent
+        'DOWNLOADER_MIDDLEWARES': {
+            'tor_ip_rotator.middlewares.TorProxyMiddleware': 100,
+            'scrapy.dowloadermiddlewares.useragent.UserAgentMiddleware': None,
+            'jobs.middlewares.UserAgentRotatorMiddleware': 543,
+        },
+        'TOR_IPROTATOR_ENABLED' :True,
+        'TOR_IPROTATOR_CHANGE_AFTER' : 20,
     }
     allowed_domains = ['www.twago.es']
     start_urls = [

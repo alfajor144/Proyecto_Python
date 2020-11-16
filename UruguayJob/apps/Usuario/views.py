@@ -62,7 +62,7 @@ def cargarPerfHabilidades(request, nombre_json):
     #import ipdb
     try:
         hab=""
-        with open(nombre_json, encoding='utf8') as json_file:
+        with open(nombre_json, encoding='utf-8') as json_file:
             data = json.load(json_file)
             for p in data:
                 per = PerfHabs()
@@ -82,29 +82,31 @@ def cargarPerfHabilidades(request, nombre_json):
 
 def cargarTwagoJson(request, nombre_json):
     try:
-        with open(nombre_json ,encoding='utf8') as json_file:
+        print(f"=============================== {nombre_json} ============================================")
+        with open(nombre_json ,encoding='utf-8') as json_file:
             data = json.load(json_file)
             for p in data:
                 o = Oferta()
                 o.id_oferta = p['id_oferta']
                 o.titulo = p['titulo']
-                o.descripcion = p['descripcion'] + ", Presupuesto: "+ p['presupuesto'] + "."
+                o.descripcion = p['descripcion']
                 o.pais = 'Freelancer'
                 o.fecha_inicio = p['fecha_inicio']
                 o.fecha_final = p['fecha_fin']
-                if not existeCatUC(request, p['requisitos'][0]):
-                    cuc = CategoriaUC()
-                    cuc.nombre= p['requisitos'][0]
-                    cuc.isFreelancer=True
-                    cuc.save()
-                    o.CategoriaUC = cuc
-                else:
-                    o.CategoriaUC = CategoriaUC.objects.get(nombre = p['requisitos'][0])
+                if len(p['requisitos']) > 0:
+                    if not existeCatUC(request, p['requisitos'][0]):
+                        cuc = CategoriaUC()
+                        cuc.nombre= p['requisitos'][0]
+                        cuc.isFreelancer=True
+                        cuc.save()
+                        o.CategoriaUC = cuc
+                    else:                    
+                        o.CategoriaUC = CategoriaUC.objects.get(nombre = p['requisitos'][0])
                 o.save()
     except NameError as error:
         print(f'Error al intentar cargar twagoJson, nombre_json no es correcto. Error: {error}')
-    except:
-        print(f'Error desconocido al intentar cargar twagoJson')
+    #except:
+    #    print(f'Error desconocido al intentar cargar twagoJson')
 
 #---------------------------Calculadora--------------------------
 def isEqualSkills(request, Ph_habis, str_habis):
@@ -372,7 +374,7 @@ def cargarBuscoJobJson(request, nombre_json):
     #http://localhost:8000/loadBJ
     #para verlas ir adamin
     try:
-        with open(nombre_json, encoding='utf8') as json_file:
+        with open(nombre_json, encoding='utf-8') as json_file:
             data = json.load(json_file)
             for p in data:
                 if not existeCatBJ(request, p['categoria_padre']):
@@ -380,7 +382,7 @@ def cargarBuscoJobJson(request, nombre_json):
                     cbj.nombre = p['categoria_padre']
                     cbj.save()
             
-        with open( nombre_json, encoding='utf8') as json_file:
+        with open( nombre_json, encoding='utf-8') as json_file:
             data = json.load(json_file)
             for p in data:
                 if not existeSubCatBJ(request, p['categoria'][0]):
@@ -389,7 +391,7 @@ def cargarBuscoJobJson(request, nombre_json):
                     sbj.CategoriaBJ = CategoriaBJ.objects.get(nombre = p['categoria_padre'])
                     sbj.save()
 
-        with open(nombre_json, encoding='utf8') as json_file:
+        with open(nombre_json, encoding='utf-8') as json_file:
             data = json.load(json_file)
             for p in data:
                 bj = BuscoJob()
@@ -433,7 +435,7 @@ def cargarUruguayConcursaJson(request, nombre_json):
     #http://localhost:8000/loadUC
     #para verlas ir adamin
     try:
-        with open(nombre_json, encoding='utf8') as json_file:
+        with open(nombre_json, encoding='utf-8') as json_file:
             data = json.load(json_file)
             for p in data:
                 if not existeCatUC(request, p['tipo_tarea']):
@@ -441,7 +443,7 @@ def cargarUruguayConcursaJson(request, nombre_json):
                     cbj.nombre = p['tipo_tarea']
                     cbj.save()
 
-        with open( nombre_json ,encoding='utf8') as json_file:
+        with open( nombre_json ,encoding='utf-8') as json_file:
             data = json.load(json_file)
             for p in data:
                 uc = UruguayConcursa()
@@ -1252,8 +1254,7 @@ def GetAllUsers(request):
 
 def CerrarSesion(request):
     request.session.flush()
-    context = {
-        
+    context = {        
         'Ofertas': LoMasReciente(request),
         'OfertasRec': LoMasRecienteRec(request),
         'CategoriasBJ': CargarCategoriasBJ(request),
@@ -1261,6 +1262,10 @@ def CerrarSesion(request):
         'SubCategorias':CargarSubCategorias(request)
     }
     return render(request, 'hInvitado.html', context)
+
+def admin_spiders(request):
+    return render(request, 'spiders.html')
+
 
 
 

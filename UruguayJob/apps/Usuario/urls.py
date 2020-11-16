@@ -14,6 +14,7 @@ urlpatterns = [
     path('verCV/', views.verCV, name='verCV'),
     path('hacerCV/', views.hacerCV, name='hacerCV'),
     path('calculadora/', views.calculadora, name='calculadora'),
+    path('administrador/spiders', views.admin_spiders , name='admin-spiders'),
 
     # -------------- CARGA DE DATOS DESDE JSONs--------------------------------
     #path('loadUC/', views.cargarUruguayConcursaJson, name='cargarUruguayConcursaJson'),

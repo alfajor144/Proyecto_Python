@@ -53,15 +53,15 @@ ROBOTSTXT_OBEY = True
 #DOWNLOADER_MIDDLEWARES = {
 #    'jobs.middlewares.JobsDownloaderMiddleware': 543,
 #}
-DOWNLOADER_MIDDLEWARES = {
-#    'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 110,
-#    'tor_ip_rotator.middlewares.TorProxyMiddleware': 100,
-    'scrapy.dowloadermiddlewares.useragent.UserAgentMiddleware': None,
-    'jobs.middlewares.UserAgentRotatorMiddleware': 543,
-#    'scrapy_splash.SplashCookiesMiddleware': 723,
-#    'scrapy_splash.SplashMiddleware': 725,
-#    'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,
-}
+#DOWNLOADER_MIDDLEWARES = {
+##    'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 110,
+##    'tor_ip_rotator.middlewares.TorProxyMiddleware': 100,
+#    'scrapy.dowloadermiddlewares.useragent.UserAgentMiddleware': None,
+#    'jobs.middlewares.UserAgentRotatorMiddleware': 543,
+##    'scrapy_splash.SplashCookiesMiddleware': 723,
+##    'scrapy_splash.SplashMiddleware': 725,
+##    'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,
+#}
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html

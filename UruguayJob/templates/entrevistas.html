@@ -52,7 +52,7 @@
 						</p>
 						<form class="m-1 p-1" action="{% url 'verFechasDeEntrevista' %}" method="post">
 							{% csrf_token %}
-							<button type="submit" class="my-2 btn btn-success" name="idO" value="{{ oferta.id_oferta }}">
+							<button type="submit" class="my-2 btn btn-primary" name="idO" value="{{ oferta.id_oferta }}">
 								Ver fechas
 							</button>
 						</form>
@@ -71,7 +71,7 @@
 									<option></option>
 								</select>
 
-								<button type="submit" class="my-2 btn btn-success" name="idO" value="{{ oferta.id_oferta }}">
+								<button type="submit" class="my-2 btn btn-primary" name="idO" value="{{ oferta.id_oferta }}">
 									Definir
 								</button>
 							</div>
