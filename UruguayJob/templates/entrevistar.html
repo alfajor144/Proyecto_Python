@@ -108,7 +108,7 @@
 			<div class="ofer" > 
 				{% for p in Postulantes %}
 				<div class="list-group-item list-group-item-action">
-					<h5 class="mb-1">{{ p.nombre}} {{ p.apellido}}</h5>
+					<h5 class="mb-1"> {{ p.nombre}} {{ p.apellido}} se postula a ({{tituloOf}}) </h5>
 
 					<form action="{% url 'verCV' %}" method="post">
 						{% csrf_token %}

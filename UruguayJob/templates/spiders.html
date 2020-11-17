@@ -7,102 +7,114 @@
 {% block header %}
 {% load static %}
 <nav class="navbar navbar-toggleable-md navbar-expand-lg navbar-light  fixed-top bg-primary">
-	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-		<span class="navbar-toggler-icon"></span>
-	</button>
-	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-		<a class="m-0 ml-3 p-0" href="/administrador">
-			<img class="m-0 p-0" src="{% static 'img/logo.jpg' %}" alt="Logo"
-				style="width:50px; height: 50px; border-radius: 30px;">
-		</a>
+    <a class="m-0 ml-3 p-0" href="/administrador">
+      <img class="m-0 p-0" src="{% static 'img/logo.jpg' %}" alt="Logo"
+        style="width:50px; height: 50px; border-radius: 30px;">
+    </a>
 
     <div class="navbar ml-md-auto" style=" display: table-cell;">
       <a href="/cargarBD" onclick="mgsUpdateBD()"><i style="width:30px"></i> Actualizar BD</a>
-			<a href="/entrevistar"><i style="width:30px"></i> Entrevistar</a>
-			<a href="/calificar"><i style="width:30px"></i>Calificar entrevistas</a>
-			<a href="/"><i style="width:30px; padding-right: 10px;"></i>
-        Cerrar Sesion</a>
-        
-        <script>
-          function mgsUpdateBD(){
-            alert("Se actualizará la base de dato con el resultado obtenido del Scraping ({% now "SHORT_DATETIME_FORMAT" %})\nEsto puede tardar algunos minutos y se bloqueara la pagina\nPor favor sea paciente.");
-          }
-        </script>
-		</div>
-	</div>
+      <a href="/entrevistar"><i style="width:30px"></i> Entrevistar</a>
+      <a href="/calificar"><i style="width:30px"></i>Calificar entrevistas</a>
+      <a href="/"><i style="width:30px; padding-right: 10px;"></i>
+        Cerrar Sesión</a>
+
+      <script>
+        function mgsUpdateBD() {
+          alert("Se actualizará la base de dato con el resultado obtenido del Scraping ({% now "SHORT_DATETIME_FORMAT" %})\nEsto puede tardar algunos minutos y se bloqueara la pagina\nPor favor sea paciente.");
+        }
+      </script>
+    </div>
+  </div>
 </nav>
 {% endblock %}
 
 {% block body %}
-
-<div class="row" style="min-height: 80px;"></div>
-	
+<div class="col-md-6" style="padding-top: 100px; width: fit-content;margin: auto;"></div>
+<h1 class="text-primary">Control de Arañas</h1><br>
 <div class="row">
-	<div class="col-12">
-		<h1 class="text-primary">Control de Arañas</h1>
-	</div>
-	
-      <form class="jumbotron">
-        <div class="form-group row">
-          <div class="col-0 col-sm-0 col-lg-2"></div>
-          <label for="inTwagoPerfiles" class="col-7 col-sm-3 col-lg-2 col-form-label">twago-perfiles</label>
-          <div class="col-5 col-sm-3 col-lg-2">
-            <input type="number" class="form-control" id="inTwagoPerfiles" placeholder="N° items">
-          </div>
-          <div class="col-6 col-sm-3 col-lg-2">
-            <button type="button" class="btn btn-primary btn-block">Lanzar</button>
-          </div>
-          <div class="col-6 col-sm-3 col-lg-2">
-            <button type="button" class="btn btn-danger btn-block">Detener</button>
-          </div>
-          <div class="col-0 col-sm-0 col-lg-2"></div>
-          <hr class="my-4">
+  <div class="col-12 col-md-9 col-lg-8 mx-auto">
+    <form class="jumbotron my-3 py-5 ">
+      <div class="row">
+        <div class="col-0 col-md-1"></div>
+        <div class="col-4 col-md-2">
+          <label>Twago</label>
         </div>
-        <div class="form-group row">
-          <div class="col-0 col-sm-0 col-lg-2"></div>
-          <label for="inTwagoPerfiles" class="col-7 col-sm-3 col-lg-2 col-form-label">twago-ofertas</label>
-          <div class="col-5 col-sm-3 col-lg-2">
-            <input type="number" class="form-control" id="inTwagoPerfiles" placeholder="N° items">
-          </div>
-          <div class="col-6 col-sm-3 col-lg-2">
-            <button type="button" class="btn btn-primary btn-block">Lanzar</button>
-          </div>
-          <div class="col-6 col-sm-3 col-lg-2">
-            <button type="button" class="btn btn-danger btn-block">Detener</button>
-          </div>
-          <div class="col-0 col-sm-0 col-lg-2"></div>
+
+        <div class="col-4 col-md-4">
+          <input type="number" class="form-control" id="inTwagoOfertas" placeholder="Máximo">
         </div>
-        <div class="form-group row">
-          <div class="col-0 col-sm-0 col-lg-2"></div>
-          <label for="inTwagoOfertas" class="col-7 col-sm-3 col-lg-2 col-form-label">buscojob-ofertas</label>
-          <div class="col-5 col-sm-3 col-lg-2">
-            <input type="number" class="form-control" id="inTwagoOfertas" placeholder="N° items">
-          </div>
-          <div class="col-6 col-sm-3 col-lg-2">
-            <button type="button" class="btn btn-primary btn-block">Lanzar</button>
-          </div>
-          <div class="col-6 col-sm-3 col-lg-2">
-            <button type="button" class="btn btn-danger btn-block">Detener</button>
-          </div>
-          <div class="col-0 col-sm-0 col-lg-2"></div>
+
+        <div class="col-4 col-md-4">
+          <button type="button" class="btn btn-primary btn-block">Lanzar</button>
         </div>
-        <div class="form-group row">
-          <div class="col-0 col-sm-0 col-lg-2"></div>
-          <label for="inTwagoPerfiles" class="col-7 col-sm-3 col-lg-2 col-form-label">uruguay-concursa</label>
-          <div class="col-5 col-sm-3 col-lg-2">
-            <input type="number" class="form-control" id="inTwagoPerfiles" placeholder="N° items">
-          </div>
-          <div class="col-6 col-sm-3 col-lg-2">
-            <button type="button" class="btn btn-primary btn-block">Lanzar</button>
-          </div>
-          <div class="col-6 col-sm-3 col-lg-2">
-            <button type="button" class="btn btn-danger btn-block">Detener</button>
-          </div>
-          <div class="col-0 col-sm-0 col-lg-2"></div>
+        <div class="col-0 col-md-1"></div>
+      </div>
+    </form>
+    <form class="jumbotron my-3 py-5">
+      <div class="row">
+        <div class="col-0 col-md-1"></div>
+        <div class="col-4 col-md-2">
+          <label>Twago Perfiles</label>
         </div>
-      </form>
-</div>		
+
+        <div class="col-4 col-md-4">
+          <input type="number" class="form-control" id="inTwagoPerfiles" placeholder="Máximo">
+        </div>
+
+        <div class="col-4 col-md-4">
+          <button type="button" class="btn btn-primary btn-block">Lanzar</button>
+        </div>
+        <div class="col-0 col-md-1"></div>
+      </div>
+    </form>
+    <form class="jumbotron my-3 py-5">
+      <div class="row">
+        <div class="col-0 col-md-1"></div>
+        <div class="col-4 col-md-2">
+          <label>Uruguay Concursa</label>
+        </div>
+
+        <div class="col-4 col-md-4">
+          <input type="number" class="form-control" id="inTwagoPerfiles" placeholder="Máximo">
+        </div>
+
+        <div class="col-4 col-md-4">
+          <button type="button" class="btn btn-primary btn-block">Lanzar</button>
+        </div>
+        <div class="col-0 col-md-1"></div>
+      </div>
+    </form>
+    <form class="jumbotron my-3 py-5">
+      <div class="row">
+        <div class="col-0 col-md-1"></div>
+        <div class="col-4 col-md-2">
+          <label>Buscojob</label>
+        </div>
+
+        <div class="col-4 col-md-4">
+          <input type="number" class="form-control" id="inTwagoPerfiles" placeholder="Máximo">
+        </div>
+
+        <div class="col-4 col-md-4">
+          <button type="button" class="btn btn-primary btn-block">Lanzar</button>
+        </div>
+        <div class="col-0 col-md-1"></div>
+      </div>
+    </form>
+
+
+
+  </div>
+
+
+
+</div>
 
 
 

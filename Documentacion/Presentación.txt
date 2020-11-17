@@ -1,0 +1,89 @@
+Lunes 23 de noviembre 2020
+
+----------------------
+#Carlos:
+
+*Invitado: Lo más reciente, busqueda: 
+	palabra clave: (Auxiliar),
+	categoria (Operativas de oficio), 
+	categoria y subCategoria (Industria - Produccion)(Operaciones)
+	Locación: (Freelance), pk (css), Categ (HTML); 	
+	Convinacion: pk (Auxiliar), categotia (Salud) , SubCat (Enfermeria), Pais (Uruguay)
+
+*Registrarse:
+	
+	Nombre: Mariano
+	Apellido: Vasquez
+	Correo: MarianoV12@gmail.com
+	Pass: 1234
+	
+	Buscar: Intentar postularse, 
+-------------------------
+*Calculadora: 
+	Seleccionar una, consultar. (Traducción)
+	Seleccionar una con Dolar, consultar (Traducción)
+	Selecionar otra mensual  (Traducción)
+	Combinar (Servicios para empresas) = 150,600  
+		 (Servicios para empresas; Ventas y marketing;) = 150,700
+
+----------------
+*Estadisticas 
+	Mostrar 
+--------------------
+*Mostrar que no tenemos ninguna entrevista 
+-------------------	
+
+*Crear Curriculum:
+	Direccion : 9999 Lafayette Forges
+	Telefono: 422227216
+	CI : 37964994
+	Experiencia : Paragraphs
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere a, pede.
+Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis.
+Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.
+Praesent dapibus, neque id cursus faucibus, tortor neque egestas auguae, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.
+Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi.
+			
+	Formación:
+
+	Referencias Personales : Norma Maria Muiz "Encargada de la comision departamental" contacto : 091006378
+	Referencias Laborales : Fernanda Acosta "Laboraorista" telefono : 094772649
+
+-------
+*Buscar oferta
+*Postularse a una oferta 
+*Cerrar sesión
+-------------
+* Login con Admin 
+		Admin@gmail.com
+*Entrevistar
+	Ver postulantes 
+	Ver CV, ir de nuevo a entrevista
+	Seleccionar 3 fechas y notificar 
+  Cerramos Sesión 
+----------
+Login con usario
+	MarianoV12@gmail.com
+Entrevistas para ver entrevistas pendientes 
+Ver fechas
+Definimos fecha 
+-----------
+Entramos como Admin
+	y calificamos entrevista, comentamos y puntuamos.
+------------------------------------------------------------------------------------
+#Julio 
+	spider
+       Actualizar BD
+
+
+Admin@gmail.com
+----------
+mauro127RMS@gmail.com
+
+ErnestoG@gmail.com
+
+JorgeCha@gmail.com
+
+Marcela1993A@gmail.com
+
+Maravilla@gmail.com

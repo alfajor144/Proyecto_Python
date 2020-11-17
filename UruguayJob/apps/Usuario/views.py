@@ -169,7 +169,13 @@ def getSueldoN(request, habilidades, moneda, tipoSalario):
                 li=[]
                 li = sorted(ret)
 
-                mini =li[0]
+                x= 0
+                while li[x] == 0 :
+                    x = x + 1
+                    
+                mini =li[x]
+
+                
 
                 sumaPrecios=0
                 for n in ret:
@@ -194,7 +200,10 @@ def getSueldoN(request, habilidades, moneda, tipoSalario):
                 li=[]
                 li = sorted(ret)
 
-                mini =li[0]
+                x= 0
+                while li[x] == 0 :
+                    x = x + 1
+                mini =li[x]
 
                 sumaPrecios=0
                 for n in ret:
@@ -584,6 +593,7 @@ def HomeInvitado(request):
     return render(request, 'hInvitado.html', context)
 
 def Registrarse(request):
+    
     return render(request, 'registroDeUsuario.html')
 
 def IniciarSesion(request):
@@ -722,11 +732,23 @@ def traerPostulanteCal(request):
 
     return res2
 
+def ofertaPorTitulo(request,idof):
+    if idof == "":
+        return ""
+    ofer = Oferta.objects.get(id_oferta = idof)
+    ret = ofer.titulo 
+    return ret
+    
+
 def mostrarPostulantesCalificar(request):
     if request.method != 'POST':
         request.session.flush()
         return render(request, 'iniciarSesion.html')
 
+    if request.POST['idOf'] is not None:
+        idof = request.POST['idOf']
+    else:
+        idof = "" 
     allpost = Postulacion.objects.all()
     res=[]
     for p in allpost:
@@ -743,7 +765,7 @@ def mostrarPostulantesCalificar(request):
         #'Ofertas': LoMasRecienteRec(request)
         'Ofertas': res2,
         'Postulantes' : traerPostulanteCal(request),
-        'idOF': request.POST['idOf']
+        'idOF': idof
     }
     return render(request, 'calificarEntrevista.html',context)
 
@@ -752,6 +774,10 @@ def mostrarPostulantes(request):
         request.session.flush()
         return render(request, 'iniciarSesion.html')
 
+    if request.POST['idOf'] is not None:
+        idof = request.POST['idOf']
+    else:
+        idof = "" 
     allpost = Postulacion.objects.all()
     res=[]
     for p in allpost:
@@ -768,7 +794,8 @@ def mostrarPostulantes(request):
         #'Ofertas': LoMasRecienteRec(request)
         'Ofertas': res2,
         'Postulantes' : traerPostulante(request),
-        'idOF': request.POST['idOf']
+        'tituloOf' : ofertaPorTitulo(request,idof),
+        'idOF': idof
     }
     return render(request, 'entrevistar.html',context)
 
@@ -1136,6 +1163,7 @@ def filtrarOfertas(request):
     result = getOfertasKeyWord(request, allOfertas)
     result2 = getOfertasPais(request, result)
     result3 = getOfertasCategoria(request, result2)
+    result3 = result3[:30]
     return result3
        
 def recortarDescripcion(request):
@@ -1201,6 +1229,8 @@ def RegistrarUsuario(request):
         request.session['isAdmin'] = usr.isAdmin
        
         context = {
+            'Ofertas': LoMasReciente(request),
+            'OfertasRec': LoMasRecienteRec(request),
             'userNombre': request.session['nombre'],
             'CategoriasBJ': CargarCategoriasBJ(request),
             'CategoriasUC': CargarCategoriasUC(request),
