@@ -595,7 +595,13 @@ def chartPieData2(request):
     allHab = PerfHabs.objects.all()
 
     res=[]
-    res = allHab[:10]
+    res = allHab[7:17]
+
+    # -------- filtrar por habis-------------
+    #retor = []
+    #retor = {x.habilidades: x for x in res}
+
+    # ---------------------------------------
 
     res2 = sorted(res, key=lambda x: x.precio, reverse=True)
 
@@ -898,7 +904,8 @@ def cargarCV(request):
         cv.foto = ""
     else:
         cv.foto = request.FILES.get('foto')
-
+    cv.RefPersonales = request.POST['refPer']
+    cv.RefLaborales = request.POST['refLab']
     cv.idUsu = idUsu
     cv.save()
 

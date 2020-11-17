@@ -18,9 +18,17 @@
 		</a>
 
 		<div class="navbar ml-md-auto" style=" display: table-cell;">
+			<a href="/administrador/spiders"><i style="width:30px"></i>Administrar Arañas</a>
+			<a href="/cargarBD" onclick="mgsUpdateBD()"><i style="width:30px"></i> Actualizar BD</a>
 			<a href="/entrevistar"><i style="width:30px"></i> Entrevistar</a>
 			<a href="/"><i style="width:30px; padding-right: 10px;"></i>
 				Cerrar Sesion</a>
+
+			<script>
+				function mgsUpdateBD() {
+					alert("Se actualizará la base de dato con el resultado obtenido del Scraping ({% now "SHORT_DATETIME_FORMAT" %})\nEsto puede tardar algunos minutos y se bloqueara la pagina\nPor favor sea paciente.");
+				}
+			</script>
 		</div>
 	</div>
 </nav>
@@ -46,8 +54,8 @@
 				</div>
 				<!--<p class="mb-1">{{ oferta.fecha_final }}</p>-->
 				<br>
-				<button type="submit" class="btn btn-primary" name='idOf' value={{oferta.id_oferta}}>ver
-					postulantes</button>
+				<button type="submit" class="btn btn-primary" name='idOf' value={{oferta.id_oferta}}>Calificar
+					entrevista</button>
 			</form>
 			{% empty %}
 			<div class="list-group-item list-group-item-action">
@@ -60,66 +68,167 @@
 		</div>
 	</div>
 	<!-- Detalles del llamado -->
+	<style>
+		.rating {
+			float: left;
+		}
+
+		/* :not(:checked) is a filter, so that browsers that don’t support :checked don’t 
+		follow these rules. Every browser that supports :checked also supports :not(), so
+		it doesn’t make the test unnecessarily selective */
+		.rating:not(:checked)>input {
+			position: absolute;
+			top: -9999px;
+			clip: rect(0, 0, 0, 0);
+		}
+
+		.rating:not(:checked)>label {
+			float: right;
+			width: 1em;
+			padding: 0 .1em;
+			overflow: hidden;
+			white-space: nowrap;
+			cursor: pointer;
+			font-size: 150%;
+			line-height: 1.2;
+			color: #ddd;
+			text-shadow: 1px 1px #bbb, 2px 2px #666, .1em .1em .2em rgba(0, 0, 0, .5);
+		}
+
+		.rating:not(:checked)>label:before {
+			content: '★ ';
+		}
+
+		.rating>input:checked~label {
+			color: #f70;
+			text-shadow: 1px 1px #c60, 2px 2px #940, .1em .1em .2em rgba(0, 0, 0, .5);
+		}
+
+		.rating:not(:checked)>label:hover,
+		.rating:not(:checked)>label:hover~label {
+			color: gold;
+			text-shadow: 1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0, 0, 0, .5);
+		}
+
+		.rating>input:checked+label:hover,
+		.rating>input:checked+label:hover~label,
+		.rating>input:checked~label:hover,
+		.rating>input:checked~label:hover~label,
+		.rating>label:hover~input:checked~label {
+			color: #ea0;
+			text-shadow: 1px 1px goldenrod, 2px 2px #B57340, .1em .1em .2em rgba(0, 0, 0, .5);
+		}
+
+		.rating>label:active {
+			position: relative;
+			top: 2px;
+			left: 2px;
+		}
+
+		/* end of Lea's code */
+
+		/*
+		* Clearfix from html5 boilerplate
+		*/
+
+		.clearfix:before,
+		.clearfix:after {
+			content: " ";
+			/* 1 */
+			display: table;
+			/* 2 */
+		}
+
+		.clearfix:after {
+			clear: both;
+		}
+
+		/*
+		* For IE 6/7 only
+		* Include this rule to trigger hasLayout and contain floats.
+		*/
+
+		.clearfix {
+			*zoom: 1;
+		}
+
+		/* my stuff */
+		#status,
+		button {
+			margin: 20px 0;
+		}
+	</style>
+
+	<script>
+		$(document).ready(function () {
+			$("form#ratingForm").submit(function (e) {
+				e.preventDefault(); // prevent the default click action from being performed
+				if ($("#ratingForm :radio:checked").length == 0) {
+					$('#status').html("nothing checked");
+					return false;
+				} else {
+					$('#status').html('You picked ' + $('input:radio[name=rating]:checked').val());
+				}
+			});
+		});
+	</script>
 	<div class="col-md-7">
 		<h3 class="text-primary">Postulantes</h3>
 		<div class="list-group">
 
-
-
 			{% for p in Postulantes %}
 			<div class="list-group-item list-group-item-action">
-				
-					
-						<h4 class="mt-4">{{ p.nombre}} {{ p.apellido}}</h4>
-					
-					
-						<form role="form" action="{% url 'calificarEntrevista' %}" method="post">
-							{% csrf_token %}
-							<div class="row">
-								<div class="col-12 col-md-9">
-									<div class="form-group">
-										<label for="comentario">Comentario</label>
-										<textarea class="form-control" id="comentario" name="comentario"
-											rows="3"></textarea>
-									</div>
-								</div>
-								<div class="col-12 col-md-3">
-									<div class="form-group">
-										<input type="hidden" name="idoff" value={{idOF}}>
-										<label for="exampleFormControlSelect1">Calificación</label>
 
-										<select class="form-control" name="calif" id="exampleFormControlSelect1">
-											<option>1</option>
-											<option>2</option>
-											<option>3</option>
-											<option>4</option>
-											<option>5</option>
-											<option>6</option>
-											<option>7</option>
-											<option>8</option>
-											<option>9</option>
-											<option>10</option>
-										</select>
-										<button type="submit" class="mt-2 btn btn-primary" name='idU'
-											value={{p.id_usuario}}>
-											Calificar
-										</button>
-									</div>
-								</div>
+				<h4 class="mt-4">{{ p.nombre}} {{ p.apellido}}</h4>
+
+				<form role="form" action="{% url 'calificarEntrevista' %}" method="post">
+					{% csrf_token %}
+					<div class="row">
+						<div class="col-12 col-md-9">
+							<div class="form-group">
+								<label for="comentario">Comentario</label>
+								<textarea class="form-control" id="comentario" name="comentario" rows="3"></textarea>
 							</div>
+						</div>
+						<div class="col-12 col-md-3">
+							<div class="form-group">
+								<input type="hidden" name="idoff" value={{idOF}}>
+								<label for="exampleFormControlSelect1">Calificación</label>
 
+								<div id="status"></div>
 
-						</form>
-					
-				
+								<div id="ratingForm">
+									<fieldset class="rating">
+										<input type="radio" id="star5" name="calif" value="5" /><label for="star5"
+											title="Excelente">5 stars</label>
+										<input type="radio" id="star4" name="calif" value="4" /><label for="star4"
+											title="Aceptable">4 stars</label>
+										<input type="radio" id="star3" name="calif" value="3" /><label for="star3"
+											title="Regular">3 stars</label>
+										<input type="radio" id="star2" name="calif" value="2" /><label for="star2"
+											title="No recomendable">2 stars</label>
+										<input type="radio" id="star1" name="calif" value="1" /><label for="star1"
+											title="No admisible">1 star</label>
+									</fieldset>
+									<div class="clearfix"></div>
+
+								</div>
+
+								<button type="submit" class="mt-2 btn btn-primary" name='idU' value={{p.id_usuario}}>
+									Calificar
+								</button>
+							</div>
+						</div>
+					</div>
+
+				</form>
+
 			</div>
 			{% empty %}
 			<div class="list-group-item list-group-item-action">
 				<h5 class="mb-1">Seleccione oferta</h5>
 			</div>
 			{% endfor %}
-
-
 
 		</div>
 	</div>

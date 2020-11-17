@@ -17,11 +17,18 @@
 				style="width:50px; height: 50px; border-radius: 30px;">
 		</a>
 
-		<div class="navbar ml-md-auto" style=" display: table-cell;">
+    <div class="navbar ml-md-auto" style=" display: table-cell;">
+      <a href="/cargarBD" onclick="mgsUpdateBD()"><i style="width:30px"></i> Actualizar BD</a>
 			<a href="/entrevistar"><i style="width:30px"></i> Entrevistar</a>
 			<a href="/calificar"><i style="width:30px"></i>Calificar entrevistas</a>
 			<a href="/"><i style="width:30px; padding-right: 10px;"></i>
-				Cerrar Sesion</a>
+        Cerrar Sesion</a>
+        
+        <script>
+          function mgsUpdateBD(){
+            alert("Se actualizará la base de dato con el resultado obtenido del Scraping ({% now "SHORT_DATETIME_FORMAT" %})\nEsto puede tardar algunos minutos y se bloqueara la pagina\nPor favor sea paciente.");
+          }
+        </script>
 		</div>
 	</div>
 </nav>

@@ -38,16 +38,16 @@
 			<br>
 			
 			<div class="row">
-				<div class="col-6 col-md-4">
+				<div class="col-12 col-md-4">
 					{% if cv.foto.url != "" %}
-						<img src="{{ cv.foto.url }}" alt="" height="200px" width="200px " style="border: solid 1px;">
+						<img src="{{ cv.foto.url }}" alt="" height="200px" width="200px " style="border: solid 1px;  border-radius: 50%;">
 					{% else %}
 						<img src="{% static 'img/ukp.jpg' %}" alt="" height="200px" width="200px" style="border: solid 1px;">	
 
 					{% endif %}
 
 				</div>
-				<div class="col-6 col-md-8">
+				<div class="col-12 col-md-8 mt-2">
 					<h3 id="paloma3">{{ user.nombre }} {{ user.apellido }}</h3>
 					<h5 id="paloma5"> {{ cv.direccion }}</h5>
 					<h5 id="paloma5"> {{ user.email }}</h5>
@@ -74,6 +74,25 @@
 					<p id="palomap">{{ cv.experiencia }}</p>
 				</div>
 			</div>
+			<hr class="my-5" >
+			<div class="row">
+				<div class="col-12 col-md-4">
+					<h4 id="paloma4">Referencias personales</h4>
+				</div>
+				<div class="col-12 col-md-8">
+					<p id="palomap">{{ cv.RefPersonales }}</p>
+				</div>
+			</div>
+			<hr class="my-5" >
+			<div class="row">
+				<div class="col-12 col-md-4">
+					<h4 id="paloma4">Referencias laborales</h4>
+				</div>
+				<div class="col-12 col-md-8">
+					<p id="palomap">{{ cv.RefLaborales }}</p>
+				</div>
+			</div>
+
 			<br>
 			<br>
 

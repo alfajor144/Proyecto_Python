@@ -18,9 +18,17 @@
 		</a>
 
 		<div class="navbar ml-md-auto" style=" display: table-cell;">
+			<a href="/administrador/spiders"><i style="width:30px"></i>Administrar Arañas</a>
+			<a href="/cargarBD" onclick="mgsUpdateBD()"><i style="width:30px"></i> Actualizar BD</a>
 			<a href="/calificar"><i style="width:30px"></i>Calificar entrevistas</a>
 			<a href="/"><i style="width:30px; padding-right: 10px;"></i>
 				Cerrar Sesión</a>
+
+				<script>
+					function mgsUpdateBD(){
+						alert("Se actualizará la base de dato con el resultado obtenido del Scraping ({% now "SHORT_DATETIME_FORMAT" %})\nEsto puede tardar algunos minutos y se bloqueara la pagina\nPor favor sea paciente.");
+					}
+				</script>
 		</div>
 	</div>
 </nav>
@@ -100,7 +108,7 @@
 			<div class="ofer" > 
 				{% for p in Postulantes %}
 				<div class="list-group-item list-group-item-action">
-					<h5 class="mb-1">{{ p.nombre}}</h5>
+					<h5 class="mb-1">{{ p.nombre}} {{ p.apellido}}</h5>
 
 					<form action="{% url 'verCV' %}" method="post">
 						{% csrf_token %}
