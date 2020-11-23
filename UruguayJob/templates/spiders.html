@@ -18,20 +18,43 @@
     </a>
 
     <div class="navbar ml-md-auto" style=" display: table-cell;">
-      <a href="/cargarBD" onclick="mgsUpdateBD()"><i style="width:30px"></i> Actualizar BD</a>
+      <a href="/#" data-toggle="modal" data-target="#exampleModal"><i style="width:30px"></i>Actualizar BD</a>	
       <a href="/entrevistar"><i style="width:30px"></i> Entrevistar</a>
       <a href="/calificar"><i style="width:30px"></i>Calificar entrevistas</a>
       <a href="/"><i style="width:30px; padding-right: 10px;"></i>
         Cerrar Sesión</a>
 
-      <script>
-        function mgsUpdateBD() {
-          alert("Se actualizará la base de dato con el resultado obtenido del Scraping ({% now "SHORT_DATETIME_FORMAT" %})\nEsto puede tardar algunos minutos y se bloqueara la pagina\nPor favor sea paciente.");
-        }
-      </script>
     </div>
   </div>
 </nav>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="exampleModalLabel">Actualizar base de datos</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div class="modal-body">
+			<p>
+				Se actualizará la base de dato con el resultado obtenido del Scraping ({% now "SHORT_DATETIME_FORMAT" %})
+			</p>
+			<p>
+				Esto puede tardar algunos minutos y se bloqueara la pagina
+			</p>
+			<p>
+				Por favor sea paciente.
+			</p>
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+		  <a type="button" class="btn btn-primary" href="/cargarBD">Actualizar</a>
+		</div>
+	  </div>
+	</div>
+  </div>
 {% endblock %}
 
 {% block body %}

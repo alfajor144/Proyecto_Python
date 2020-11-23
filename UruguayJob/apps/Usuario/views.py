@@ -616,11 +616,12 @@ def chartPieData2(request):
     res2 = sorted(res, key=lambda x: x.precio, reverse=True)
 
     for ha in res2:
-        dato = {
-            "precio": ha.precio * 50,
-            "habilidades": ha.habilidades
-        }
-        datos.append(dato)
+        if ha.precio>0 and ha.precio<100:
+            dato = {
+                "precio": ha.precio * 10,
+                "habilidades": ha.habilidades
+            }
+            datos.append(dato)
 
     return datos
 
