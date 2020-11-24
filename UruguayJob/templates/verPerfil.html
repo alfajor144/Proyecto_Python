@@ -22,6 +22,8 @@
 			<a href="/entrevistas"><i class="fas fa-bell" style="width:30px"></i>Entrevistas</a>
 			<a href="/estadistica"><i class="fas fa-chart-pie" style="width:30px"></i>
 				Estadísticas</a>
+				<a href="/hacerCV"><i class="fa fa-fw fa-envelope" style="width:30px"></i>
+					Crear CV</a>
 			<a href="/"><i style="width:30px; padding-right: 10px;"></i>
 				Cerrar Sesión</a>
 		</div>
@@ -38,7 +40,7 @@
 	
 		<div class="col-10 col-md-10 mx-auto">
 			<br>
-			
+			{% if cv != None %}
 			<div class="row">
 				<div class="col-12 col-md-4">
 					{% if cv.foto.url != "" %}
@@ -97,6 +99,33 @@
 
 			<br>
 			<br>
+			{% else %}
+
+
+
+
+			<div class="row">
+				<div class="col-12 col-md-4">
+					<img src="{% static 'img/ukp.jpg' %}" alt="" height="200px" width="200px" style="border: solid 1px;  border-radius: 50%;">	
+				</div>
+				<div class="col-12 col-md-8 mt-2">
+					<h3 id="paloma3">{{ user.nombre }} {{ user.apellido }}</h3>
+					<h5 id="paloma5">{{ user.email }}</h5>
+					<h5 id="paloma5">Aún no tiene un currículum ingresado.</h5>
+				</div>
+			</div>
+
+			<hr class="my-5" >
+
+			
+			<br>
+			<br>
+			<br>
+
+
+
+			{% endif %}
+			
 
 
 

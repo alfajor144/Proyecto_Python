@@ -1314,17 +1314,26 @@ def verPerfil(request):
     idU = request.session['id_usuario'] 
     try:
         user = Usuario.objects.get(id_usuario=idU)
-        cv = Curriculum.objects.get(idUsu=idU)
-        context = {
-            'cv': cv,
-            'user':user
-        }
-        return render(request, 'verPerfil.html', context)
+
+        try:
+            cv = Curriculum.objects.get(idUsu=idU)
+            context = {
+                'cv': cv,
+                'user':user
+            }
+            return render(request, 'verPerfil.html', context)
+        except Curriculum.DoesNotExist:
+            context = {
+                'cv': None,
+                'user':user
+            }
+            return render(request, 'verPerfil.html', context)
+ 
     except KeyError:
 
         user = Usuario.objects.get(id_usuario=idU)
         context = {
-            'cv':None
+            'cv':None,
             'user':user
         }
         return render(request, 'verPerfil.html', context)
