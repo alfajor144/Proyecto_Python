@@ -35,6 +35,7 @@ urlpatterns = [
     path('verFechasDeEntrevista/', views.verFechasDeEntrevista, name='verFechasDeEntrevista'),
     path('mostrarPostulantesCalificar/', views.mostrarPostulantesCalificar, name='mostrarPostulantesCalificar'),
     path('calificarEntrevista/', views.calificarEntrevista, name='calificarEntrevista'),
+    path('verPerfil/', views.verPerfil, name='verPerfil'),
     path('cargarCV/', views.cargarCV, name='cargarCV'),
     path('Calcular/', views.Calcular, name='Calcular')
 

@@ -609,7 +609,7 @@ def chartPieData2(request):
 
     # -------- filtrar por habis-------------
     #retor = []
-    #retor = {x.habilidades: x for x in res}
+    #retor = isNotRepeat(request, res)
 
     # ---------------------------------------
 
@@ -1309,8 +1309,24 @@ def admin_spiders(request):
     return render(request, 'spiders.html')
 
 
+def verPerfil(request):
 
+    idU = request.session['id_usuario'] 
+    try:
+        user = Usuario.objects.get(id_usuario=idU)
+        cv = Curriculum.objects.get(idUsu=idU)
+        context = {
+            'cv': cv,
+            'user':user
+        }
+        return render(request, 'verPerfil.html', context)
+    except KeyError:
 
-
+        user = Usuario.objects.get(id_usuario=idU)
+        context = {
+            'cv':None
+            'user':user
+        }
+        return render(request, 'verPerfil.html', context)
 
  
