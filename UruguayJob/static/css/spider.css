@@ -1,0 +1,21 @@
+.centrados{
+    /* background-color: antiquewhite; */
+    text-align: center;
+}
+
+
+.centrados img {
+    
+    width: 150px;
+    
+}
+
+
+.titulo-spider {
+    margin-top: 10px;
+    margin-bottom: 25px;
+}
+
+/* label {
+    margin: 0px;
+} */

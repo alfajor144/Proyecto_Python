@@ -7,115 +7,401 @@
 {% block header %}
 {% load static %}
 <nav class="navbar navbar-toggleable-md navbar-expand-lg navbar-light  fixed-top bg-primary">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-    <a class="m-0 ml-3 p-0" href="/administrador">
-      <img class="m-0 p-0" src="{% static 'img/logo.jpg' %}" alt="Logo"
-        style="width:50px; height: 50px; border-radius: 30px;">
-    </a>
+        <a class="m-0 ml-3 p-0" href="/administrador">
+            <img class="m-0 p-0" src="{% static 'img/logo.jpg' %}" alt="Logo"
+                style="width:50px; height: 50px; border-radius: 30px;">
+        </a>
 
-    <div class="navbar ml-md-auto" style=" display: table-cell;">
-      <a href="/cargarBD" onclick="mgsUpdateBD()"><i style="width:30px"></i> Actualizar BD</a>
-      <a href="/entrevistar"><i style="width:30px"></i> Entrevistar</a>
-      <a href="/calificar"><i style="width:30px"></i>Calificar entrevistas</a>
-      <a href="/"><i style="width:30px; padding-right: 10px;"></i>
-        Cerrar Sesión</a>
+        <div class="navbar ml-md-auto" style=" display: table-cell;">
+            <a href="/cargarBD" onclick="mgsUpdateBD()"><i style="width:30px"></i> Actualizar BD</a>
+            <a href="/entrevistar"><i style="width:30px"></i> Entrevistar</a>
+            <a href="/calificar"><i style="width:30px"></i>Calificar entrevistas</a>
+            <a href="/"><i style="width:30px; padding-right: 10px;"></i>
+                Cerrar Sesión</a>
 
-      <script>
-        function mgsUpdateBD() {
-          alert("Se actualizará la base de dato con el resultado obtenido del Scraping ({% now "SHORT_DATETIME_FORMAT" %})\nEsto puede tardar algunos minutos y se bloqueara la pagina\nPor favor sea paciente.");
-        }
-      </script>
+            <script>
+                function mgsUpdateBD() {
+                    alert("Se actualizará la base de dato con el resultado obtenido del Scraping ({% now "SHORT_DATETIME_FORMAT" %})\nEsto puede tardar algunos minutos y se bloqueara la pagina\nPor favor sea paciente.");
+                }
+            </script>
+        </div>
     </div>
-  </div>
 </nav>
 {% endblock %}
 
 {% block body %}
-<div class="col-md-6" style="padding-top: 100px; width: fit-content;margin: auto;"></div>
-<h1 class="text-primary">Control de Arañas</h1><br>
+
 <div class="row">
-  <div class="col-12 col-md-9 col-lg-8 mx-auto">
-    <form class="jumbotron my-3 py-5 ">
-      <div class="row">
-        <div class="col-0 col-md-1"></div>
-        <div class="col-4 col-md-2">
-          <label>Twago</label>
-        </div>
+    <div class="col-md-12" style="min-height: 100px;"></div>
+</div>
 
-        <div class="col-4 col-md-4">
-          <input type="number" class="form-control" id="inTwagoOfertas" placeholder="Máximo">
-        </div>
+<!-- Banner de presentación -->
+<div class="row">
+    <div class="col-12">
+        <div class="jumbotron">
+            <h3 class="display-4">Control de Scrapyd</h3>
+            <p class="lead">Scrapyd es un servicio para ejecutar Scrapy spiders. Le permite desplegar sus proyectos de
+                Scrapy y
+                controlar sus arañas usando una API HTTP JSON. ... servidor HTTP que proporciona la API de programación
+                Scrapy
+                arañas y hacer solicitudes con arañas.</p>
+            <hr class="my-2">
 
-        <div class="col-4 col-md-4">
-          <button type="button" class="btn btn-primary btn-block">Lanzar</button>
         </div>
-        <div class="col-0 col-md-1"></div>
-      </div>
-    </form>
-    <form class="jumbotron my-3 py-5">
-      <div class="row">
-        <div class="col-0 col-md-1"></div>
-        <div class="col-4 col-md-2">
-          <label>Twago Perfiles</label>
-        </div>
-
-        <div class="col-4 col-md-4">
-          <input type="number" class="form-control" id="inTwagoPerfiles" placeholder="Máximo">
-        </div>
-
-        <div class="col-4 col-md-4">
-          <button type="button" class="btn btn-primary btn-block">Lanzar</button>
-        </div>
-        <div class="col-0 col-md-1"></div>
-      </div>
-    </form>
-    <form class="jumbotron my-3 py-5">
-      <div class="row">
-        <div class="col-0 col-md-1"></div>
-        <div class="col-4 col-md-2">
-          <label>Uruguay Concursa</label>
-        </div>
-
-        <div class="col-4 col-md-4">
-          <input type="number" class="form-control" id="inTwagoPerfiles" placeholder="Máximo">
-        </div>
-
-        <div class="col-4 col-md-4">
-          <button type="button" class="btn btn-primary btn-block">Lanzar</button>
-        </div>
-        <div class="col-0 col-md-1"></div>
-      </div>
-    </form>
-    <form class="jumbotron my-3 py-5">
-      <div class="row">
-        <div class="col-0 col-md-1"></div>
-        <div class="col-4 col-md-2">
-          <label>Buscojob</label>
-        </div>
-
-        <div class="col-4 col-md-4">
-          <input type="number" class="form-control" id="inTwagoPerfiles" placeholder="Máximo">
-        </div>
-
-        <div class="col-4 col-md-4">
-          <button type="button" class="btn btn-primary btn-block">Lanzar</button>
-        </div>
-        <div class="col-0 col-md-1"></div>
-      </div>
-    </form>
+    </div>
+</div>
 
 
+<!-- Estado de scrapyd -->
+<div class="row">
 
-  </div>
+    <div class="col-12">
+        <h2 class="text-danger">Serviciós de Scrapyd</h2>
+    </div>
+    <div class="col-0 col-ms-1"></div>
+    <div class="col-12 col-ms-10">
+        <div id="accordion">
+
+            <div class="card">
+                <div class="card-header">
+                    <a class="card-link" data-toggle="collapse" id="aStatus" href="#collapse1">
+                        Estado del servicio
+                    </a>
+                </div>
+                <div id="collapse1" class="collapse show" data-parent="#accordion">
+                    <div class="card-body">
+                        <!-- Tabla para mostrar el stado del servicio scrapyd -->
+                        <div class="table-responsive">
+                            <table id="tbStatus" class="table table-bordered table-sm">
+                                <thead class="thead-light">
+                                    <tr>                                       
+                                        <th scope="col">Estado</th>
+                                        <th scope="col">Trabajos corriendo</th>
+                                        <th scope="col">Trabajos pendientes</th>
+                                        <th scope="col">Trabajos finalizados</th>
+                                        <th scope="col">Host</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyStatus">                                    
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <a class="card-link" id="aJobsRunning" data-toggle="collapse" href="#collapse2">
+                        Trabajos Corriendo
+                    </a>
+                </div>
+                <div id="collapse2" class="collapse" data-parent="#accordion">
+                    <div class="card-body">
+                        <!-- Tabla para mostrar el stado del servicio scrapyd -->
+                        <div class="table-responsive">
+                            <table id="tbJobsRunning" class="table table-bordered table-sm">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col">#</th>                               
+                                        <th scope="col">Id Trabajo</th>
+                                        <th scope="col">Araña</th>
+                                        <th scope="col">Inicio</th>                                        
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyRunning">                                    
+                                </tbody>
+                            </table>
+                        </div>                        
+                    </div>     
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <a class="collapsed card-link" id="aJobsPending" data-toggle="collapse" href="#collapse3">
+                        Trabajos Pendientes
+                    </a>
+                </div>
+                <div id="collapse3" class="collapse" data-parent="#accordion">
+                    <div class="card-body">
+                        <!-- Tabla para mostrar el stado del servicio scrapyd -->
+                        <div class="table-responsive">
+                            <table id="tbJobsPending" class="table table-bordered table-sm">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col">#</th>                      
+                                        <th scope="col">Id Trabajo</th>
+                                        <th scope="col">Araña</th>                                      
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyPending">                                    
+                                </tbody>
+                            </table>
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <a class="collapsed card-link" id="aJobsFinished" data-toggle="collapse" href="#collapse4">
+                        Trabajos Finalizados
+                    </a>
+                </div>
+                <div id="collapse4" class="collapse" data-parent="#accordion">
+                    <div class="card-body">
+                        <!-- Tabla para mostrar el stado del servicio scrapyd -->
+                        <div class="table-responsive">
+                            <table id="tbJobsFinished" class="table table-bordered table-sm">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col">#</th>                      
+                                        <th scope="col">Id Trabajo</th>
+                                        <th scope="col">Araña</th>
+                                        <th scope="col">Inicio</th>
+                                        <th scope="col">Fin</th>                                     
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyFinished">                                    
+                                </tbody>
+                            </table>
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+
+        </div>
+       
+    </div>
+    <div class="col-0 col-ms-1"></div>
+
+    <!-- <div class="col-6">
+        <div class="card" ">
+            <img class=" card-img-top" src="{% static 'img/scraping.jpeg'%}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                    card's content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6">
+        <ul class="list-group">
+            <li class="list-group-item active">Estado del Servicio</li>
+            <li class="list-group-item" id="liNodeName">Nombre del Servidor: </li>
+            <li class="list-group-item" id="liStatus">Status Ok</li>
+            <li class="list-group-item" id="liRunning">Corriendo 0</li>
+            <li class="list-group-item" id="liPending">Pendientes 0</li>
+            <li class="list-group-item" id="liFinished">Finalizados 0</li>
+        </ul>
+    </div> -->
+</div>
+
+<hr class="my-4 alert-danger">
+
+<div class="row">
+    <div class="col-12">
+        <h2 class="text-danger">Spiders</h2>
+    </div>
+    <div class="col-0 col-ms-1"></div>
+    <div class="col-12 col-ms-10">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#panelTwagoPerfiles">Spider Twago Perfiles</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#panelTwagoOfertas">Spider Twago Ofertas</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#panelConcursa">Spider Uruguay concursa</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#panelBuscojob">Spider Buscojob</a>
+            </li>
+        </ul>
+
+        <!-- Tab panes contenedores de arañas-->
+        <div class="tab-content">            
+            <div class="tab-pane container active" id="panelTwagoPerfiles">
+                    <!-- Fila para la foto, el nombre y los botones -->
+                    <div class="row p-3">
+                        <div class="col-12 col-sm-4 centrados">
+                            <img class="mr-3 img-thumbnail" src="{% static 'img/twago.png' %}" alt="Generic placeholder image">
+                        </div>
+                        <div class="col-12 col-sm-8">
+                            <div class="row">
+                                <div class="col-12 centrados">
+                                    <h5 class="titulo-spider"><a href="https://www.twago.es/s/projects/">Twago Perfiles</a></h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-sm-8 my-auto">
+                                    <label class="align-middle" for="inTwagoPerfiles">Seleccione el máximo de elementos a raspar. Por defecto (10)</label>                                        
+                                </div>
+                                <div class="col-12 col-sm-4 my-2">
+                                    <input type="number" class="form-control" id="inTwagoPerfiles" placeholder="Máximo">
+                                </div>
+                            </div>
+                            <div class="row">                                    
+                                <div class="col-12">
+                                    <button type="button" id="btnTwagoPerfiles" class="btn btn-primary btn-block">Lanzar Twago Perfiles</button>
+                                </div>                                
+                            </div>                                
+                        </div>
+                    </div>
+                    <!-- fila para el texto -->
+                    <div class="row">
+                        <div class="col-12">
+                            <p class="text-card mt-2">
+                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Inventore iste numquam necessitatibus! Ullam ut expedita ipsam beatae 
+                                dolores 
+                                molestias pariatur voluptate alias impedit vitae eius provident, omnis hic, exercitationem odit.
+                            </p>
+                        </div>
+                    </div>                
+            </div>
+            
+            
+            <div class="tab-pane container fade" id="panelTwagoOfertas">
+                <!-- Fila para la foto, el nombre y los botones -->
+                <div class="row p-3">
+                    <div class="col-12 col-sm-4 centrados">
+                        <img class="mr-3 img-thumbnail" src="{% static 'img/twago.png' %}" alt="Generic placeholder image">
+                    </div>
+                    <div class="col-12 col-sm-8">
+                        <div class="row">
+                            <div class="col-12 centrados">
+                                <h5 class="titulo-spider"><a href="https://www.twago.es/s/projects/">Twago Ofertas</a></h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-sm-8 my-auto">
+                                <label class="align-middle" for="inTwagoPerfiles">Seleccione el máximo de elementos a raspar. Por defecto (10)</label>                                        
+                            </div>
+                            <div class="col-12 col-sm-4 my-2">
+                                <input type="number" class="form-control" id="inTwagoOfertas" placeholder="Máximo">
+                            </div>
+                        </div>
+                        <div class="row">                                    
+                            <div class="col-12">
+                                <button type="button" id="btnTwagoOfertas" class="btn btn-primary btn-block">Lanzar Twago Ofertas</button>
+                            </div>                                
+                        </div>                                
+                    </div>
+                </div>
+                <!-- fila para el texto -->
+                <div class="row">
+                    <div class="col-12">
+                        <p class="text-card mt-2">
+                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Inventore iste numquam necessitatibus! Ullam ut expedita ipsam beatae 
+                            dolores 
+                            molestias pariatur voluptate alias impedit vitae eius provident, omnis hic, exercitationem odit.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane container fade" id="panelConcursa">
+                <!-- Fila para la foto, el nombre y los botones -->
+                <div class="row p-3">
+                    <div class="col-12 col-sm-4 centrados">
+                        <img class="mr-3 img-thumbnail" src="{% static 'img/concursa.jpg' %}" alt="Generic placeholder image">
+                    </div>
+                    <div class="col-12 col-sm-8">
+                        <div class="row">
+                            <div class="col-12 centrados">
+                                <h5 class="titulo-spider">
+                                    <a href="https://www.uruguayconcursa.gub.uy/Portal/servlet/com.si.recsel.dspllamados62">
+                                        Uruguay Concursa
+                                    </a>
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-sm-8 my-auto">
+                                <label class="align-middle" for="inTwagoPerfiles">Seleccione el máximo de elementos a raspar. Por defecto (10)</label>                                        
+                            </div>
+                            <div class="col-12 col-sm-4 my-2">
+                                <input type="number" class="form-control" id="inConcursa" placeholder="Máximo">
+                            </div>
+                        </div>
+                        <div class="row">                                    
+                            <div class="col-12">
+                                <button type="button" id="btnConcursa" class="btn btn-primary btn-block">Lanzar Uruguay Concursa</button>
+                            </div>                                
+                        </div>                                
+                    </div>
+                </div>
+                <!-- fila para el texto -->
+                <div class="row">
+                    <div class="col-12">
+                        <p class="text-card mt-2">
+                            Uruguay Concursa es una Unidad perteneciente a la Oficina Nacional del Servicio Civil, cuya
+                            finalidad es crear y administrar el sistema de
+                            Reclutamiento y Selección para los organismos integrantes de la Administración Central.
+                            Debemos aclarar que aparecen llamados también no
+                            gestionados por la Oficina de Servicio Civil.
+                            Tus datos quedan incorporados en una “base de datos”, que sólo será procesada exclusivamente
+                            para esta finalidad: Postulaciones a llamados de
+                            la Administración Central y/o Organismos públicos.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane container fade" id="panelBuscojob">
+                <!-- Fila para la foto, el nombre y los botones -->
+                <div class="row p-3">
+                    <div class="col-12 col-sm-4 centrados">
+                        <img class="mr-3 img-thumbnail" src="{% static 'img/buscojob.jpeg' %}" alt="Generic placeholder image">
+                    </div>
+                    <div class="col-12 col-sm-8">
+                        <div class="row">
+                            <div class="col-12 centrados">
+                                <h5 class="titulo-spider"><a href="href="https://www.buscojobs.com.uy/"">Buscojob</a></h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-sm-8 my-auto">
+                                <label class="align-middle" for="inTwagoPerfiles">Seleccione el máximo de elementos a raspar. Por defecto (10)</label>                                        
+                            </div>
+                            <div class="col-12 col-sm-4 my-2">
+                                <input type="number" class="form-control" id="inBuscoJob" placeholder="Máximo">
+                            </div>
+                        </div>
+                        <div class="row">                                    
+                            <div class="col-12">
+                                <button type="button" id="btnBuscoJob" class="btn btn-primary btn-block">Lanzar Araña</button>
+                            </div>                                
+                        </div>                                
+                    </div>
+                </div>
+                <!-- fila para el texto -->
+                <div class="row">
+                    <div class="col-12">
+                        <p class="text-card mt-2">
+                            Buscojobs es un portal de empleo cuyo propósito es ayudarte a encontrar trabajo.
+                            Con miles de ofertas de trabajo publicadas, podrás buscar empleo en cualquier ciudad de Uruguay como Montevideo, 
+                            Canelones, Maldonado, Colonia, San José, Paysandú, entre otras.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-0 col-ms-1"></div>
 
 
 
 </div>
 
-
-
+<hr class="my-4 alert-danger">
 {% endblock %}

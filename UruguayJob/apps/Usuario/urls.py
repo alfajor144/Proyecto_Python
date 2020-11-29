@@ -15,6 +15,11 @@ urlpatterns = [
     path('hacerCV/', views.hacerCV, name='hacerCV'),
     path('calculadora/', views.calculadora, name='calculadora'),
     path('administrador/spiders', views.admin_spiders , name='admin-spiders'),
+    path('administrador/daemonstatus', views.daemon_status , name='daemon-status'),
+    path('administrador/listspiders', views.list_spiders , name='list-spiders'),
+    path('administrador/listjobs', views.list_jobs , name='list-jobs'),
+    path('administrador/cancelspider', views.cancel_spider , name='cancel-spider'),
+    path('administrador/schedule', views.schedule , name='schedule'),
 
     # -------------- CARGA DE DATOS DESDE JSONs--------------------------------
     #path('loadUC/', views.cargarUruguayConcursaJson, name='cargarUruguayConcursaJson'),

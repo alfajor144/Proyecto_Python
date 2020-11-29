@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from apps.Usuario.models import Usuario, Oferta, SubCategoriaBJ, Curriculum, UruguayConcursa,Postulacion,BuscoJob, CategoriaUC, CategoriaBJ, PerfHabs
 import os
-
+import requests
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 
 import json
 #python manage.py makemigrations
@@ -1307,9 +1308,73 @@ def CerrarSesion(request):
 def admin_spiders(request):
     return render(request, 'spiders.html')
 
+# Ver el estado del demonio scrapyd
+def daemon_status(request):
+    #import ipdb; ipdb.set_trace()
+    if request.is_ajax():        
+        data_respuesta = requests.get("http://localhost:6800/daemonstatus.json")
+        data_respuesta = data_respuesta.json()
+        # { "status": "ok", "running": "0", "pending": "0", "finished": "0", "node_name": "node-name" }
+        response = JsonResponse(data_respuesta)
+        response.status_code = 200        
+        return response
+    else:
+        return redirect('')
 
+def list_spiders(request ):
+    #import ipdb; ipdb.set_trace()
+    if request.is_ajax():
+        pload = { 'project':'jobs' }
+        data_respuesta = requests.get("http://localhost:6800/listspiders.json", params=pload)
+        # response: {"status": "ok", "spiders": ["spider1", "spider2", "spider3"]} 
+        data_respuesta = data_respuesta.json()
+        response = JsonResponse(data_respuesta)
+        return response
+    else:
+        return redirect('')
 
+def list_jobs(request):
+    if request.is_ajax():
+        name_project = 'jobs'
+        pload = { 'project':name_project }
+        data_respuesta = requests.get("http://localhost:6800/listjobs.json", params=pload)
+        data_respuesta = data_respuesta.json()
+        response = JsonResponse(data_respuesta)
+        #response:
+        #{"status": "ok",
+        # "pending": [{"id": "78391cc0fcaf11e1b0090800272a6d06", "spider": "spider1"}],
+        # "running": [{"id": "422e608f9f28cef127b3d5ef93fe9399", "spider": "spider2", "start_time": "2012-09-12 10:14:03.594664"}],
+        # "finished": [{"id": "2f16646cfcaf11e1b0090800272a6d06", "spider": "spider3", "start_time": "2012-09-12 10:14:03.594664", "end_time": "2012-09-12 10:24:03.594664"}]}
+        return response
+    else:
+        return redirect()
 
+def cancel_spider(request):
+    id_job = request.POST.get('job')
+    if request.is_ajax():
+        name_project = 'jobs'
+        pload = {'project': name_project, 'job': id_job }
+        data_respuesta = requests.post('http://localhost:6800/cancel.json', data=pload)
+        # response: {"status": "ok", "prevstate": "running"}
+        data_respuesta = data_respuesta.json()
+        response = JsonResponse(data_respuesta)
+        return response
+    else:
+        return redirect()
+
+def schedule(request):
+    name_spider = request.POST.get('spider')
+    limite = request.POST.get('limite')
+    if request.is_ajax():
+        name_project = 'jobs'
+        pload = { 'project': name_project, 'spider': name_spider, 'limite': limite }
+        data_respuesta = requests.post('http://localhost:6800/schedule.json', data=pload)
+        # response: {"status": "ok", "jobid": "6487ec79947edab326d6db28a2d86511e8247444"}
+        data_respuesta = data_respuesta.json()
+        response = JsonResponse(data_respuesta)
+        return response
+    else:
+        return redirect()
 
 
  
