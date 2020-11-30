@@ -1,4 +1,4 @@
-.centrados{
+.centrados {
     /* background-color: antiquewhite; */
     text-align: center;
 }
@@ -10,12 +10,18 @@
     
 }
 
+#img-principal{
+    max-height: 50px;
+}
+
+#btnTwagoPerfiles {
+    max-width: 50px;
+}
+
 
 .titulo-spider {
     margin-top: 10px;
     margin-bottom: 25px;
 }
 
-/* label {
-    margin: 0px;
-} */
+

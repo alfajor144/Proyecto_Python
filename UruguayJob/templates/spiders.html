@@ -1,11 +1,15 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block titulo %}
 <title>Spiders</title>
 {% endblock %}
 
+{% block estilos %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/spider.css' %}" />
+{% endblock %}
+
 {% block header %}
-{% load static %}
+
 <nav class="navbar navbar-toggleable-md navbar-expand-lg navbar-light  fixed-top bg-primary">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
         <span class="navbar-toggler-icon"></span>
@@ -40,18 +44,22 @@
     <div class="col-md-12" style="min-height: 100px;"></div>
 </div>
 
+<div class="container">
+
+</div>
+
 <!-- Banner de presentación -->
 <div class="row">
     <div class="col-12">
-        <div class="jumbotron">
+        <div class="jumbotron border">
+            <img id="img-principal" src="{% static 'img/spider1.png' %}" class="rounded" alt="...">
             <h3 class="display-4">Control de Scrapyd</h3>
-            <p class="lead">Scrapyd es un servicio para ejecutar Scrapy spiders. Le permite desplegar sus proyectos de
-                Scrapy y
-                controlar sus arañas usando una API HTTP JSON. ... servidor HTTP que proporciona la API de programación
-                Scrapy
-                arañas y hacer solicitudes con arañas.</p>
+           
+            <p class="lead">Scrapyd es el servicio para ejecutar Scrapy spiders. Le permite desplegar sus proyectos de
+                Scrapy y controlar sus arañas usando una API HTTP. El servidor HTTP que proporciona la API de programación
+                Scrapy arañas y hacer solicitudes con arañas.</p>
             <hr class="my-2">
-
+            
         </div>
     </div>
 </div>
@@ -182,28 +190,7 @@
     </div>
     <div class="col-0 col-ms-1"></div>
 
-    <!-- <div class="col-6">
-        <div class="card" ">
-            <img class=" card-img-top" src="{% static 'img/scraping.jpeg'%}" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-6">
-        <ul class="list-group">
-            <li class="list-group-item active">Estado del Servicio</li>
-            <li class="list-group-item" id="liNodeName">Nombre del Servidor: </li>
-            <li class="list-group-item" id="liStatus">Status Ok</li>
-            <li class="list-group-item" id="liRunning">Corriendo 0</li>
-            <li class="list-group-item" id="liPending">Pendientes 0</li>
-            <li class="list-group-item" id="liFinished">Finalizados 0</li>
-        </ul>
-    </div> -->
+  
 </div>
 
 <hr class="my-4 alert-danger">
@@ -230,7 +217,7 @@
             </li>
         </ul>
 
-        <!-- Tab panes contenedores de arañas-->
+        <!-- Contiene todos los contenedores de arañas-->
         <div class="tab-content">            
             <div class="tab-pane container active" id="panelTwagoPerfiles">
                     <!-- Fila para la foto, el nombre y los botones -->
@@ -254,7 +241,8 @@
                             </div>
                             <div class="row">                                    
                                 <div class="col-12">
-                                    <button type="button" id="btnTwagoPerfiles" class="btn btn-primary btn-block">Lanzar Twago Perfiles</button>
+                                    
+                                    <button type="button" id="btnTwagoPerfiles" class="btn btn-primary btn-block mw-50">Lanzar Twago Perfiles</button>
                                 </div>                                
                             </div>                                
                         </div>
@@ -310,6 +298,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="tab-pane container fade" id="panelConcursa">
                 <!-- Fila para la foto, el nombre y los botones -->
                 <div class="row p-3">
@@ -357,6 +346,7 @@
                     </div>
                 </div>
             </div>
+            <!-- panel Buscojob -->
             <div class="tab-pane container fade" id="panelBuscojob">
                 <!-- Fila para la foto, el nombre y los botones -->
                 <div class="row p-3">
@@ -395,6 +385,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
     <div class="col-0 col-ms-1"></div>

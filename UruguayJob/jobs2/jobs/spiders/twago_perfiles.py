@@ -3,6 +3,7 @@ import logging
 from jobs.items import TwagoPerfilesItem
 from scrapy.exceptions import CloseSpider
 import datetime
+import requests
 
 
 class PerfilesSpider(scrapy.Spider):
@@ -106,3 +107,11 @@ class PerfilesSpider(scrapy.Spider):
             item['habilidades'] = ""
             self.perfiles_deletes += 1
             yield item
+
+
+
+    def progress_report(self, porcentaje):
+        spider = 'twago-perfiles'
+        pload = { 'spider': spider', porcentaje': porcentaje }
+        response = requests.get("http://localhost:8000/administrador", params=pload)
+        return response.json()

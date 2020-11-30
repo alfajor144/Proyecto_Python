@@ -1377,4 +1377,10 @@ def schedule(request):
         return redirect()
 
 
- 
+def progress_report(request, spider, porcentaje):
+    spider = request.GET.get('spider')
+    porcentaje = request.GET.get('porcentaje')
+    data_respuesta = {"saludo": 'hola'} 
+    data_respuesta = data_respuesta.json()
+    response = JsonResponse(data_respuesta)
+    return response
