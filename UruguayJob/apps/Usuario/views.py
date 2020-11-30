@@ -610,18 +610,19 @@ def chartPieData2(request):
 
     # -------- filtrar por habis-------------
     #retor = []
-    #retor = {x.habilidades: x for x in res}
+    #retor = isNotRepeat(request, res)
 
     # ---------------------------------------
 
     res2 = sorted(res, key=lambda x: x.precio, reverse=True)
 
     for ha in res2:
-        dato = {
-            "precio": ha.precio * 50,
-            "habilidades": ha.habilidades
-        }
-        datos.append(dato)
+        if ha.precio>0 and ha.precio<100:
+            dato = {
+                "precio": ha.precio * 10,
+                "habilidades": ha.habilidades
+            }
+            datos.append(dato)
 
     return datos
 
@@ -1376,7 +1377,35 @@ def schedule(request):
     else:
         return redirect()
 
+def verPerfil(request):
+    idU = request.session['id_usuario'] 
+    try:
+        user = Usuario.objects.get(id_usuario=idU)
 
+        try:
+            cv = Curriculum.objects.get(idUsu=idU)
+            context = {
+                'cv': cv,
+                'user':user
+            }
+            return render(request, 'verPerfil.html', context)
+        except Curriculum.DoesNotExist:
+            context = {
+                'cv': None,
+                'user':user
+            }
+            return render(request, 'verPerfil.html', context)
+ 
+    except KeyError:
+
+        user = Usuario.objects.get(id_usuario=idU)
+        context = {
+            'cv':None,
+            'user':user
+        }
+        return render(request, 'verPerfil.html', context)
+
+ 
 def progress_report(request, spider, porcentaje):
     spider = request.GET.get('spider')
     porcentaje = request.GET.get('porcentaje')
