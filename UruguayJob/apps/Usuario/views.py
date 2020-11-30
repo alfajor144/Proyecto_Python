@@ -1180,8 +1180,35 @@ def Buscar(request):
     try:
         request.session['nombre']
 
+        if request.POST['categoria'] is not None:
+            request.session['cateName'] = request.POST['categoria']
+        else:
+            request.session['cateName'] = "N/A" 
+
+        if request.POST['pais'] is not None:
+            request.session['paisName'] = request.POST['pais']
+        else:
+            request.session['paisName'] = "N/A"
+
+        if request.POST['subCategoria'] is not None:
+            if request.session['paisName'] == "Freelancer":
+                request.session['subCategoriaName'] = "N/A"
+            else:
+                request.session['subCategoriaName'] = request.POST['subCategoria']
+        else:
+            request.session['subCategoriaName'] = "N/A"
+
+        if request.POST['keyWord'] is not None:
+            request.session['keyWordName'] = request.POST['keyWord']
+        else:
+            request.session['keyWordName'] = ""
+
         #incrementarPuesto(request, filtrarOfertas(request))
         context = {
+            'cateName' : request.session['cateName'],
+            'paisName' : request.session['paisName'],
+            'subCategoriaName' : request.session['subCategoriaName'],
+            'keyWordName' : request.session['keyWordName'],
             'esUsuario': True,
             'CategoriasBJ': CargarCategoriasBJ(request),
             'CategoriasUC': CargarCategoriasUC(request),
