@@ -105,6 +105,7 @@ class TwagoOfertasSpider(scrapy.Spider):
         item['requisitos'] = requisitos
         self.nro_item += 1
         print("pagina:", self.pages, ", item:", self.nro_item)
+        import ipdb; ipdb.set_trace()
         if self.nro_item > self.limite:
             raise CloseSpider('Se alcanzó el máximo número de elementos a raspar!')
         else:

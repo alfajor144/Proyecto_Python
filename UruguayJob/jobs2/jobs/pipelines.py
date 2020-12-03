@@ -60,7 +60,7 @@ class TwagoOfertasPipeline:
                 elif unidad_tiempo == "día":
                     return (ahora + datetime.timedelta(hours=cantidad))
             return ahora
-        except expression as identifier:
+        except:
             logging.exception("Error al convertir fecha fin")
             return ahora
 
@@ -79,7 +79,7 @@ class TwagoOfertasPipeline:
                 fecha_inicio = anio+"-"+mes+"-"+dia
                 return fecha_inicio
             return ahora
-        except expression as identifier:
+        except:
             return ahora
 
     def delete_tag(self, tag, text):

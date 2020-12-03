@@ -9,6 +9,12 @@ import json
 #python manage.py migrate
 #python manage.py runserver
 
+val_progress_twago = 0
+val_progress_perfiles = 0
+val_progress_concursa = 0
+val_progress_buscojob = 0
+
+
 #http://localhost:8000/cargarBD
 def nombreJson(request, nombre):
     dir_raiz = './'
@@ -1405,11 +1411,43 @@ def verPerfil(request):
         }
         return render(request, 'verPerfil.html', context)
 
- 
-def progress_report(request, spider, porcentaje):
+# recibe el porcentaje desde la araña 
+def progress_report(request):
+    import ipdb; ipdb.set_trace()
     spider = request.GET.get('spider')
+    print(f"============== {spider} 000000000000000000000000000")
     porcentaje = request.GET.get('porcentaje')
-    data_respuesta = {"saludo": 'hola'} 
-    data_respuesta = data_respuesta.json()
-    response = JsonResponse(data_respuesta)
-    return response
+    if spider == 'twago-ofertas':
+        global val_progress_twago
+        val_progress_twago = int(porcentaje)
+    elif spider == 'twago-perfiles':
+        global val_progress_perfiles
+        val_progress_perfiles = int(porcentaje)
+    elif spider == 'concursa-ofertas':
+        global val_progress_concursa
+        val_progress_concursa = int(porcentaje)
+    elif spider == 'uybuscojob-ofertas':
+        global val_progress_buscojob
+        val_progress_buscojob = int(porcentaje)
+    return HttpResponse()
+
+# atiende peticion ajax, y retorna el progreso de la añara
+def progress_spider(request):
+    #import ipdb; ipdb.set_trace()
+    spider = request.GET.get('spider')
+    if request.is_ajax() and spider is not None:
+        if spider == 'twago-perfiles':
+            data_respuesta = { spider : val_progress_perfiles }
+            response = JsonResponse(data_respuesta)
+        elif spider == 'twago-ofertas':
+            data_respuesta = { spider : val_progress_twago }
+            response = JsonResponse(data_respuesta)
+        elif spider == 'concursa-ofertas':
+            data_respuesta = { spider : val_progress_concursa }
+            response = JsonResponse(data_respuesta)
+        elif spider == 'uybuscojob-ofertas':
+            data_respuesta = { spider : val_progress_buscojob }
+            response = JsonResponse(data_respuesta)
+        return response
+    else:
+        return redirect()

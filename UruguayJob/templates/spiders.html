@@ -72,9 +72,10 @@
 
 <!-- Banner de presentación -->
 <div class="row">
-    <div class="col-12">
+    <div class="col-0 col-sm-1"></div>
+    <div class="col-12 col-sm-10">
         <div class="jumbotron border">
-            <!-- <img id="img-principal" src="{% static 'img/spider1.png' %}" class="rounded" alt="..."> -->
+            <img id="img-principal" src="{% static 'img/spider1.png' %}" class="rounded rounded float-left" alt="...">
             <h3 class="display-4">Control de Scrapyd</h3>
            
             <p class="lead">Scrapyd es el servicio para ejecutar Scrapy spiders. Le permite desplegar sus proyectos de
@@ -84,17 +85,21 @@
             
         </div>
     </div>
+    <div class="col-0 col-sm-1"></div>
+</div>
+<div class="row">
+    <div class="col-0 col-sm-1"></div>
+    <div class="col-10">
+        <h2 class="text-danger">Serviciós de Scrapyd</h2>
+    </div>
+    <div class="col-0 col-sm-1"></div>
 </div>
 
 
 <!-- Estado de scrapyd -->
-<div class="row">
-
-    <div class="col-12">
-        <h2 class="text-danger">Serviciós de Scrapyd</h2>
-    </div>
-    <div class="col-0 col-ms-1"></div>
-    <div class="col-12 col-ms-10">
+<div class="row">   
+    <div class="col-0 col-sm-1"></div>
+    <div class="col-12 col-sm-10">
         <div id="accordion">
 
             <div class="card">
@@ -210,19 +215,22 @@
         </div>
        
     </div>
-    <div class="col-0 col-ms-1"></div>
-
-  
+    <div class="col-0 col-sm-1"></div>  
 </div>
 
 <hr class="my-4 alert-danger">
 
 <div class="row">
-    <div class="col-12">
+    <div class="col-1"></div>
+    <div class="col-10">
         <h2 class="text-danger">Spiders</h2>
     </div>
-    <div class="col-0 col-ms-1"></div>
-    <div class="col-12 col-ms-10">
+    <div class="col-1"></div>
+</div>
+<div class="row spiders">    
+   
+    <div class="col-0 col-sm-1"></div>
+    <div class="col-12 col-sm-10 ">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs">
             <li class="nav-item">
@@ -264,7 +272,7 @@
                             <div class="row">                                    
                                 <div class="col-12">
                                     
-                                    <button type="button" id="btnTwagoPerfiles" class="btn btn-primary btn-block mw-50">Lanzar Twago Perfiles</button>
+                                    <button type="button" id="btnTwagoPerfiles" class="btn btn-primary btn-block ">Lanzar Twago Perfiles</button>
                                 </div>                                
                             </div>                                
                         </div>
@@ -272,11 +280,16 @@
                     <!-- fila para el texto -->
                     <div class="row">
                         <div class="col-12">
-                            <p class="text-card mt-2">
+                            <p class="text-card mt-2 border-top p-2">
                                 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Inventore iste numquam necessitatibus! Ullam ut expedita ipsam beatae 
                                 dolores 
                                 molestias pariatur voluptate alias impedit vitae eius provident, omnis hic, exercitationem odit.
+                                
                             </p>
+                            <button id="btnProgreso">Ver progreso</button>
+                            <div class="progress">
+                                <div id="barTwagoPerfiles" class="progress-bar bg-danger progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+                            </div>
                         </div>
                     </div>                
             </div>
@@ -410,9 +423,7 @@
 
         </div>
     </div>
-    <div class="col-0 col-ms-1"></div>
-
-
+    <div class="col-0 col-sm-1"></div>
 
 </div>
 

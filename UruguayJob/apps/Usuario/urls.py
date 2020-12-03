@@ -20,7 +20,8 @@ urlpatterns = [
     path('administrador/listjobs', views.list_jobs , name='list-jobs'),
     path('administrador/cancelspider', views.cancel_spider , name='cancel-spider'),
     path('administrador/schedule', views.schedule , name='schedule'),
-    path('administrador/progress/<spider>/<int:porcentaje>', views.progress_report , name='progress-report'),
+    path('administrador/progress', views.progress_report , name='progress-report'),
+    path('administrador/progress/ajax', views.progress_spider , name='progress-ajax'),
 
     # -------------- CARGA DE DATOS DESDE JSONs--------------------------------
     #path('loadUC/', views.cargarUruguayConcursaJson, name='cargarUruguayConcursaJson'),

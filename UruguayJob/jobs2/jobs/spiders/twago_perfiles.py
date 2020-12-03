@@ -1,9 +1,13 @@
 import scrapy
 import logging
 from jobs.items import TwagoPerfilesItem
-from scrapy.exceptions import CloseSpider
+from scrapy.exceptions import CloseSpider, DropItem
 import datetime
 import requests
+import math
+from ipdb import launch_ipdb_on_exception
+
+#from scrapy.project import crawler
 
 
 class PerfilesSpider(scrapy.Spider):
@@ -12,7 +16,9 @@ class PerfilesSpider(scrapy.Spider):
     nro_item = 0
     pages = 0
     perfiles_deletes = 0
-    pagination = ""
+    pagination = None
+    porcentaje_enviado = 0
+
     custom_settings = {
         'ROBOTSTXT_OBEY':False,
         'COOKIES_ENABLED':False,
@@ -36,20 +42,21 @@ class PerfilesSpider(scrapy.Spider):
         'TOR_IPROTATOR_ENABLED' :True,
         'TOR_IPROTATOR_CHANGE_AFTER' : 20,
     }
-    allowed_domains = ['www.twago.es']
-    start_urls = [
-        'https://www.twago.es/search/freelancer/?q=*&sortDirection=descending&cat=freelancer&sortField=default']
 
-    def __init__(self, limite=5, *args, **kwargs):
+    allowed_domains = ['www.twago.es']
+    start_urls = ['https://www.twago.es/search/freelancer/?q=*&sortDirection=descending&cat=freelancer&sortField=default']
+
+    def __init__(self, limite=10, *args, **kwargs):
         super(PerfilesSpider, self).__init__(*args, **kwargs) # <- important
         try:
             self.limite = int(limite)
         except ValueError:
             #Si el limite ingresado no es válido
-            self.limite = 5
+            self.limite = 10
 
     def parse(self, response):
-        logging.info(response.url)
+        self.logger.info('Función ofertas.parse %s', response.url)
+        self.pages += 1
         # obtiene todos los links de los perfiles de la pagina actual
         perfiles = response.xpath('//div[@class="company-name small"]/a')
         # ingresa en cada perfil de la pagina actual y la 
@@ -69,7 +76,6 @@ class PerfilesSpider(scrapy.Spider):
                 break
 #        # Avanza a la siguiente pagina de la paginación
         if next_page_url is not None:
-            self.pages += 1
             yield scrapy.Request(response.urljoin(next_page_url))
 
 
@@ -87,18 +93,17 @@ class PerfilesSpider(scrapy.Spider):
             str_url = response.url
             str_url = str_url.split("/")
             id_perfil = str_url[len(str_url) - 2]
-            habilidades = response.xpath(
-                    '//div[@class="company-skills-summary"]/span/text()'
-                    ).getall()
+            habilidades = response.xpath('//div[@class="company-skills-summary"]/span/text()').getall()
             item['id_perfil'] = id_perfil
             item['precio'] = precio
             item['habilidades'] = habilidades
             self.nro_item += 1
             print("pagina:", self.pages, ", item:", self.nro_item)
+            #import ipdb; ipdb.set_trace()
+            self.progress_report() # calcula el porcentaje para enviar
             if self.nro_item > self.limite:
-                raise CloseSpider(
-                    'Se alcanzó el máximo número de elementos a raspar!'
-                    )
+                #self.crawler.stop()
+                raise CloseSpider("Parada")
             else:
                 yield item
         else:
@@ -109,9 +114,20 @@ class PerfilesSpider(scrapy.Spider):
             yield item
 
 
+    def porcentaje(self):
+        #import ipdb; ipdb.set_trace()
+        if self.nro_item > 0 and self.limite > 0:
+            p =  100 * self.nro_item / self.limite 
+            return p
 
-    def progress_report(self, porcentaje):
-        spider = 'twago-perfiles'
-        pload = { 'spider': spider', porcentaje': porcentaje }
-        response = requests.get("http://localhost:8000/administrador", params=pload)
-        return response.json()
+    def progress_report(self):
+        p = self.porcentaje()
+        parte_decimal, parte_entera = math.modf(p)
+        if parte_entera != self.porcentaje_enviado:
+            self.porcentaje_enviado = parte_entera
+            progress = int(self.porcentaje_enviado)
+            pload = { "spider": 'twago-perfiles', "porcentaje": progress }
+            response = requests.get("http://localhost:8000/administrador/progress", params=pload ) 
+            #import ipdb; ipdb.set_trace()
+            #response = response.json()
+            return response

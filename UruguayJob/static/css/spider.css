@@ -10,18 +10,25 @@
     
 }
 
-#img-principal{
-    max-height: 50px;
+#img-principal {
+    max-height: 13rem;
 }
 
 #btnTwagoPerfiles {
-    max-width: 50px;
+    max-width: 300px;
 }
 
 
 .titulo-spider {
     margin-top: 10px;
     margin-bottom: 25px;
+}
+
+.spiders {
+    background-image: url("static/img/muchas_spiders.png");
+
+    
+    /* margin: 15px 30px 15px 30px; */
 }
 
 

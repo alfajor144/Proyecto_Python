@@ -7,10 +7,17 @@ $(function () {
    // var running = new Array();
     var redButtons = {"btnTwagoPerfiles":0, "btnTwagoOfertas":0, "btnConcursa": 0, "btnBuscojob":0};
     var nIntervId;
+    var valProgTwago = 0;
+    var valProgPerfiles = 0
+    var valProgBuscojob = 0;
+    var valProgConcursa = 0;
+    var progIntervId;
     var btnTwagoOfertas = $('#btnTwagoOfertas');
     var btnTwagoPerfiles = $('#btnTwagoPerfiles');
     var btnConcursa = $('#btnConcursa');
     var btnBuscojob = $('#btnBuscoJob');
+    var btnProgreso = $('#btnProgreso');
+    var barTwagoPerfiles = $("#barTwagoPerfiles");
 
     //Actualiza la lista de botones en rojo
     async function updateListRedButtons(jobs){
@@ -24,6 +31,7 @@ $(function () {
             redButtons["btnConcursa"] = 0;
             redButtons["btnBuscojob"] = 0;
             await detenerCheckJobs();
+            await detenerProgress();
         }else {
             for(var i=0; i < running.length; i++){
                //Busca los que vienen en running y actualiza el array redButtons
@@ -42,6 +50,20 @@ $(function () {
         }
     }
 
+    async function progressSpider(name_spider){
+        let result;
+        try {
+            result = $.ajax({
+                method: "GET",
+                url: "http://localhost:8000/administrador/progress/ajax",
+                data: {'spider': name_spider}
+            });
+            return result;
+        } catch (error) {
+            console.error("Error en progressSpider() : " + error);
+        }
+    }
+
 
     async function actualizarBotones(jobs) {
         await updateListRedButtons(jobs);
@@ -49,7 +71,7 @@ $(function () {
         let running = jobs.running;
         // chequea todos los que están running
         if(running.length > 0){
-            for(var i = 0; 1 < running.length; i++){
+            for(var i = 0; i < running.length; i++){
                 if ( typeof running[i].spider !== 'undefined' ) {//si esta en running lo agrega a la lista de botones en rojo
                     running[i].spider == "twago-ofertas" ? redButtons["btnTwagoOfertas"] = 1 : redButtons["btnTwagoOfertas"] = 0 ;
                 }
@@ -67,7 +89,7 @@ $(function () {
 
         // chequea todos los que están en pending
         if(pending.length > 0){
-            for(var i = 0; 1 < pending.length; i++){
+            for(var i = 0; i < pending.length; i++){
                 if ( typeof pending[i].spider !== 'undefined' ) {//si esta en pending lo agrega a la lista de botones en rojo
                     pending[i].spider == "twago-ofertas" ? redButtons["btnTwagoOfertas"] = 1 : redButtons["btnTwagoOfertas"] = 0 ;
                 }
@@ -354,6 +376,31 @@ $(function () {
         setButtonBlue(btnTwagoOfertas);
         setButtonBlue(btnTwagoPerfiles);
     }
+    
+    async function iniciarCheckProgress() {
+        console.log('======= Se inició checkProgress ========')
+        progIntervId = setInterval(checkProgress, 2000);
+    }
+
+    async function checkProgress() {
+        //recorreo los botones que están en rojo
+        console.log('======= dentro de checkProgress ========')
+        for(var i=0; i > redButtons.length; i++){
+            if(redButtons['btnTwagoPerfiles'] === 0){
+                 valProgPerfiles = await progressSpider('twago-perfiles');
+                console.log(valProgPerfiles);
+            }
+        }
+        /*
+         * FALTA CÓDIGO
+         */
+    }
+
+    //detiene el monitoreo del progreso de las arañas
+    async function detenerProgress() {
+        console.log('======= dentro de detenerProgress ========')
+        clearInterval(progIntervId);
+    }
 
     async function iniciarCheckJobs() {
         nIntervId = setInterval(checkJobs, 10000);
@@ -519,6 +566,7 @@ $(function () {
         }
     });
 
+
     btnTwagoPerfiles.click( async function (event) {
         event.preventDefault();
         var limite = $('#inTwagoPerfiles').val(); //toma el limite de elementos a raspar desde el cuadro de texto
@@ -529,6 +577,7 @@ $(function () {
                     setButtonRed($(this)) === true ? redButtons['btnTwagoPerfiles'] = 1 : redButtons['btnTwagoPerfiles'] = 0;
                     console.log("se presionó twago-perfiles");
                     await iniciarCheckJobs(); //inicia el monitoreo del estado del servor
+                    await iniciarCheckProgress(); //inicia el monitoreo del progreso de descarga
                 }
             }
         }
@@ -646,24 +695,6 @@ $(function () {
     });
 
 
-    btnBuscojob.click(function (event) {
-        event.preventDefault();
-        var limite = $('#inBuscoJob').val();
-        if ($(this).hasClass("btn-primary")) {
-            schedule('uybuscojob-ofertas', limite);       //Inicia la araña correspondiente    
-            console.log("storage = " + localStorage.getItem("uybuscojob-ofertas"));
-            setButtonRed($(this));
-            iniciarCheckJobs()
-        }
-        else {
-            cancelSpider(localStorage.getItem("uybuscojob-ofertas"));
-            listJobs()
-            console.log("Eliminando uybuscojob-ofertas: " + localStorage.getItem("uybuscojob-ofertas"))
-            setButtonBlue($(this));
-        }
-    });
-
-
     btnBuscojob.click( async function (event) {
         event.preventDefault();
         var limite = $('#inBuscoJob').val(); //toma el limite de elementos a raspar desde el cuadro de texto
@@ -719,6 +750,12 @@ $(function () {
     });
 
 
+    btnProgreso.click(async function(event){
+        event.preventDefault();
+        console.log("estas en progress")
+        let res = await progressSpider('twago-perfiles');
+        console.log(res)
+    })
 });
 
 
