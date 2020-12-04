@@ -1413,7 +1413,7 @@ def verPerfil(request):
 
 # recibe el porcentaje desde la araña 
 def progress_report(request):
-    import ipdb; ipdb.set_trace()
+    #import ipdb; ipdb.set_trace()
     spider = request.GET.get('spider')
     print(f"============== {spider} 000000000000000000000000000")
     porcentaje = request.GET.get('porcentaje')
