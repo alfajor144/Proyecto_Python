@@ -1435,18 +1435,31 @@ def progress_report(request):
 def progress_spider(request):
     #import ipdb; ipdb.set_trace()
     spider = request.GET.get('spider')
+    porcentaje = 0
     if request.is_ajax() and spider is not None:
         if spider == 'twago-perfiles':
-            data_respuesta = { spider : val_progress_perfiles }
+            global val_progress_perfiles
+            porcentaje = val_progress_perfiles
+            val_progress_perfiles = 0
+            data_respuesta = { spider : porcentaje }
             response = JsonResponse(data_respuesta)
         elif spider == 'twago-ofertas':
-            data_respuesta = { spider : val_progress_twago }
+            global val_progress_twago
+            porcentaje = val_progress_twago 
+            val_progress_twago = 0
+            data_respuesta = { spider : porcentaje }
             response = JsonResponse(data_respuesta)
         elif spider == 'concursa-ofertas':
-            data_respuesta = { spider : val_progress_concursa }
+            global val_progress_concursa
+            porcentaje = val_progress_concursa 
+            val_progress_concursa = 0
+            data_respuesta = { spider : porcentaje }
             response = JsonResponse(data_respuesta)
         elif spider == 'uybuscojob-ofertas':
-            data_respuesta = { spider : val_progress_buscojob }
+            global val_progress_buscojob
+            porcentaje =  val_progress_buscojob
+            val_progress_buscojob = 0
+            data_respuesta = { spider : porcentaje }
             response = JsonResponse(data_respuesta)
         return response
     else:
