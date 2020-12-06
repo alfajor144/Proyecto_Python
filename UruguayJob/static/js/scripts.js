@@ -3,6 +3,8 @@
 
 $(function () {
 
+    var jobs;
+    var status;
     var colorButtons = {"btnPerfiles": 'blue' , "btnTwago": 'blue', "btnConcursa": 'blue', "btnBuscojob":'blue'};
     var nIntervId;
     var valProgTwago = 0;
@@ -20,6 +22,13 @@ $(function () {
     var barraTwago = $("#barraTwago");
     var barraConcursa = $("#barraConcursa")
     var barraBuscojob = $("#barraBuscojob");
+    var bandera = 'verde';
+
+
+    async function sleep(milisegundos){
+        tiempo = (milisegundos/1000) + "s";
+        setTimeout( actualizarBotones(), milisegundos );
+    }
 
 //    //Actualiza la lista de botones en rojo
 //    async function updateColorButtons(jobs){
@@ -67,46 +76,50 @@ $(function () {
     }
 
 
-    async function actualizarBotones(jobs) {
+    async function actualizarBotones() {
         //await updateColorButtons(jobs);
+        if( monitorJobs === false || bandera == 'rojo'){
+            jobs = await listJobs();
+        }
         let pending = jobs.pending;
         let running = jobs.running;
         // chequea todos los que están running
         console.log("dentro de actualizar botones. pending: " + pending.length + ", running: " + running.length);
+        //debugger;
         if(running.length > 0){
             for(var i = 0; i < running.length; i++){
                 if ( typeof running[i].spider !== 'undefined' ) { //
-                    if( running[i].spider == "twago-ofertas" ){ //si twago-perfiles está en running lo agrega a la lista de botones en rojo
-                        if( setButtonRed(btnTwago) ){ //cabia a rojo el boton btnTwago
+                    if( running[i].spider === "twago-ofertas" ){ //si twago-perfiles está en running lo agrega a la lista de botones en rojo
+                        if( await setButtonRed(btnTwago) ){ //cambia a rojo el boton btnTwago
                             colorButtons.btnTwago = 'red';
                         }else{
                             colorButtons.btnTwago = 'blue';
                         }
                     }
 
-                    if( running[i].spider == "twago-perfiles" ){ //si twago-perfiles está en running lo agrega a la lista de botones en rojo
-                        if( setButtonRed(btnPerfiles) ){ //cabia a rojo el boton btnPerfiles
+                    if( running[i].spider === "twago-perfiles" ){ //si twago-perfiles está en running lo agrega a la lista de botones en rojo
+                        if( await setButtonRed(btnPerfiles) ){ //cambia a rojo el boton btnPerfiles
                             colorButtons.btnPerfiles = 'red';
                         }else{
                             colorButtons.btnPerfiles = 'blue';
                         }
                     }
-                    if( running[i].spider == "concursa-ofertas" ){ //si concursa-ofertas está en running lo agrega a la lista de botones en rojo
-                        if( setButtonRed(btnConcursa) ){ //cabia a rojo el boton btnConcursa
+                    if( running[i].spider === "concursa-ofertas" ){ //si concursa-ofertas está en running lo agrega a la lista de botones en rojo
+                        if( await setButtonRed(btnConcursa) ){ //cambia a rojo el boton btnConcursa
                             colorButtons.btnConcursa = 'red';
                         }else{
                             colorButtons.btnConcursa = 'blue';
                         }
                     }
-                    if( running[i].spider == "uybuscojob-ofertas" ){ //si uybuscojob-ofertas está en running lo agrega a la lista de botones en rojo
-                        if( setButtonRed(btnBuscojob) ){ //cabia a rojo el boton btnBuscojob
+                    if( running[i].spider === "uybuscojob-ofertas" ){ //si uybuscojob-ofertas está en running lo agrega a la lista de botones en rojo
+                        if( await setButtonRed(btnBuscojob) ){ //cambia a rojo el boton btnBuscojob
                             colorButtons.btnBuscojob = 'red';
                         }else{
                             colorButtons.btnBuscojob = 'blue';
                         }
                     }
                     if( running[i].spider == "twago-ofertas" ){ //si twago-perfiles está en running lo agrega a la lista de botones en rojo
-                        if( setButtonRed(btnTwago) ){ //cabia a rojo el boton btnTwago
+                        if( await setButtonRed(btnTwago) ){ //cabia a rojo el boton btnTwago
                             colorButtons.btnTwago = 'red';
                         }else{
                             colorButtons.btnTwago = 'blue';
@@ -122,7 +135,7 @@ $(function () {
             for(var i = 0; i < pending.length; i++){
                 if ( typeof pending[i].spider !== 'undefined' ) { //
                     if( pending[i].spider == "twago-ofertas" ){ //si twago-perfiles está en pending lo agrega a la lista de botones en rojo
-                        if( setButtonRed(btnTwago) ){ //cabia a rojo el boton btnTwago
+                        if( await setButtonRed(btnTwago) ){ //cabia a rojo el boton btnTwago
                             colorButtons.btnTwago = 'red';
                         }else{
                             colorButtons.btnTwago = 'blue';
@@ -130,28 +143,28 @@ $(function () {
                     }
 
                     if( pending[i].spider == "twago-perfiles" ){ //si twago-perfiles está en pending lo agrega a la lista de botones en rojo
-                        if( setButtonRed(btnPerfiles) ){ //cabia a rojo el boton btnPerfiles
+                        if( await setButtonRed(btnPerfiles) ){ //cabia a rojo el boton btnPerfiles
                             colorButtons.btnPerfiles = 'red';
                         }else{
                             colorButtons.btnPerfiles = 'blue';
                         }
                     }
                     if( pending[i].spider == "concursa-ofertas" ){ //si concursa-ofertas está en pending lo agrega a la lista de botones en rojo
-                        if( setButtonRed(btnConcursa) ){ //cabia a rojo el boton btnConcursa
+                        if( await setButtonRed(btnConcursa) ){ //cabia a rojo el boton btnConcursa
                             colorButtons.btnConcursa = 'red';
                         }else{
                             colorButtons.btnConcursa = 'blue';
                         }
                     }
                     if( pending[i].spider == "uybuscojob-ofertas" ){ //si uybuscojob-ofertas está en pending lo agrega a la lista de botones en rojo
-                        if( setButtonRed(btnBuscojob) ){ //cabia a rojo el boton btnBuscojob
+                        if( await setButtonRed(btnBuscojob) ){ //cabia a rojo el boton btnBuscojob
                             colorButtons.btnBuscojob = 'red';
                         }else{
                             colorButtons.btnBuscojob = 'blue';
                         }
                     }
                     if( pending[i].spider == "twago-ofertas" ){ //si twago-perfiles está en pending lo agrega a la lista de botones en rojo
-                        if( setButtonRed(btnTwago) ){ //cabia a rojo el boton btnTwago
+                        if( await setButtonRed(btnTwago) ){ //cabia a rojo el boton btnTwago
                             colorButtons.btnTwago = 'red';
                         }else{
                             colorButtons.btnTwago = 'blue';
@@ -480,26 +493,27 @@ $(function () {
         colorButtons.btnTwago = 'blue'; 
         colorButtons.btnConcursa = 'blue';
         colorButtons.btnBuscojob = 'blue';
-        resetBuscojob = await setButtonBlue(btnBuscojob);
+        //debugger;
+        resetBuscojob = await setButtonBlue( $(btnBuscojob) );
         if( !resetBuscojob ){
             console.error("no se pudo resetear buscojob")
         }
-        resetConcursa = await setButtonBlue(btnConcursa);
+        resetConcursa = await setButtonBlue($(btnConcursa));
         if( !resetConcursa ){
             console.error("no se pudo resetear Concursa")
         }
-        resetTwago = await setButtonBlue(btnTwago);
+        resetTwago = await setButtonBlue($(btnTwago));
         if( !resetTwago ){
             console.error("no se pudo resetear Twago")
         }
-        resetPerfiles = await setButtonBlue(btnPerfiles);
+        resetPerfiles = await setButtonBlue($(btnPerfiles));
         if( !resetPerfiles ){
             console.error("no se pudo resetear Perfiles")
         }
     }
     
     async function iniciarCheckProgress() {
-        console.log('======= Se inició checkProgress ========')
+        //console.log('======= Se inició checkProgress ========')
         if( monitorProgres === false ){
             progIntervId = setInterval(checkProgress, 2000);
             monitorProgres = true;
@@ -519,7 +533,7 @@ $(function () {
         if( colorButtons.btnPerfiles === 'red' ){
             let res = await progressSpider('twago-perfiles');
             let progress = res["twago-perfiles"];
-            console.info("progress: " + progress)
+            //console.info("progress: " + progress)
             if(valProgPerfiles < progress ){
                 valProgPerfiles = progress
             }
@@ -537,29 +551,32 @@ $(function () {
     async function iniciarCheckJobs() {
         if( monitorJobs === false){
             monitorJobs = true;
+            jobs = await listJobs();
             nIntervId = setInterval(checkJobs, 5000);
         }
     }
 
     async function checkJobs() {
-        let status = await daemonStatus();
-        await updateTableStatus(status);
-        // consulta el estado del servicio
-        if (status.status == 'ok') {
-            let jobs = await listJobs();
-            //Actualiza las tres tablas
-            await updateTableJobsRunning(jobs);
-            await updateTableJobsPending(jobs);
-            await updateTableJobsFinished(jobs);
-            await actualizarBotones(jobs); //actuliza la lista de colores y cambia los botones al color que corresponda
-            //console.log("%%%%%%% CheckJobs running:" + jobs.running.length)
-            if ( status.running == 0 && status.pending == 0) { //no hay trabajos
-                await resetButtons();//resetea la lista de botones en rojo 
-                await detenerCheckJobs();// detiene el monitoreo del servicio de scrapyd
-                await detenerProgress();
+        if( bandera == 'verde' ){
+            status = await daemonStatus();
+            await updateTableStatus(status);
+            // consulta el estado del servicio
+            if (status.status === 'ok') {
+                jobs = await listJobs();
+                //Actualiza las tres tablas
+                await updateTableJobsRunning(jobs);
+                await updateTableJobsPending(jobs);
+                await updateTableJobsFinished(jobs);
+                await actualizarBotones(); //actuliza la lista de colores y cambia los botones al color que corresponda
+                //console.log("%%%%%%% CheckJobs running:" + jobs.running.length)
+                if ( status.running == 0 && status.pending == 0) { //no hay trabajos
+                    await resetButtons();//resetea la lista de botones en rojo 
+                    await detenerCheckJobs();// detiene el monitoreo del servicio de scrapyd
+                    await detenerProgress();
+                }
+            } else {
+                alert("No hay comunicación de el servicio Scrapyd")    
             }
-        } else {
-            alert("No hay comunicación de el servicio Scrapyd")    
         }
     }
 
@@ -624,7 +641,7 @@ $(function () {
         event.preventDefault();
         var jobsPendingIsShow = $("#collapse3").hasClass("show");
         if (jobsPendingIsShow == false) {
-            let jobs = await listJobs();
+            jobs = await listJobs();
             await updateTableJobsPending(jobs);
         }
     });
@@ -634,7 +651,7 @@ $(function () {
         event.preventDefault();
         var jobsFinishedIsShow = $("#collapse4").hasClass("show");
         if (jobsFinishedIsShow == false) {
-            let jobs = await listJobs();
+            jobs = await listJobs();
             await updateTableJobsFinished(jobs);
         }
     });
@@ -642,9 +659,9 @@ $(function () {
     async function deleteJobs(name_spider){
         haveJobs = true;
         var countJobs = 0;
-        var jobs;
+        //var jobs;
         while(haveJobs === true){
-            jobs = [];
+            //jobs = [];
             jobs = await listJobs();// consulta los trabajos 
             if( jobs.status == 'ok'){
                 let running = jobs.running;//obtiene los trabajos que se están ejecutando
@@ -656,42 +673,59 @@ $(function () {
                         res = await cancelSpider(jobId);
                         //console.log("se mando a cancelar el id: " + jobId);
                         if( res.status === 'ok' ){
-                            console.log('Eliminado con exito (pending), jobId: ' + jobId)
+                            console.log('Eliminando (pending), jobId: ' + jobId)
                         }else{
-                            console.error('error al itentar eliminar (pending), jobid: ' + jobid)
+                            console.error('Error eliminar (pending), jobid: ' + jobid)
                             return false;
                         }
                     }
                 }
 
                 for(var i = 0; i < running.length; i++){//busca si trabajo corriendo perteneciente a esta araña
+        //debugger
                     if(running[i].spider == name_spider){ //Si corriendo uno de esta araña lo manda a detener
                         let jobId = running[i].id;        //obtiene el id
                         res = await cancelSpider(jobId);
                         //console.log("se mando a cancelar el id: " + jobId);
                         if( res.status === 'ok' ){
-                            console.log('Eliminado con exito (running), jobId: ' + jobId)
+                            console.log('Eliminando (running), jobId: ' + jobId)
                         }else{
-                            console.error('Error al itentar eliminar (running), jobId: ' + jobId)
+                            console.error('Error eliminar (running), jobId: ' + jobId)
                             return false;
                         }
                     }
                 }
                 
-                /*Cosulta nuevamente y chequea que no que denden trabajos pendientes*/
+                /*Cosulta nuevamente y chequea que no quedenden trabajos pendientes*/
                 jobs = await listJobs();
                 running = jobs.running;
                 pending = jobs.pending;
-                for(var i=0; i < running.length; i ++){
-                    if(running[i].spider == name_spider)  countJobs ++;
+                //debugger
+                if( running.length > 0 ){
+                    for(var i=0; i < running.length; i ++){
+                        if(running[i].spider === name_spider){
+                            haveJobs = true
+                        }else{
+                            haveJobs = false;
+                        }
+                    }
+                }else{ 
+                    haveJobs = false
                 }
-                for(var i=0; i < pending.length; i ++){
-                    if(pending[i].spider == name_spider)  countJobs ++;
+                if( pending.length === 0 && haveJobs === false){
+                    return true;
                 }
-                if(countJobs !== 0 ) haveJobs = false;
+                if( pending.length > 0 ){ 
+                    for(var i=0; i < pending.length; i ++){
+                        if(pending[i].spider !== name_spider && haveJobs === false){
+                            haveJobs = true;
+                        }else{
+                            haveJobs = false;
+                        }
+                    }
+                }
             }
         }
-        actualizarBotones(jobs);
         return true;
     }
 
@@ -704,14 +738,14 @@ $(function () {
                 let run = await schedule('twago-ofertas', limite);       //Inicia la araña correspondiente    
                 if(run.status === 'ok'){ //si la araña inicio correctamente
                     await setButtonRed($(this)) === true ? colorButtons.btnTwago = true : colorButtons.btnTwago = false;
-                    console.log("se presionó twago-ofertas");
+                    console.log("Iniando jobId: "+ res.jobId);
                     await iniciarCheckJobs(); //inicia el monitoreo del estado del servor
                 }
             }
         }
         else {
             if( await setButtonCancelando($(this))){
-                let jobs = await listJobs();
+                jobs = await listJobs();
                 if( jobs.status === 'ok'){
                     let running = jobs.running;//obtiene los trabajos que se están ejecutando
                     let pending = jobs.pending;//obtiene los trabjajos pendientes 
@@ -753,15 +787,17 @@ $(function () {
 
     btnPerfiles.click( async function (event) {
         event.preventDefault();
-        console.log("presionaste Perfiles 1: " + colorButtons.btnPerfiles)
         var limite = $('#inTwagoPerfiles').val(); //toma el limite de elementos a raspar desde el cuadro de texto
+        bandera = 'rojo'
         if(colorButtons.btnPerfiles == 'blue'){ // si el el boton está habilitado 
             if(await setButtonIniciando($(this))){ //deshabilita el boton, lo pasa a amarillo con el mensaje inicar
-                console.log("presionaste Perfiles 2")
                 let run = await schedule('twago-perfiles', limite);   //Inicia la araña correspondiente    
                 if(run.status == 'ok'){ //si la araña inicio correctamente
-                    await setButtonRed($(this)) === true ? colorButtons.btnPerfiles = 'red' : colorButtons.btnPerfiles = 'blue';
-                    console.log("presionaste Perfiles 3")
+                    //setTimeout(console.log("Esperaste 10 segundos"), 10000 );
+                    //await setButtonRed($(this)) === true ? colorButtons.btnPerfiles = 'red' : colorButtons.btnPerfiles = 'blue';
+                    console.log("Iniando jobId: "+ run.jobid);
+                    //await sleep(10000);
+                    await actualizarBotones();
                     valProgPerfiles = 0
                     setBarraProgress(barraPerfiles, 0); //retea la barra de progreso
                     await iniciarCheckJobs(); //inicia el monitoreo del estado del servor
@@ -770,16 +806,19 @@ $(function () {
             }
         }
         else if(colorButtons.btnPerfiles == 'red') {
+            //debugger;
             if( await setButtonCancelando($(this)) ){ // deshabilita el boton y lo coloca en amarillo
                 let borrarTrabajos = await deleteJobs('twago-perfiles')
                 if(borrarTrabajos){
-                    setButtonBlue($(this));
+                    //setButtonBlue($(this));
+                    await actualizarBotones();
                 }
                 /*
                  *
                  */
             }
         }
+        bandera = 'verde';
     });
 
 
@@ -798,7 +837,7 @@ $(function () {
         }
         else {
             if( await setButtonCancelando($(this))){
-                let jobs = await listJobs();
+                jobs = await listJobs();
                 if( jobs.status === 'ok'){
                     let running = jobs.running;//obtiene los trabajos que se están ejecutando
                     let pending = jobs.pending;//obtiene los trabjajos pendientes 
@@ -853,7 +892,7 @@ $(function () {
         }
         else {
             if( await setButtonCancelando($(this))){
-                let jobs = await listJobs();
+                jobs = await listJobs();
                 if( jobs.status === 'ok'){
                     let running = jobs.running;//obtiene los trabajos que se están ejecutando
                     let pending = jobs.pending;//obtiene los trabjajos pendientes 
