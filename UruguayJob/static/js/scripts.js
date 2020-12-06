@@ -10,11 +10,12 @@ $(function () {
     var valProgBuscojob = 0;
     var valProgConcursa = 0;
     var progIntervId;
+    var monitorProgres = false;
+    var monitorJobs = false;
     var btnTwago = $('#btnTwago');
     var btnPerfiles = $('#btnPerfiles');
     var btnConcursa = $('#btnConcursa');
     var btnBuscojob = $('#btnBuscoJob');
-    var btnProgreso = $('#btnProgreso');
     var barraPerfiles = $("#barraPerfiles");
     var barraTwago = $("#barraTwago");
     var barraConcursa = $("#barraConcursa")
@@ -401,7 +402,7 @@ $(function () {
             if( boton.hasClass("btn-danger") ) boton.removeClass("btn-danger");
             if( boton.hasClass("btn-primary") ) boton.removeClass("btn-primary"); 
             boton.addClass("btn-warning");
-            boton.text("Parando trabajo de araña");
+            boton.text("Parando araña");
             boton.prop("disabled", true);
             if(boton.attr('id') === 'btnPerfiles'){
                 colorButtons.btnPerfiles = 'yellow';
@@ -449,7 +450,7 @@ $(function () {
 
     async function setButtonRed(boton){
         if(boton.hasClass("btn-danger")){
-            boton.text("Detener arañas");
+            boton.text("Detener araña");
             return true;
         }else{
             if( boton.hasClass("btn-primary") ) boton.removeClass("btn-primary");
@@ -499,13 +500,18 @@ $(function () {
     
     async function iniciarCheckProgress() {
         console.log('======= Se inició checkProgress ========')
-        progIntervId = setInterval(checkProgress, 2000);
+        if( monitorProgres === false ){
+            progIntervId = setInterval(checkProgress, 2000);
+            monitorProgres = true;
+        }   
     }
 
     async function setBarraProgress(barraProgress, porcentaje){
         let texto = porcentaje + '%';
-        barraProgress.text(texto);
-        barraProgress.width(porcentaje);
+        if( porcentaje < 101 ){
+            barraProgress.text(texto);
+            barraProgress.width(texto);
+        }
     }
 
     async function checkProgress() {
@@ -514,8 +520,10 @@ $(function () {
             let res = await progressSpider('twago-perfiles');
             let progress = res["twago-perfiles"];
             console.info("progress: " + progress)
-            setBarraProgress(barraPerfiles, progress);
-            valProgPerfiles = progress
+            if(valProgPerfiles < progress ){
+                valProgPerfiles = progress
+            }
+            setBarraProgress(barraPerfiles, valProgPerfiles);
         }
     }
 
@@ -523,10 +531,14 @@ $(function () {
     async function detenerProgress() {
         //console.log('======= dentro de detenerProgress ========')
         clearInterval(progIntervId);
+        monitorProgres = false;
     }
 
     async function iniciarCheckJobs() {
-        nIntervId = setInterval(checkJobs, 5000);
+        if( monitorJobs === false){
+            monitorJobs = true;
+            nIntervId = setInterval(checkJobs, 5000);
+        }
     }
 
     async function checkJobs() {
@@ -540,7 +552,7 @@ $(function () {
             await updateTableJobsPending(jobs);
             await updateTableJobsFinished(jobs);
             await actualizarBotones(jobs); //actuliza la lista de colores y cambia los botones al color que corresponda
-            console.log("%%%%%%% CheckJobs running:" + jobs.running.length)
+            //console.log("%%%%%%% CheckJobs running:" + jobs.running.length)
             if ( status.running == 0 && status.pending == 0) { //no hay trabajos
                 await resetButtons();//resetea la lista de botones en rojo 
                 await detenerCheckJobs();// detiene el monitoreo del servicio de scrapyd
@@ -554,6 +566,7 @@ $(function () {
     //detiene el monitoreo del servcio
     async function detenerCheckJobs() {
         clearInterval(nIntervId);
+        monitorJobs = false;        
     }
 
     // inicia el trabajo de una araña
@@ -625,6 +638,62 @@ $(function () {
             await updateTableJobsFinished(jobs);
         }
     });
+
+    async function deleteJobs(name_spider){
+        haveJobs = true;
+        var countJobs = 0;
+        var jobs;
+        while(haveJobs === true){
+            jobs = [];
+            jobs = await listJobs();// consulta los trabajos 
+            if( jobs.status == 'ok'){
+                let running = jobs.running;//obtiene los trabajos que se están ejecutando
+                let pending = jobs.pending;
+
+                for(var i = 0; i < pending.length; i++){//busca si trabajo corriendo perteneciente a esta araña
+                    if(pending[i].spider == name_spider){ //Si corriendo uno de esta araña lo manda a detener
+                        let jobId = pending[i].id;        //obtiene el id
+                        res = await cancelSpider(jobId);
+                        //console.log("se mando a cancelar el id: " + jobId);
+                        if( res.status === 'ok' ){
+                            console.log('Eliminado con exito (pending), jobId: ' + jobId)
+                        }else{
+                            console.error('error al itentar eliminar (pending), jobid: ' + jobid)
+                            return false;
+                        }
+                    }
+                }
+
+                for(var i = 0; i < running.length; i++){//busca si trabajo corriendo perteneciente a esta araña
+                    if(running[i].spider == name_spider){ //Si corriendo uno de esta araña lo manda a detener
+                        let jobId = running[i].id;        //obtiene el id
+                        res = await cancelSpider(jobId);
+                        //console.log("se mando a cancelar el id: " + jobId);
+                        if( res.status === 'ok' ){
+                            console.log('Eliminado con exito (running), jobId: ' + jobId)
+                        }else{
+                            console.error('Error al itentar eliminar (running), jobId: ' + jobId)
+                            return false;
+                        }
+                    }
+                }
+                
+                /*Cosulta nuevamente y chequea que no que denden trabajos pendientes*/
+                jobs = await listJobs();
+                running = jobs.running;
+                pending = jobs.pending;
+                for(var i=0; i < running.length; i ++){
+                    if(running[i].spider == name_spider)  countJobs ++;
+                }
+                for(var i=0; i < pending.length; i ++){
+                    if(pending[i].spider == name_spider)  countJobs ++;
+                }
+                if(countJobs !== 0 ) haveJobs = false;
+            }
+        }
+        actualizarBotones(jobs);
+        return true;
+    }
 
 
     btnTwago.click( async function (event) {
@@ -702,42 +771,13 @@ $(function () {
         }
         else if(colorButtons.btnPerfiles == 'red') {
             if( await setButtonCancelando($(this)) ){ // deshabilita el boton y lo coloca en amarillo
-
-                let jobs = await listJobs();// consulta los trabajos 
-                if( jobs.status == 'ok'){
-                    let running = jobs.running;//obtiene los trabajos que se están ejecutando
-                    let pending = jobs.pending;//obtiene los trabjajos pendientes 
-                    for(var i = 0; i < running.length; i++){//busca si trabajo corriendo perteneciente a esta araña
-                        if(running[i].spider == 'twago-perfiles'){
-                            let jobId = running[i].id;
-                            res = await cancelSpider(jobId);
-                            if( res.status === 'ok' ){
-                                if( await setButtonBlue($(this)) ){
-                                    colorButtons.btnPerfiles = 'blue';
-                                    alert("Se ha cancelado el trabajo id: " + jobId);
-                                }else{
-                                    colorButtons.btnPerfiles = 'red';
-                                    console.error("No se pudo poner el boton de twagoPerfiles en azul")
-                                }
-                            }
-                        }
-                    }
-                    for(var i = 0; i < pending.length; i++){//busca si hay trabajo pendiente perteneciente a esta araña
-                        if(pending[i].spider == 'twago-perfiles'){
-                            let jobId = pending[i].id;
-                            res = await cancelSpider(jobId);
-                            if( res.status === 'ok' ){
-                                if( await setButtonBlue($(this)) ){
-                                    colorButtons.btnPerfiles = false;
-                                    alert("Se ha cancelado el trabajo id: " + jobId);
-                                }else{
-                                    colorButtons.btnPerfiles = true;
-                                    console.error("No se pudo poner el boton de twagoPerfiles en azul")
-                                }
-                            }
-                        }
-                    }
+                let borrarTrabajos = await deleteJobs('twago-perfiles')
+                if(borrarTrabajos){
+                    setButtonBlue($(this));
                 }
+                /*
+                 *
+                 */
             }
         }
     });
@@ -854,13 +894,6 @@ $(function () {
 
 
 
-    btnProgreso.click(async function(event){
-        event.preventDefault();
-        console.log("estas en progress")
-        let res = await progressSpider('twago-perfiles');
-        let progress = res["twago-perfiles"];
-        setBarraProgress(barraPerfiles, progress);
-    })
 });
 
 
