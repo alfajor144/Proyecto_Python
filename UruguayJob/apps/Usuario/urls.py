@@ -20,8 +20,15 @@ urlpatterns = [
     path('administrador/listjobs', views.list_jobs , name='list-jobs'),
     path('administrador/cancelspider', views.cancel_spider , name='cancel-spider'),
     path('administrador/schedule', views.schedule , name='schedule'),
-    path('administrador/progress', views.progress_report , name='progress-report'),
-    path('administrador/progress/ajax', views.progress_spider , name='progress-ajax'),
+    path('administrador/progress/perfiles', views.report_perfiles , name='report-perfiles'), #reciente los reportes de la araña perfiles
+    path('administrador/progress/twago', views.report_twago , name='report-twago'),
+    path('administrador/progress/concursa', views.report_concursa , name='report-concursa'),
+    path('administrador/progress/buscojob', views.report_buscojob , name='report-buscojob'),
+#    path('administrador/progress', views.progress_report , name='progress-report'),
+    path('administrador/progress/ajax/perfiles', views.progress_perfiles , name='progress-perfiles'),
+    path('administrador/progress/ajax/twago', views.progress_twago , name='progress-twago'),
+    path('administrador/progress/ajax/concursa', views.progress_concursa , name='progress-concursa'),
+    path('administrador/progress/ajax/buscojob', views.progress_buscojob , name='progress-buscojob'),
 
     # -------------- CARGA DE DATOS DESDE JSONs--------------------------------
     #path('loadUC/', views.cargarUruguayConcursaJson, name='cargarUruguayConcursaJson'),

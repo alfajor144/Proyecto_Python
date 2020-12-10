@@ -114,7 +114,7 @@ class TwagoOfertasSpider(scrapy.Spider):
             raise CloseSpider('Se alcanzó el máximo número de elementos a raspar!')
         else:
             #import ipdb; ipdb.set_trace()
-            self.progress_report() # calcula el porcentaje para enviar
+            self.report_twago() # calcula el porcentaje para enviar
             yield item
 
 
@@ -125,14 +125,14 @@ class TwagoOfertasSpider(scrapy.Spider):
             p =  100 * self.nro_item / self.limite 
             return p
 
-    def progress_report(self):
+    def report_twago(self):
         p = self.porcentaje()
         parte_decimal, parte_entera = math.modf(p)
         if parte_entera != self.porcentaje_enviado:
             self.porcentaje_enviado = parte_entera
             progress = int(self.porcentaje_enviado)
-            pload = { "spider": 'twago-ofertas', "porcentaje": progress }
-            response = requests.get("http://localhost:8000/administrador/progress", params=pload ) 
+            pload = {  "porcentaje": progress }
+            response = requests.get("http://localhost:8000/administrador/progress/twago", params=pload ) 
             #import ipdb; ipdb.set_trace()
             #response = response.json()
             return response

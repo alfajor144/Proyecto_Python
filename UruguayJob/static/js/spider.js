@@ -27,17 +27,59 @@ $(function () {
     var bandera = 'verde';
 
 
-    async function progressSpider(name_spider){
+    async function progressPerfiles(){
         let result;
         try {
             result = $.ajax({
                 method: "GET",
-                url: "http://localhost:8000/administrador/progress/ajax",
-                data: {'spider': name_spider}
+                url: "http://localhost:8000/administrador/progress/ajax/perfiles",
+                data: {}
             });
             return result;
         } catch (error) {
-            console.error("Error en progressSpider() : " + error);
+            console.error("Error en progressPerfiles() : " + error);
+        }
+    }
+
+    async function progressTwago(){
+        let result;
+        try {
+            result = $.ajax({
+                method: "GET",
+                url: "http://localhost:8000/administrador/progress/ajax/twago",
+                data: {}
+            });
+            return result;
+        } catch (error) {
+            console.error("Error en progressTwago() : " + error);
+        }
+    }
+
+    async function progressConcursa(){
+        let result;
+        try {
+            result = $.ajax({
+                method: "GET",
+                url: "http://localhost:8000/administrador/progress/ajax/concursa",
+                data: {}
+            });
+            return result;
+        } catch (error) {
+            console.error("Error en progressConcursa() : " + error);
+        }
+    }
+
+    async function progressBuscojob(){
+        let result;
+        try {
+            result = $.ajax({
+                method: "GET",
+                url: "http://localhost:8000/administrador/progress/ajax/buscojob",
+                data: {}
+            });
+            return result;
+        } catch (error) {
+            console.error("Error en progressBuscojob() : " + error);
         }
     }
 
@@ -603,9 +645,10 @@ $(function () {
     }
 
     async function checkProgress() {
+        //debugger
         // si perfiles está en rojo actualiza su barra
         if( colorButtons.btnPerfiles === 'red' ){
-            let res = await progressSpider('twago-perfiles');
+            let res = await progressPerfiles();
             let progress = res["twago-perfiles"];
             //console.info("progress: " + progress)
             if(valProgPerfiles < progress ){
@@ -614,8 +657,8 @@ $(function () {
             setBarraProgress(barraPerfiles, valProgPerfiles, false);
         }
         // si twago ofertas está en rojo actualiza su barra
-        else if( colorButtons.btnTwago === 'red' ){
-            let res = await progressSpider('twago-ofertas');
+        if( colorButtons.btnTwago === 'red' ){
+            let res = await progressTwago();
             let progress = res["twago-ofertas"];
             //console.info("progress: " + progress)
             if(valProgTwago < progress ){
@@ -624,8 +667,8 @@ $(function () {
             setBarraProgress(barraTwago, valProgTwago, false);
         }
         // si concursa ofertas está en rojo actualiza su barra
-        else if( colorButtons.btnConcursa === 'red' ){
-            let res = await progressSpider('concursa-ofertas');
+        if( colorButtons.btnConcursa === 'red' ){
+            let res = await progressConcursa();
             let progress = res["concursa-ofertas"];
             //console.info("progress: " + progress)
             if(valProgConcursa < progress ){
@@ -634,8 +677,8 @@ $(function () {
             setBarraProgress(barraConcursa, valProgConcursa, false);
         }
         // si buscojob ofertas está en rojo actualiza su barra
-        else if( colorButtons.btnBuscojob === 'red' ){
-            let res = await progressSpider('uybuscojob-ofertas');
+        if( colorButtons.btnBuscojob === 'red' ){
+            let res = await progressBuscojob();
             let progress = res["uybuscojob-ofertas"];
             //console.info("progress: " + progress)
             if(valProgBuscojob < progress ){

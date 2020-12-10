@@ -1423,55 +1423,91 @@ def verPerfil(request):
         }
         return render(request, 'verPerfil.html', context)
 
-# recibe el porcentaje desde la araña 
-def progress_report(request):
+# recibe el porcentaje desde la araña perfiles
+def report_perfiles(request):
     #import ipdb; ipdb.set_trace()
-    spider = request.GET.get('spider')
     porcentaje = request.GET.get('porcentaje')
-    if spider == 'twago-ofertas':
-        global val_progress_twago
-        val_progress_twago = int(porcentaje)
-    elif spider == 'twago-perfiles':
-        global val_progress_perfiles
-        val_progress_perfiles = int(porcentaje)
-    elif spider == 'concursa-ofertas':
-        global val_progress_concursa
-        val_progress_concursa = int(porcentaje)
-    elif spider == 'uybuscojob-ofertas':
-        global val_progress_buscojob
-        val_progress_buscojob = int(porcentaje)
+    global val_progress_perfiles
+    val_progress_perfiles = int(porcentaje)
     return HttpResponse()
 
-# atiende peticion ajax, y retorna el progreso de la añara
-def progress_spider(request):
+# recibe el porcentaje desde la araña twago
+def report_twago(request):
     #import ipdb; ipdb.set_trace()
-    spider = request.GET.get('spider')
+    porcentaje = request.GET.get('porcentaje')
+    global val_progress_twago
+    val_progress_twago = int(porcentaje)
+    return HttpResponse()
+
+# recibe el porcentaje desde la araña concursa
+def report_concursa(request):
+    #import ipdb; ipdb.set_trace()
+    porcentaje = request.GET.get('porcentaje')
+    global val_progress_concursa
+    val_progress_concursa = int(porcentaje)
+    return HttpResponse()
+
+# recibe el porcentaje desde la araña buscoJob
+def report_buscojob(request):
+    #import ipdb; ipdb.set_trace()
+    porcentaje = request.GET.get('porcentaje')
+    global val_progress_buscojob
+    val_progress_buscojob = int(porcentaje)
+    return HttpResponse()
+
+
+# atiende peticion ajax de perfiles, y retorna el progreso de la añara
+def progress_perfiles(request):
+    #import ipdb; ipdb.set_trace()
     porcentaje = 0
-    if request.is_ajax() and spider is not None:
-        if spider == 'twago-perfiles':
-            global val_progress_perfiles
-            porcentaje = val_progress_perfiles
-            val_progress_perfiles = 0
-            data_respuesta = { spider : porcentaje }
-            response = JsonResponse(data_respuesta)
-        elif spider == 'twago-ofertas':
-            global val_progress_twago
-            porcentaje = val_progress_twago 
-            val_progress_twago = 0
-            data_respuesta = { spider : porcentaje }
-            response = JsonResponse(data_respuesta)
-        elif spider == 'concursa-ofertas':
-            global val_progress_concursa
-            porcentaje = val_progress_concursa 
-            val_progress_concursa = 0
-            data_respuesta = { spider : porcentaje }
-            response = JsonResponse(data_respuesta)
-        elif spider == 'uybuscojob-ofertas':
-            global val_progress_buscojob
-            porcentaje =  val_progress_buscojob
-            val_progress_buscojob = 0
-            data_respuesta = { spider : porcentaje }
-            response = JsonResponse(data_respuesta)
+    if request.is_ajax() :
+        global val_progress_perfiles
+        porcentaje = val_progress_perfiles
+        val_progress_perfiles = 0
+        data_respuesta = { 'twago-perfiles' : porcentaje }
+        response = JsonResponse(data_respuesta)
+        return response
+    else:
+        return redirect()
+
+# atiende peticion ajax de twago, y retorna el progreso de la añara
+def progress_twago(request):
+    #import ipdb; ipdb.set_trace()
+    porcentaje = 0
+    if request.is_ajax() :
+        global val_progress_twago
+        porcentaje = val_progress_twago
+        val_progress_twago = 0
+        data_respuesta = { 'twago-ofertas' : porcentaje }
+        response = JsonResponse(data_respuesta)
+        return response
+    else:
+        return redirect()
+
+# atiende peticion ajax de concursa, y retorna el progreso de la añara
+def progress_concursa(request):
+    #import ipdb; ipdb.set_trace()
+    porcentaje = 0
+    if request.is_ajax() :
+        global val_progress_concursa
+        porcentaje = val_progress_concursa
+        val_progress_concursa = 0
+        data_respuesta = { 'concursa-ofertas' : porcentaje }
+        response = JsonResponse(data_respuesta)
+        return response
+    else:
+        return redirect()
+
+# atiende peticion ajax de buscojob, y retorna el progreso de la añara
+def progress_buscojob(request):
+    #import ipdb; ipdb.set_trace()
+    porcentaje = 0
+    if request.is_ajax() :
+        global val_progress_buscojob
+        porcentaje = val_progress_buscojob
+        val_progress_buscojob = 0
+        data_respuesta = { 'uybuscojob-ofertas' : porcentaje }
+        response = JsonResponse(data_respuesta)
         return response
     else:
         return redirect()
