@@ -1379,6 +1379,18 @@ def schedule(request):
         # response: {"status": "ok", "jobid": "6487ec79947edab326d6db28a2d86511e8247444"}
         data_respuesta = data_respuesta.json()
         response = JsonResponse(data_respuesta)
+        if name_spider == 'twago-ofertas':
+            global val_progress_twago
+            val_progress_twago = 0 
+        elif name_spider == 'twago-perfiles':
+            global val_progress_perfiles
+            val_progress_perfiles = 0
+        elif name_spider == 'concursa-ofertas':
+            global val_progress_concursa
+            val_progress_concursa = 0
+        elif name_spider == 'uybuscojob-ofertas':
+            global val_progress_buscojob
+            val_progress_buscojob = 0
         return response
     else:
         return redirect()
@@ -1415,7 +1427,6 @@ def verPerfil(request):
 def progress_report(request):
     #import ipdb; ipdb.set_trace()
     spider = request.GET.get('spider')
-    print(f"============== {spider} 000000000000000000000000000")
     porcentaje = request.GET.get('porcentaje')
     if spider == 'twago-ofertas':
         global val_progress_twago

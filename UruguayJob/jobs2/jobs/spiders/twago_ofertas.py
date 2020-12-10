@@ -3,6 +3,8 @@ import logging
 from jobs.items import TwagoOfertasItem
 from scrapy.exceptions import CloseSpider
 import datetime
+import requests
+import math
 
 class TwagoOfertasSpider(scrapy.Spider):
     name = 'twago-ofertas'
@@ -10,6 +12,8 @@ class TwagoOfertasSpider(scrapy.Spider):
     nro_item = 0
     pages = 0
     pagination = None   
+    porcentaje_enviado = 0
+
     custom_settings = {
         'ROBOTSTXT_OBEY':False,
         'COOKIES_ENABLED':False,
@@ -105,8 +109,30 @@ class TwagoOfertasSpider(scrapy.Spider):
         item['requisitos'] = requisitos
         self.nro_item += 1
         print("pagina:", self.pages, ", item:", self.nro_item)
-        import ipdb; ipdb.set_trace()
+        #import ipdb; ipdb.set_trace()
         if self.nro_item > self.limite:
             raise CloseSpider('Se alcanzó el máximo número de elementos a raspar!')
         else:
+            #import ipdb; ipdb.set_trace()
+            self.progress_report() # calcula el porcentaje para enviar
             yield item
+
+
+
+    def porcentaje(self):
+        #import ipdb; ipdb.set_trace()
+        if self.nro_item > 0 and self.limite > 0:
+            p =  100 * self.nro_item / self.limite 
+            return p
+
+    def progress_report(self):
+        p = self.porcentaje()
+        parte_decimal, parte_entera = math.modf(p)
+        if parte_entera != self.porcentaje_enviado:
+            self.porcentaje_enviado = parte_entera
+            progress = int(self.porcentaje_enviado)
+            pload = { "spider": 'twago-ofertas', "porcentaje": progress }
+            response = requests.get("http://localhost:8000/administrador/progress", params=pload ) 
+            #import ipdb; ipdb.set_trace()
+            #response = response.json()
+            return response

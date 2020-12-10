@@ -100,12 +100,12 @@ class PerfilesSpider(scrapy.Spider):
                 item['habilidades'] = habilidades
                 self.nro_item += 1
                 print("pagina:", self.pages, ", item:", self.nro_item)
-                #import ipdb; ipdb.set_trace()
-                self.progress_report() # calcula el porcentaje para enviar
                 if self.nro_item > self.limite:
                     #self.crawler.stop()
                     raise CloseSpider("Parada")
                 else:
+                    #import ipdb; ipdb.set_trace()
+                    self.progress_report() # calcula el porcentaje para enviar
                     yield item
             else:
                 item['id_perfil'] = ""

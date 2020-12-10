@@ -3,18 +3,16 @@
     text-align: center;
 }
 
-
 .centrados img {
-    
     width: 150px;
-    
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 #img-principal {
     max-height: 13rem;
 }
 
-#btnTwagoPerfiles {
+.btn-spider {
     max-width: 300px;
 }
 
@@ -24,10 +22,8 @@
     margin-bottom: 25px;
 }
 
-.spiders {
-    background-image: url("static/img/muchas_spiders.png");
-
-    
+.caja-spider {
+    background-image: url("../img/muchas_spiders2.png");
     /* margin: 15px 30px 15px 30px; */
 }
 

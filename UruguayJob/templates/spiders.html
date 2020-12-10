@@ -213,7 +213,7 @@
             </div>
 
         </div>
-       
+
     </div>
     <div class="col-0 col-sm-1"></div>  
 </div>
@@ -248,11 +248,11 @@
         </ul>
 
         <!-- Contiene todos los contenedores de arañas-->
-        <div class="tab-content">            
+        <div class="tab-content">
             <div class="tab-pane container active" id="panelTwagoPerfiles">
                     <!-- Fila para la foto, el nombre y los botones -->
                     <div class="row p-3">
-                        <div class="col-12 col-sm-4 centrados">
+                        <div class="col-12 col-sm-4 centrados caja-spider">
                             <img class="mr-3 img-thumbnail" src="{% static 'img/twago.png' %}" alt="Generic placeholder image">
                         </div>
                         <div class="col-12 col-sm-8">
@@ -269,36 +269,31 @@
                                     <input type="number" class="form-control" id="inTwagoPerfiles" placeholder="Máximo">
                                 </div>
                             </div>
-                            <div class="row">                                    
+                            <div class="row">
                                 <div class="col-12">
-                                    
-                                    <button type="button" id="btnPerfiles" class="btn btn-primary btn-block ">Lanzar araña</button>
-                                </div>                                
-                            </div>                                
+                                    <button type="button" id="btnPerfiles" class="btn btn-primary btn-block btn-spider">Lanzar araña</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!-- fila para el texto -->
                     <div class="row">
                         <div class="col-12">
                             <p class="text-card mt-2 border-top p-2">
-                                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Inventore iste numquam necessitatibus! Ullam ut expedita ipsam beatae 
-                                dolores 
-                                molestias pariatur voluptate alias impedit vitae eius provident, omnis hic, exercitationem odit.
-                                
-                            </p>
-                            <p></p>
+                            Twago es un sitio web que pone en contacto a empresas o individuales que estén en busca de freelance, tales como programadores, desarrolladores de apps, informáticos, diseñadores, expertos en posicionamiento seo, traductores, redactores o expertos en otros muchos campos.
+                            Es muy fácil: simplemente elige un Freelance de la lista anterior y haz clic en Solicitar una oferta. </p>
+                            <p class="font-italic text-primary" id="txtProgPerfiles" ></p>
                             <div class="progress">
                               <div id="barraPerfiles" class="progress-bar bg-danger progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
                             </div>
                         </div>
-                    </div>                
+                    </div>
             </div>
-            
-            
+
             <div class="tab-pane container fade" id="panelTwagoOfertas">
                 <!-- Fila para la foto, el nombre y los botones -->
                 <div class="row p-3">
-                    <div class="col-12 col-sm-4 centrados">
+                    <div class="col-12 col-sm-4 centrados caja-spider">
                         <img class="mr-3 img-thumbnail" src="{% static 'img/twago.png' %}" alt="Generic placeholder image">
                     </div>
                     <div class="col-12 col-sm-8">
@@ -315,21 +310,22 @@
                                 <input type="number" class="form-control" id="inTwagoOfertas" placeholder="Máximo">
                             </div>
                         </div>
-                        <div class="row">                                    
+                        <div class="row">
                             <div class="col-12">
-                                <button type="button" id="btnTwago" class="btn btn-primary btn-block">Lanzar araña</button>
-                            </div>                                
-                        </div>                                
+                                <button type="button" id="btnTwago" class="btn btn-primary btn-block btn-spider">Lanzar araña</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- fila para el texto -->
                 <div class="row">
                     <div class="col-12">
-                        <p class="text-card mt-2">
+                        <p class="text-card mt-2 border-top p-2">
                             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Inventore iste numquam necessitatibus! Ullam ut expedita ipsam beatae 
                             dolores 
                             molestias pariatur voluptate alias impedit vitae eius provident, omnis hic, exercitationem odit.
                         </p>
+                        <p class="font-italic text-primary" id="txtProgTwago" ></p>
                         <div class="progress">
                             <div id="barraTwago" class="progress-bar bg-danger progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
                         </div>
@@ -340,7 +336,7 @@
             <div class="tab-pane container fade" id="panelConcursa">
                 <!-- Fila para la foto, el nombre y los botones -->
                 <div class="row p-3">
-                    <div class="col-12 col-sm-4 centrados">
+                    <div class="col-12 col-sm-4 centrados caja-spider">
                         <img class="mr-3 img-thumbnail" src="{% static 'img/concursa.jpg' %}" alt="Generic placeholder image">
                     </div>
                     <div class="col-12 col-sm-8">
@@ -363,7 +359,7 @@
                         </div>
                         <div class="row">                                    
                             <div class="col-12">
-                                <button type="button" id="btnConcursa" class="btn btn-primary btn-block">Lanzar araña</button>
+                                <button type="button" id="btnConcursa" class="btn btn-primary btn-block btn-spider">Lanzar araña</button>
                             </div>                                
                         </div>                                
                     </div>
@@ -371,7 +367,7 @@
                 <!-- fila para el texto -->
                 <div class="row">
                     <div class="col-12">
-                        <p class="text-card mt-2">
+                        <p class="text-card mt-2 border-top p-2">
                             Uruguay Concursa es una Unidad perteneciente a la Oficina Nacional del Servicio Civil, cuya
                             finalidad es crear y administrar el sistema de
                             Reclutamiento y Selección para los organismos integrantes de la Administración Central.
@@ -381,17 +377,19 @@
                             para esta finalidad: Postulaciones a llamados de
                             la Administración Central y/o Organismos públicos.
                         </p>
+                        <p class="font-italic text-primary" id="txtProgConcursa" ></p>
                         <div class="progress">
                             <div id="barraConcursa" class="progress-bar bg-danger progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
                         </div>
                     </div>
                 </div>
             </div>
+
             <!-- panel Buscojob -->
             <div class="tab-pane container fade" id="panelBuscojob">
                 <!-- Fila para la foto, el nombre y los botones -->
                 <div class="row p-3">
-                    <div class="col-12 col-sm-4 centrados">
+                    <div class="col-12 col-sm-4 centrados caja-spider">
                         <img class="mr-3 img-thumbnail" src="{% static 'img/buscojob.jpeg' %}" alt="Generic placeholder image">
                     </div>
                     <div class="col-12 col-sm-8">
@@ -410,7 +408,7 @@
                         </div>
                         <div class="row">                                    
                             <div class="col-12">
-                                <button type="button" id="btnBuscoJob" class="btn btn-primary btn-block">Lanzar araña</button>
+                                <button type="button" id="btnBuscojob" class="btn btn-primary btn-block btn-spider">Lanzar araña</button>
                             </div>                                
                         </div>                                
                     </div>
@@ -418,11 +416,12 @@
                 <!-- fila para el texto -->
                 <div class="row">
                     <div class="col-12">
-                        <p class="text-card mt-2">
+                        <p class="text-card mt-2 border-top p-2">
                             Buscojobs es un portal de empleo cuyo propósito es ayudarte a encontrar trabajo.
                             Con miles de ofertas de trabajo publicadas, podrás buscar empleo en cualquier ciudad de Uruguay como Montevideo, 
                             Canelones, Maldonado, Colonia, San José, Paysandú, entre otras.
                         </p>
+                        <p class="font-italic text-primary" id="txtProgBuscojob" ></p>
                         <div class="progress">
                             <div id="barraBuscojob" class="progress-bar bg-danger progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
                         </div>
@@ -437,4 +436,9 @@
 </div>
 
 <hr class="my-4 alert-danger">
+{% endblock %}
+
+
+{% block myScript %}
+<script src="{% static 'js/spider.js' %}"></script>
 {% endblock %}
