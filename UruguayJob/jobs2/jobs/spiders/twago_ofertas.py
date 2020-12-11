@@ -21,7 +21,7 @@ class TwagoOfertasSpider(scrapy.Spider):
             'jobs.pipelines.TwagoOfertasPipeline': 300,
         },
         # Configuración para exportar a json automaticamente
-        'FEED_URI': 'Proyecto_Python/UruguayJob/twago-ofertas_' + datetime.datetime.today().strftime('%y%m%d%H%M%S') + '.json',
+        'FEED_URI': 'Escritorio/Proyecto_Python/UruguayJob/twago-ofertas_' + datetime.datetime.today().strftime('%y%m%d%H%M%S') + '.json',
         'FEED_FORMAT': 'json',
         'FEED_EXPORTERS': {
             'json': 'scrapy.exporters.JsonItemExporter',
@@ -41,13 +41,13 @@ class TwagoOfertasSpider(scrapy.Spider):
     allowed_domains = ['www.twago.es']
     start_urls = ['https://www.twago.es/search/projects/?q=*&sortDirection=descending&cat=projects&sortField=default']
 
-    def __init__(self, limite=5, *args, **kwargs):
+    def __init__(self, limite=10, *args, **kwargs):
         super(TwagoOfertasSpider, self).__init__(*args, **kwargs) # <- important
         try:
             self.limite = int(limite)
         except ValueError:
             #Si el limite ingresado no es válido
-            self.limite = 5
+            self.limite = 10
 
     def parse(self, response):
         #import ipdb; ipdb.set_trace()

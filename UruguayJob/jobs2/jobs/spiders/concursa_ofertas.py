@@ -37,7 +37,7 @@ class ConcursaSpider(scrapy.Spider):
             'jobs.pipelines.UruguayConcursaPipeline': 300,
         },
         # Configuración para exportar a json automaticamente
-        'FEED_URI': 'Proyecto_Python/UruguayJob/concursa-ofertas_' + datetime.datetime.today().strftime('%y%m%d%H%M%S') + '.json',
+        'FEED_URI': 'Escritorio/Proyecto_Python/UruguayJob/concursa-ofertas_' + datetime.datetime.today().strftime('%y%m%d%H%M%S') + '.json',
         'FEED_FORMAT': 'json',
         'FEED_EXPORTERS': {
             'json': 'scrapy.exporters.JsonItemExporter',
@@ -74,13 +74,13 @@ class ConcursaSpider(scrapy.Spider):
         end
     '''
 
-    def __init__(self, limite=5, *args, **kwargs):
+    def __init__(self, limite=10, *args, **kwargs):
         super(ConcursaSpider, self).__init__(*args, **kwargs) # <- important
         try:
             self.limite = int(limite)
         except ValueError:
             #Si el limite ingresado no es válido
-            self.limite = 5
+            self.limite = 10
 
     # Método para setear los valores inciales de la solicitud
     def start_requests(self):

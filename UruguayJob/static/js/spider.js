@@ -24,7 +24,7 @@ $(function () {
     var txtProgTwago = $("#txtProgTwago");
     var txtProgConcursa = $("#txtProgConcursa");
     var txtProgBuscojob = $("#txtProgBuscojob");
-    var bandera = 'verde';
+    var banderaJobs = 'verde'; //Cuando está en rojo solo actualizarBotones() puede actualizar la lista de jobs
 
 
     async function progressPerfiles(){
@@ -85,100 +85,79 @@ $(function () {
 
 
     async function actualizarBotones() {
-        //await updateColorButtons(jobs);
-        if( monitorJobs === false || bandera == 'rojo'){
+        if( banderaJobs === 'verde' ){
+            banderaJobs = 'rojo'
             jobs = await listJobs();
+            banderaJobs = 'verde';
         }
         let pending = jobs.pending;
         let running = jobs.running;
+        let perfilesIsRun = false;
+        let twagoIsRun = false;
+        let concursaIsRun = false;
+        let buscojobIsRun = false;
         // chequea todos los que están running
         //debugger;
         if( typeof running !== 'undefined'){
             for(var i = 0; i < running.length; i++){
+                console.log("btn: " + running[i].spider + " running: rojo");
                 if( running[i].spider === "twago-ofertas" ){ //si twago-perfiles está en running lo agrega a la lista de botones en rojo
-                    if( await setButtonRed(btnTwago) ){ //cambia a rojo el boton btnTwago
-                        colorButtons.btnTwago = 'red';
-                    }else{
-                        colorButtons.btnTwago = 'blue';
-                    }
+                    twagoIsRun = true;
                 }
-
-                if( running[i].spider === "twago-perfiles" ){ //si twago-perfiles está en running lo agrega a la lista de botones en rojo
-                    if( await setButtonRed(btnPerfiles) ){ //cambia a rojo el boton btnPerfiles
-                        colorButtons.btnPerfiles = 'red';
-                    }else{
-
-                        colorButtons.btnPerfiles = 'blue';
-                    }
+                else if( running[i].spider === "twago-perfiles" ){ //si twago-perfiles está en running lo agrega a la lista de botones en rojo
+                    perfilesIsRun = true;
                 }
-                if( running[i].spider === "concursa-ofertas" ){ //si concursa-ofertas está en running lo agrega a la lista de botones en rojo
-                    if( await setButtonRed(btnConcursa) ){ //cambia a rojo el boton btnConcursa
-                        colorButtons.btnConcursa = 'red';
-                    }else{
-                        colorButtons.btnConcursa = 'blue';
-                    }
+                else if( running[i].spider === "concursa-ofertas" ){ //si concursa-ofertas está en running lo agrega a la lista de botones en rojo
+                    concursaIsRun = true;
                 }
-                if( running[i].spider === "uybuscojob-ofertas" ){ //si uybuscojob-ofertas está en running lo agrega a la lista de botones en rojo
-                    if( await setButtonRed(btnBuscojob) ){ //cambia a rojo el boton btnBuscojob
-                        colorButtons.btnBuscojob = 'red';
-                    }else{
-                        colorButtons.btnBuscojob = 'blue';
-                    }
-                }
-                if( running[i].spider == "twago-ofertas" ){ //si twago-perfiles está en running lo agrega a la lista de botones en rojo
-                    if( await setButtonRed(btnTwago) ){ //cabia a rojo el boton btnTwago
-                        colorButtons.btnTwago = 'red';
-                    }else{
-                        colorButtons.btnTwago = 'blue';
-                    }
+                else if( running[i].spider === "uybuscojob-ofertas" ){ //si uybuscojob-ofertas está en running lo agrega a la lista de botones en rojo
+                    buscojobIsRun = true;
                 }
             }
         }
-
 
         // chequea todos los que están pending
         if( typeof pending !== 'undefined' ){
             if(pending.length > 0){
                 for(var i = 0; i < pending.length; i++){
-                    if( pending[i].spider == "twago-ofertas" ){ //si twago-perfiles está en pending lo agrega a la lista de botones en rojo
-                        if( await setButtonRed(btnTwago) ){ //cabia a rojo el boton btnTwago
-                            colorButtons.btnTwago = 'red';
-                        }else{
-                            colorButtons.btnTwago = 'blue';
-                        }
+                    if( pending[i].spider === "twago-ofertas" && !twagoIsRun ){ //si twago-perfiles está en pending lo agrega a la lista de botones en rojo
+                        twagoIsRun = true;
                     }
-
-                    if( pending[i].spider == "twago-perfiles" ){ //si twago-perfiles está en pending lo agrega a la lista de botones en rojo
-                        if( await setButtonRed(btnPerfiles) ){ //cabia a rojo el boton btnPerfiles
-                            colorButtons.btnPerfiles = 'red';
-                        }else{
-                            colorButtons.btnPerfiles = 'blue';
-                        }
+                    else if( pending[i].spider == "twago-perfiles" && !perfilesIsRun ){ //si twago-perfiles está en pending lo agrega a la lista de botones en rojo
+                        perfilesIsRun = true;
                     }
-                    if( pending[i].spider == "concursa-ofertas" ){ //si concursa-ofertas está en pending lo agrega a la lista de botones en rojo
-                        if( await setButtonRed(btnConcursa) ){ //cabia a rojo el boton btnConcursa
-                            colorButtons.btnConcursa = 'red';
-                        }else{
-                            colorButtons.btnConcursa = 'blue';
-                        }
+                    else if( pending[i].spider == "concursa-ofertas" && !concursaIsRun ){ //si concursa-ofertas está en pending lo agrega a la lista de botones en rojo
+                        concursaIsRun = true;
                     }
                     if( pending[i].spider == "uybuscojob-ofertas" ){ //si uybuscojob-ofertas está en pending lo agrega a la lista de botones en rojo
-                        if( await setButtonRed(btnBuscojob) ){ //cabia a rojo el boton btnBuscojob
-                            colorButtons.btnBuscojob = 'red';
-                        }else{
-                            colorButtons.btnBuscojob = 'blue';
-                        }
-                    }
-                    if( pending[i].spider == "twago-ofertas" ){ //si twago-perfiles está en pending lo agrega a la lista de botones en rojo
-                        if( await setButtonRed(btnTwago) ){ //cabia a rojo el boton btnTwago
-                            colorButtons.btnTwago = 'red';
-                        }else{
-                            colorButtons.btnTwago = 'blue';
-                        }
+                        buscojobIsRun = true;
                     }
                 }
             }
         }
+
+        //cambia todos los colores segun corresponda
+        if(twagoIsRun) {
+            if(await setButtonRed(btnTwago)) colorButtons.btnTwago = 'red';
+        }else{
+            if(await setButtonBlue(btnTwago)) colorButtons.btnTwago = 'blue' ;
+        }
+        if(perfilesIsRun) {
+            if(await setButtonRed(btnPerfiles)) colorButtons.btnPerfiles = 'red' ;
+        }else{
+            if(await setButtonBlue(btnPerfiles)) colorButtons.btnPerfiles = 'blue' ;
+        }
+        if(concursaIsRun) {
+            if(await setButtonRed(btnConcursa)) colorButtons.btnConcursa = 'red' ;
+        }else{
+            if(await setButtonBlue(btnConcursa)) colorButtons.btnConcursa = 'blue' ;
+        }
+        if(buscojobIsRun) {
+            if(await setButtonRed(btnBuscojob)) colorButtons.btnBuscojob = 'red' ;
+        }else{
+            if(await setButtonBlue(btnBuscojob)) colorButtons.btnBuscojob = 'blue' ;
+        }
+        banderaJobs = 'verde';
     }
 
     //Carga la tabla status
@@ -698,13 +677,18 @@ $(function () {
     async function iniciarCheckJobs() {
         if( monitorJobs === false){
             monitorJobs = true;
-            jobs = await listJobs();
+            if( banderaJobs === 'verde' ) {
+                banderaJobs = 'rojo'
+                jobs = await listJobs();
+                banderaJobs = 'verde';
+            }
             nIntervId = setInterval(checkJobs, 5000);
         }
     }
 
     async function checkJobs() {
-        if( bandera == 'verde' ){
+        if( banderaJobs === 'verde' ){//si esta libre toma el control de la lista jobs
+            banderaJobs = 'rojo';
             status = await daemonStatus();
             await updateTableStatus(status);
             // consulta el estado del servicio
@@ -714,23 +698,24 @@ $(function () {
                 await updateTableJobsRunning();
                 await updateTableJobsPending();
                 await updateTableJobsFinished();
+                console.log("%%%%%%% CheckJobs running:" + jobs.running.length)
                 await actualizarBotones(); //actualiza la lista de colores y cambia los botones al color que corresponda
-                //console.log("%%%%%%% CheckJobs running:" + jobs.running.length)
                 if ( status.running == 0 && status.pending == 0) { //no hay trabajos
                     await resetButtons();//resetea la lista de botones en rojo 
                     await detenerCheckJobs();// detiene el monitoreo del servicio de scrapyd
                     await detenerProgress();
                 }
             } else {
-                alert("No hay comunicación de el servicio Scrapyd")    
+                alert("No hay comunicación de el servicio Scrapyd");
             }
+            banderaJobs = 'verde';
         }
     }
 
     //detiene el monitoreo del servcio
     async function detenerCheckJobs() {
         clearInterval(nIntervId);
-        monitorJobs = false;        
+        monitorJobs = false;
     }
 
     // inicia el trabajo de una araña
@@ -757,7 +742,7 @@ $(function () {
 
 
     /***************************************************
-     * LLamandao inicial
+     * LLamado inicial
      * *************************************************/
     (async function(){
         await iniciarCheckJobs();
@@ -842,7 +827,6 @@ $(function () {
                         }
                     }
                 }
-                
                 /*Cosulta nuevamente y chequea que no quedenden trabajos pendientes*/
                 jobs = await listJobs();
                 running = jobs.running;
@@ -880,20 +864,19 @@ $(function () {
     btnTwago.click( async function (event) {
         event.preventDefault();
         var limite = $('#inTwagoOfertas').val(); //toma el limite de elementos a raspar desde el cuadro de texto
-        bandera = 'rojo'
+        banderaJobs = 'rojo'
         if(colorButtons.btnTwago == 'blue'){ // si el el boton está habilitado 
             if(await setButtonIniciando($(this))){ //deshabilita el boton, lo pasa a amarillo con el mensaje inicar
                 let run = await schedule('twago-ofertas', limite);   //Inicia la araña correspondiente    
                 if(run.status == 'ok'){ //si la araña inicio correctamente
-                    console.log("Iniando jobId: "+ run.jobid);
-                    await actualizarBotones();
+                    //await actualizarBotones();
                     valProgTwago = 0
                     setBarraProgress(barraTwago, 0, false); //resetea la barra de progreso
                     await iniciarCheckJobs(); //inicia el monitoreo del estado del servor
                     await iniciarCheckProgress(); //inicia el monitoreo del progreso de descarga
                 }else{
                     alert("Error al iniciar la araña.");
-                    bandera = 'verde';
+                    banderaJobs = 'verde';
                     await actualizarBotones();
                 }
             }
@@ -910,20 +893,19 @@ $(function () {
                 }
             }
         }
-        bandera = 'verde';
+        banderaJobs = 'verde';
     });
 
 
     btnPerfiles.click( async function (event) {
         event.preventDefault();
         var limite = $('#inTwagoPerfiles').val(); //toma el limite de elementos a raspar desde el cuadro de texto
-        bandera = 'rojo'
+        banderaJobs = 'rojo'
         if(colorButtons.btnPerfiles == 'blue'){ // si el el boton está habilitado 
             if(await setButtonIniciando($(this))){ //deshabilita el boton, lo pasa a amarillo con el mensaje inicar
                 let run = await schedule('twago-perfiles', limite);   //Inicia la araña correspondiente    
                 if(run.status == 'ok'){ //si la araña inicio correctamente
-                    console.log("Iniando jobId: "+ run.jobid);
-                    await actualizarBotones();
+                    //await actualizarBotones();
                     //debugger;
                     valProgPerfiles = 0;
                     setBarraProgress(barraPerfiles, 0, false); //resetea la barra de progreso
@@ -931,7 +913,7 @@ $(function () {
                     await iniciarCheckProgress(); //inicia el monitoreo del progreso de descarga
                 }else{
                     alert("Error al iniciar la araña.");
-                    bandera = 'verde';
+                    banderaJobs = 'verde';
                     await actualizarBotones();
                 }
             }
@@ -949,27 +931,26 @@ $(function () {
                 }
             }
         }
-        bandera = 'verde';
+        banderaJobs = 'verde';
     });
 
 
     btnConcursa.click( async function (event) {
         event.preventDefault();
         var limite = $('#inConcursa').val(); //toma el limite de elementos a raspar desde el cuadro de texto
-        bandera = 'rojo'
+        banderaJobs = 'rojo'
         if(colorButtons.btnConcursa == 'blue'){ // si el el boton está habilitado 
             if(await setButtonIniciando($(this))){ //deshabilita el boton, lo pasa a amarillo con el mensaje inicar
                 let run = await schedule('concursa-ofertas', limite);   //Inicia la araña correspondiente    
                 if(run.status == 'ok'){ //si la araña inicio correctamente
-                    console.log("Iniando jobId: "+ run.jobid);
-                    await actualizarBotones();
+                    //await actualizarBotones();
                     valProgConcursa = 0
                     setBarraProgress(barraConcursa, 0, false); //resetea la barra de progreso
                     await iniciarCheckJobs(); //inicia el monitoreo del estado del servor
                     await iniciarCheckProgress(); //inicia el monitoreo del progreso de descarga
                 }else{
                     alert("Error al iniciar la araña.");
-                    bandera = 'verde';
+                    banderaJobs = 'verde';
                     await actualizarBotones();
                 }
             }
@@ -986,27 +967,26 @@ $(function () {
                 }
             }
         }
-        bandera = 'verde';
+        banderaJobs = 'verde';
     });
 
 
     btnBuscojob.click( async function (event) {
         event.preventDefault();
         var limite = $('#inBuscoJob').val(); //toma el limite de elementos a raspar desde el cuadro de texto
-        bandera = 'rojo'
+        banderaJobs = 'rojo'
         if(colorButtons.btnBuscojob == 'blue'){ // si el el boton está habilitado 
             if(await setButtonIniciando($(this))){ //deshabilita el boton, lo pasa a amarillo con el mensaje inicar
                 let run = await schedule('uybuscojob-ofertas', limite);   //Inicia la araña correspondiente    
                 if(run.status == 'ok'){ //si la araña inicio correctamente
-                    console.log("Iniciando jobId: "+ run.jobid);
-                    await actualizarBotones();
+                    //await actualizarBotones();
                     valProgBuscojob = 0
                     setBarraProgress(barraBuscojob, 0, false); //resetea la barra de progreso
                     await iniciarCheckJobs(); //inicia el monitoreo del estado del servor
                     await iniciarCheckProgress(); //inicia el monitoreo del progreso de descarga
                 }else{
                     alert("Error al iniciar la araña.");
-                    bandera = 'verde';
+                    banderaJobs = 'verde';
                     await actualizarBotones();
                 }
             }
@@ -1023,7 +1003,7 @@ $(function () {
                 }
             }
         }
-        bandera = 'verde';
+        banderaJobs = 'verde';
     });
 
 

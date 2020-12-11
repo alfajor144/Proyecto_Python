@@ -27,7 +27,7 @@ class PerfilesSpider(scrapy.Spider):
                 'jobs.pipelines.TwagoPerfilesPipeline': 300,
             },
             # Configuración para exportar a json automaticamente
-            'FEED_URI': 'Proyecto_Python/UruguayJob/twago-perfiles_' + datetime.datetime.today().strftime('%y%m%d%H%M%S') + '.json',
+            'FEED_URI': 'Escritorio/Proyecto_Python/UruguayJob/twago-perfiles_' + datetime.datetime.today().strftime('%y%m%d%H%M%S') + '.json',
             'FEED_FORMAT': 'json',
             'FEED_EXPORTERS': {
                 'json': 'scrapy.exporters.JsonItemExporter',
