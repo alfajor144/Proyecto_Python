@@ -61,7 +61,7 @@
 						<label for="qb">
 							¿Qué estás buscando?
 						</label>
-						<input type="text" name="keyWord" class="form-control" id="qb">
+						<input type="text" name="keyWord" class="form-control" id="qb" value="{{keyWordName}}">
 					</div>
 
 					<div class="form-group">
@@ -70,7 +70,7 @@
 						<select class="form-control" name="categoria" id="cat"
 							onchange="foo(this.value);">
 
-							<option id="N/A" name="N/A">N/A</option>
+							<option id="N/A" name="N/A">{{ cateName }}</option>
 							{% for Categoria in CategoriasBJ %}
 							<option id="{{ Categoria.nombre }}" name="{{ Categoria.id }}">{{ Categoria.nombre }}
 							</option>
@@ -90,7 +90,7 @@
 					<div class="form-group">
 						<label for="loca">Locación</label>
 						<select class="form-control" name="pais" id="loca" onchange="montrarFreelancer(this.value);">
-							<option>N/A</option>
+							<option>{{paisName}}</option>
 							<option>Uruguay</option>
 							<option>Freelancer</option>
 						</select>
@@ -155,7 +155,7 @@
 						<div id="subC">
 							<label for="sub">Sub Categoría</label>
 							<select class="form-control" name="subCategoria" id="sub">
-								<option id="N/A">N/A</option>
+								<option id="N/A">{{subCategoriaName}}</option>
 								{% for sub in SubCategorias %}
 								<option id="{{ sub.CategoriaBJ.id }}" style="display: none;">{{ sub.nombre }}</option>
 								{% endfor %}
