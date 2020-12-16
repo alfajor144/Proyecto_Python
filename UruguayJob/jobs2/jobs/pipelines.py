@@ -18,12 +18,9 @@ class TwagoPerfilesPipeline:
         adapter = ItemAdapter(item)
         if adapter.get('id_perfil') is not None:
             largo =len(adapter.get('habilidades') )
-            if adapter.get('precio') == "" or largo  == 0:
+            precio = adapter.get('precio')
+            if precio == "" or largo  == 0 or precio.find(',') != -1 or precio.find('.') != -1 :
                 raise DropItem("ELIMINANDO perfil:")
-            precio = adapter.get('precio').split(',')
-            precio = adapter.get('precio').split('.')
-            item['precio'] = precio[0]
-             
         return item
 
 class TwagoOfertasPipeline:

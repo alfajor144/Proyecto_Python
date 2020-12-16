@@ -1,10 +1,13 @@
 Antes de la presentación:
-    drop database uruguayjob;
-    create database uruguayjob;
+    eliminar la base:
+        drop database uruguayjob;
+    crear la base:
+        create database uruguayjob;
     borrar las migraciones
     python manage.py makemigrations
     python manage.py migrate
-    cargar datos de prueba sql;
+    cargar los datos de prueba: 
+        mysql -u root uruguayjob < DatosDePrueba.sql
     
 
 
