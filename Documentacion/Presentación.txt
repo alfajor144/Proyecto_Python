@@ -1,3 +1,5 @@
+curl http://icanhazip.com/ 
+torify curl http://icanhazip.com/ 
 Antes de la presentación:
     eliminar la base:
         drop database uruguayjob;
