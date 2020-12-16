@@ -140,7 +140,7 @@ Highcharts.chart('container', {
     yAxis: {
         min: 0,
         title: {
-            text: 'Sueldo (UYU/hr)'
+            text: 'Salario (UYU/hr)'
         }
     },
     legend: {
@@ -198,7 +198,7 @@ Highcharts.chart('container2', {
     yAxis: {
         min: 0,
         title: {
-            text: 'Sueldo (UYU/mes)'
+            text: 'Salario (UYU/mes)'
         }
     },
     legend: {
@@ -212,7 +212,7 @@ Highcharts.chart('container2', {
         data: [
 
             {% for dato in datos %}
-                ['{{ dato.habilidades }}', {{ dato.precio }} * 192],
+                ['{{ dato.habilidades }}', {{ dato.precio }} * 98],
             {% endfor %}
             ['', ]
         ],

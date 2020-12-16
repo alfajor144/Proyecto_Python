@@ -120,6 +120,9 @@ def isEqualSkills(request, Ph_habis, str_habis):
     Ph_habis_lst = Ph_habis.split("; ")
     str_habis_lst = str_habis.split("; ")
 
+    Ph_habis_lst = Ph_habis_lst[:-1]
+    str_habis_lst = str_habis_lst[:-1]
+  
     con = 0
     for n in Ph_habis_lst:
         if n in str_habis_lst:
@@ -130,23 +133,53 @@ def isEqualSkills(request, Ph_habis, str_habis):
     else:
         return False
 
-def esteSi(request, shp, habis, someHPer):
+def soloUna(request, habilidades):
+    habilidades = habilidades.split("; ")
+    habilidades = habilidades[:-1]
+    if len(habilidades)==1:return True
+    else: return False
 
-    numeroH = len(habis) # numero de habilidades
+def elMin(request, habilidades):
+    print(habilidades)
+    habilidades = habilidades.split("; ")
+    habilidades = habilidades[:-1]
+    ret=[]
+    for ph in PerfHabs.objects.all():
+        if soloUna(request, ph.habilidades):
+            habi = ph.habilidades.split("; ")
+            habi = habi[:-1]
+            if habi == habilidades:
+                ret.append(ph.precio)
+    li=[]
+    li = sorted(ret)
+    x= 0
+    while li[x] == 0 :
+        x = x + 1    
+    mini =li[x]
+    return mini
+    return 1
 
-    idPef =[] # lista de perfiles de someHPer
-    for p in someHPer:
-        idPef.append(p.id_perf)
+def elMax(request, habilidades, cambio):
+    habilidades = habilidades.split("; ")
+    habilidades = habilidades[:-1]
+    ret=[]
+    for ph in PerfHabs.objects.all():
+        if soloUna(request, ph.habilidades):
+            habi = ph.habilidades.split("; ")
+            habi = habi[:-1]
+            if habi == habilidades:
+                ret.append(ph.precio)
+    li=[]
+    li = sorted(ret)
+    maxi = li[len(li)-1]
+
+    redondeo = round(sum(ret)/len(ret))
+
+    pond = (maxi + (redondeo*cambio))/2 #Ponderacion con el minimo y el pormedio
+    pondRound = round(pond)
+
+    return pondRound
     
-    cont = 0 
-    for p in someHPer: 
-        if shp.id_perf in idPef:
-            cont = cont + 1
-    
-    if cont == numeroH:
-        return True
-    else:
-        return False
 
 def getSueldoN(request, habilidades, moneda, tipoSalario):
 
@@ -170,63 +203,38 @@ def getSueldoN(request, habilidades, moneda, tipoSalario):
         return "No se encontaron resultados."
     else:
         if tipoSalario == "Jornalero":
-            if len(ret) == 1:
-                return str(ret[0] * cambio) + " " + moneda +"/hr"
+            if soloUna(request, habilidades):
+                
+                retmax = elMax(request, habilidades, cambio)
+                retmin = elMin(request, habilidades)
+                return "Desde " +  str(retmin*cambio) + ", hasta "+ str(retmax) + " " + moneda +"/hr"
             else:
-                li=[]
-                li = sorted(ret)
-
-                x= 0
-                while li[x] == 0 :
-                    x = x + 1
-                    
-                mini =li[x]
-
+                habies = habilidades.split("; ")
+                habies = habies[:-1]
+                elmini=0
+                elmaxi=0
+                for n in habies:
+ 
+                    elmini = elmini +  elMin(request, n+"; ")
+                    elmaxi = elmaxi + elMax(request, n+"; ",cambio)
                 
+                return "Desde " +  str(elmini*cambio) + ", hasta "+ str(elmaxi) + " " + moneda +"/hr"
 
-                sumaPrecios=0
-                for n in ret:
-                    sumaPrecios = sumaPrecios + n
-
-                cantPrecios = len(ret)
-                promedio= sumaPrecios/cantPrecios
-                redondeo = round(promedio)
-
-                pond = (mini + redondeo)/2 #Ponderacion con el minimo y el pormedio
-                pondRound = round(pond)
-                
-                pesos = pondRound * cambio
-
-                #pesos = redondeo * cambio
-                strPesos = str(pesos)
-                return "Desde " +  str(mini*cambio) + ", hasta "+ strPesos + " " + moneda +"/hr"
         else:
             if len(ret) == 1:
-                return str(ret[0] * cambio *192) + " " + moneda +"/mes"
+                retmax = elMax(request, habilidades,cambio)
+                retmin = elMin(request, habilidades)
+                return "Desde " +  str(retmin*cambio*100) + ", hasta "+ str(retmax) + " " + moneda +"/mes"
             else:
-                li=[]
-                li = sorted(ret)
-
-                x= 0
-                while li[x] == 0 :
-                    x = x + 1
-                mini =li[x]
-
-                sumaPrecios=0
-                for n in ret:
-                    sumaPrecios = sumaPrecios + n
-
-                cantPrecios = len(ret)
-                promedio= sumaPrecios/cantPrecios
-                redondeo = round(promedio)
-
-                pond = (mini + redondeo)/2 #Ponderacion con el minimo y el pormedio
-                pondRound = round(pond)
-                
-                pesos = pondRound * cambio * 192
-                strPesos = str(pesos)
-
-                return "Desde " +  str(mini*cambio+192) + ", hasta "+ strPesos + " " + moneda +"/mes"
+                habies = habilidades.split("; ")
+                habies = habies[:-1]
+                elmini=0
+                elmaxi=0
+                for n in habies:
+                    elmini = elmini +  elMin(request, n)
+                    elmaxi = elmaxi + elMax(request, n,cambio)
+                    
+                return "Desde " +  str(elmini*cambio*100) + ", hasta "+ str(elmaxi) + " " + moneda +"/mes"  
     
     return "Error"
 #-----------------------------------------------------------------
@@ -606,31 +614,49 @@ def Registrarse(request):
 def IniciarSesion(request):
     return render(request, 'iniciarSesion.html')
 
+def getPerhabsValor(request,res,nn,ind):
+    per = PerfHabs()
+    valor =0
+    can=1
+    for r in res:
+        if r.habilidades==nn:
+            valor = valor + r.precio
+            can = can + 1
+    valor = round(can)
+    if valor>100:valor = valor-150 #promedio relativo segun arbitraje estandar
+    if valor<100:valor=valor+80 
+    per.precio = valor
+    per.habilidades = nn
+    per.id_perfil = ind
+    return per
+
 def chartPieData2(request):
 
     datos=[]
     allHab = PerfHabs.objects.all()
 
+    habisNombre=[]
     res=[]
-    res = allHab[7:17]
+    for a in allHab:
+        if soloUna(request, a.habilidades):
+            habisNombre.append(a.habilidades)
+            res.append(a)
 
-    # -------- filtrar por habis-------------
-    #retor = []
-    #retor = isNotRepeat(request, res)
+    habisNombre = list(dict.fromkeys(habisNombre))
 
-    # ---------------------------------------
+    rett = []
+    ind=1
+    for nn in habisNombre:
+        rett.append(getPerhabsValor(request,res,nn,ind))
+        ind = ind+1
 
-    res2 = sorted(res, key=lambda x: x.precio, reverse=True)
+    print(rett)
+    for dd in rett:
+        print(str(dd.precio) +" " + str(dd.habilidades)+" "+str(dd.id_perfil))
+    
+    res2 = sorted(rett, key=lambda x: x.precio, reverse=True)
+    return res2
 
-    for ha in res2:
-        if ha.precio>0 and ha.precio<100:
-            dato = {
-                "precio": ha.precio * 10,
-                "habilidades": ha.habilidades
-            }
-            datos.append(dato)
-
-    return datos
 
 def Estadistica(request):
     try:
