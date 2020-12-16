@@ -698,7 +698,7 @@ $(function () {
                 await updateTableJobsRunning();
                 await updateTableJobsPending();
                 await updateTableJobsFinished();
-                console.log("%%%%%%% CheckJobs running:" + jobs.running.length)
+                //console.log("%%%%%%% CheckJobs running:" + jobs.running.length)
                 await actualizarBotones(); //actualiza la lista de colores y cambia los botones al color que corresponda
                 if ( status.running == 0 && status.pending == 0) { //no hay trabajos
                     await resetButtons();//resetea la lista de botones en rojo 
@@ -904,6 +904,7 @@ $(function () {
         if(colorButtons.btnPerfiles == 'blue'){ // si el el boton está habilitado 
             if(await setButtonIniciando($(this))){ //deshabilita el boton, lo pasa a amarillo con el mensaje inicar
                 let run = await schedule('twago-perfiles', limite);   //Inicia la araña correspondiente    
+                //debugger;
                 if(run.status == 'ok'){ //si la araña inicio correctamente
                     //await actualizarBotones();
                     //debugger;

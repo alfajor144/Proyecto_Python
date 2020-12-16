@@ -1,4 +1,21 @@
-Lunes 23 de noviembre 2020
+Antes de la presentación:
+    drop database uruguayjob;
+    create database uruguayjob;
+    borrar las migraciones
+    python manage.py makemigrations
+    python manage.py migrate
+    cargar datos de prueba sql;
+    
+
+
+Sin json cargados:
+    Entrar como invitado y darle buscar.
+    Mostrar que la carpte está vacia.
+
+Entrar como administrador:
+    descargamos 100 de cada araña para mostrar.
+    luego las elimininamos y traemos los json grandes
+    se cargan a la base de datos
 
 ----------------------
 #Carlos:
