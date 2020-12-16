@@ -9,8 +9,7 @@ Antes de la presentación:
     borrar las migraciones
     python manage.py makemigrations
     python manage.py migrate
-    cargar los datos de prueba: 
-        mysql -u root uruguayjob < DatosDePrueba.sql
+    cargar datos de prueba sql;
     
 
 
@@ -24,6 +23,8 @@ Entrar como administrador:
     se cargan a la base de datos
 
 ----------------------
+#Carlos:
+
 *Invitado: Lo más reciente, busqueda: 
 	palabra clave: (Auxiliar),
 	categoria (Operativas de oficio), 
@@ -55,20 +56,28 @@ Entrar como administrador:
 -------------------	
 
 *Crear Curriculum:
-	Direccion : 9999 Lafayette Forges
-	Telefono: 422227216
-	CI : 37964994
-	Experiencia : 
+
+Direccion : 
+9999 Lafayette Forges
+
+Telefono: 
+422227216
+
+CI : 
+37964994
+
+Experiencia :
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere a, pede.
 Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci. Aenean dignissim pellentesque felis.
 Morbi in sem quis dui placerat ornare. Pellentesque odio nisi, euismod in, pharetra a, ultricies in, diam. Sed arcu. Cras consequat.
 Praesent dapibus, neque id cursus faucibus, tortor neque egestas auguae, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.
 Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus. Nam nulla quam, gravida non, commodo a, sodales sit amet, nisi.
 			
-	Formación:
+Formación:
 
-	Referencias Personales : Norma Maria Muiz "Encargada de la comision departamental" contacto : 091006378
-	Referencias Laborales : Fernanda Acosta "Laboraorista" telefono : 094772649
+Referencias Personales : Norma Maria Muiz "Encargada de la comisión departamental" contacto : 091006378
+
+Referencias Laborales : Fernanda Acosta "Laboratorista" contacto :094772649
 
 -------
 *Buscar oferta

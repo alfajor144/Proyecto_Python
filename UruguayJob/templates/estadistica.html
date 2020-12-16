@@ -23,7 +23,7 @@
 			<a href="/calculadora"><i class="fas fa-calculator" style="width:30px"></i>Calculadora</a>
 			<a href="/hacerCV"><i class="fa fa-fw fa-envelope" style="width:30px"></i>
                 Crear CV</a>
-            <a href="/verPerfil"><i class="fas fa-file-alt" style="width:30px"></i>Ver Peril</a>
+            <a href="/verPerfil"><i class="fas fa-file-alt" style="width:30px"></i>Ver perfil</a>
 			<a href="/"><i class="fa fa-fw fa-user" style="width:30px; padding-right: 10px;"></i>
 				Cerrar Sesión</a>
 			{% else %}
@@ -122,7 +122,7 @@ Highcharts.chart('container', {
         type: 'column'
     },
     title: {
-        text: 'Posibles remuneración por habilidades (Jornalero)'
+        text: 'Posibles remuneración por habilidad (Jornalero)'
     },
     subtitle: {
         text: ''
@@ -140,7 +140,7 @@ Highcharts.chart('container', {
     yAxis: {
         min: 0,
         title: {
-            text: 'Sueldo (UYU/hr)'
+            text: 'Salario (UYU/hr)'
         }
     },
     legend: {
@@ -180,7 +180,7 @@ Highcharts.chart('container2', {
         type: 'column'
     },
     title: {
-        text: 'Posible remuneración por habilidades (Mensual)'
+        text: 'Posible remuneración por habilidad (Mensual)'
     },
     subtitle: {
         text: ''
@@ -198,7 +198,7 @@ Highcharts.chart('container2', {
     yAxis: {
         min: 0,
         title: {
-            text: 'Sueldo (UYU/mes)'
+            text: 'Salario (UYU/mes)'
         }
     },
     legend: {
@@ -212,7 +212,7 @@ Highcharts.chart('container2', {
         data: [
 
             {% for dato in datos %}
-                ['{{ dato.habilidades }}', {{ dato.precio }} * 192],
+                ['{{ dato.habilidades }}', {{ dato.precio }} * 98],
             {% endfor %}
             ['', ]
         ],
