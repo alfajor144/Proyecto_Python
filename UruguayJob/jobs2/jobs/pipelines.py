@@ -33,7 +33,9 @@ class TwagoOfertasPipeline:
             item['fecha_inicio'] = fecha_inicio.strftime('%Y-%m-%d')
             item['fecha_fin'] = fecha_fin.strftime('%Y-%m-%d')
             item['descripcion'] = self.delete_tag('div', item['descripcion']) #Elimina las etiqutas div
-            item['descripcion'] = self.delete_tag('p', item['descripcion'])
+            item['descripcion'] = self.delete_tag('p', item['descripcion'])   #Elimina las etiquetas p
+            item['descripcion'] = self.delete_tag('a', item['descripcion'])  #Elimina las etiquetas p
+            item['descripcion'] = self.delete_tag_simple(item['descripcion']) # Elimina los br y los hr
         return item
 
     def get_fecha_fin(self, fecha_fin):
@@ -94,29 +96,12 @@ class TwagoOfertasPipeline:
             test = text.find("<"+tag)
         return text
 
-#    def delete_tag(self, tag, txt):
-#        apertura_ini = "<"+tag
-#        apertura_fin = ">"
-#        cierre = "</"+tag+">"
-#        #Posicion inicial del tag de apertura
-#        inicio = txt.find(apertura_ini)
-#        #Selecciona el texto desde la posicion del tag
-#        subtext = txt[inicio:]
-#        #Posicion final del tag de apertura
-#        fin = inicio + subtext.find(apertura_fin) + 1
-#        #Quitando el tag de apertura
-#        txt_anterior_tag = txt[:inicio]
-#        txt_posterior_tag = txt[fin:]
-#        txt = txt_anterior_tag + txt_posterior_tag
-#        #Posicion inicial del tag de cierre
-#        inicio = txt.find(cierre)
-#        #Posicion final del tag de cierre
-#        fin = inicio + len(cierre)
-#        #Quitando el tag de cierre
-#        txt_anterior_tag = txt[:inicio]
-#        txt_posterior_tag = txt[fin:]
-#        txt = txt_anterior_tag + txt_posterior_tag
-#        return txt 
+    def delete_tag_simple(self, text):
+        tags = ['<br>', '<br/>', '<hr>', '<hr/>']
+        for tag in tags:
+            while text.find(tag) > -1:
+                text = text.replace(tag, " ")
+        return text
 
 class UruguayConcursaPipeline:
     def process_item(self, item, spider):
