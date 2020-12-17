@@ -35,6 +35,7 @@ class TwagoOfertasPipeline:
             item['descripcion'] = self.delete_tag('div', item['descripcion']) #Elimina las etiqutas div
             item['descripcion'] = self.delete_tag('p', item['descripcion'])   #Elimina las etiquetas p
             item['descripcion'] = self.delete_tag('a', item['descripcion'])  #Elimina las etiquetas p
+            item['descripcion'] = self.delete_tag('strong', item['descripcion'])  #Elimina las etiquetas p
             item['descripcion'] = self.delete_tag_simple(item['descripcion']) # Elimina los br y los hr
         return item
 
