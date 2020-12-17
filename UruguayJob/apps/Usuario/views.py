@@ -885,6 +885,7 @@ def verFechasDeEntrevista(request):
         res.append(of)
 
     context = {
+        'idOfer':idOfer,
         'Ofertas': res,
         'fechas': fechas
     }
