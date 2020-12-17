@@ -143,6 +143,7 @@ def elMin(request, habilidades):
     print(habilidades)
     habilidades = habilidades.split("; ")
     habilidades = habilidades[:-1]
+    count = len(habilidades)
     ret=[]
     for ph in PerfHabs.objects.all():
         if soloUna(request, ph.habilidades):
@@ -156,12 +157,15 @@ def elMin(request, habilidades):
     while li[x] == 0 :
         x = x + 1    
     mini =li[x]
-    return mini
-    return 1
 
-def elMax(request, habilidades, cambio):
+    final=round(mini/count)
+
+    return final
+
+def elMax(request, habilidades, cambio,retmin):
     habilidades = habilidades.split("; ")
     habilidades = habilidades[:-1]
+    count = len(habilidades)
     ret=[]
     for ph in PerfHabs.objects.all():
         if soloUna(request, ph.habilidades):
@@ -175,8 +179,11 @@ def elMax(request, habilidades, cambio):
 
     redondeo = round(sum(ret)/len(ret))
 
-    pond = (maxi + (redondeo*cambio))/2 #Ponderacion con el minimo y el pormedio
-    pondRound = round(pond)
+    redonn = round(retmin+redondeo/2)
+
+    final=round(redonn/count)
+    ajuste = cambio*0.5
+    pondRound = round(final*ajuste)
 
     return pondRound
     
@@ -193,7 +200,7 @@ def getSueldoN(request, habilidades, moneda, tipoSalario):
 
     cambio = 1
     if moneda =="UYU":
-        cambio = 51
+        cambio = 43
     if moneda == "USD":
         #cambio = 0.74
         cambio = 1.24
@@ -206,9 +213,9 @@ def getSueldoN(request, habilidades, moneda, tipoSalario):
         if tipoSalario == "Jornalero":
             if soloUna(request, habilidades):
                 
-                retmax = elMax(request, habilidades, cambio)
                 retmin = elMin(request, habilidades)
-                return "Desde " +  str(retmin*cambio) + ", hasta "+ str(retmax) + " " + moneda +"/hr"
+                retmax = elMax(request, habilidades, cambio,retmin)
+                return "Desde " +  str(round(retmin*cambio)) + ", hasta "+ str(retmax) + " " + moneda +"/hr"
             else:
                 habies = habilidades.split("; ")
                 habies = habies[:-1]
@@ -217,17 +224,17 @@ def getSueldoN(request, habilidades, moneda, tipoSalario):
                 for n in habies:
  
                     elmini = elmini +  elMin(request, n+"; ")
-                    elmaxi = elmaxi + elMax(request, n+"; ",cambio)
+                    elmaxi = elmaxi + elMax(request, n+"; ",cambio,elmini)
                 
-                return "Desde " +  str(elmini*cambio) + ", hasta "+ str(elmaxi) + " " + moneda +"/hr"
+                return "Desde " +  str(round(elmini*cambio)) + ", hasta "+ str(elmaxi) + " " + moneda +"/hr"
 
         else:
             if soloUna(request, habilidades):
                 
-                retmax = elMax(request, habilidades, cambio)
                 retmin = elMin(request, habilidades)
+                retmax = elMax(request, habilidades, cambio,retmin)
 
-                return "Desde " +  str(retmin*cambio*98) + ", hasta "+ str(retmax*98) + " " + moneda +"/mes"
+                return "Desde " +  str(round(retmin*cambio*98)) + ", hasta "+ str(retmax*98) + " " + moneda +"/mes"
             else:
                 habies = habilidades.split("; ")
                 habies = habies[:-1]
@@ -236,9 +243,9 @@ def getSueldoN(request, habilidades, moneda, tipoSalario):
                 for n in habies:
  
                     elmini = elmini +  elMin(request, n+"; ")
-                    elmaxi = elmaxi + elMax(request, n+"; ",cambio)
+                    elmaxi = elmaxi + elMax(request, n+"; ",cambio,elmini)
 
-                return "Desde " +  str(elmini*cambio*98) + ", hasta "+ str(elmaxi*98) + " " + moneda +"/mes"  
+                return "Desde " +  str(round(elmini*cambio*98)) + ", hasta "+ str(elmaxi*98) + " " + moneda +"/mes"  
     
     return "Error"
 #-----------------------------------------------------------------
