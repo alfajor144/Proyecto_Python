@@ -1,6 +1,11 @@
-﻿Antes de la presentación:
-    drop database uruguayjob;
-    create database uruguayjob;
+curl http://icanhazip.com/ 
+torify curl http://icanhazip.com/ 
+Antes de la presentación:
+    eliminar la base:
+        drop database uruguayjob;
+    crear la base:
+        create database uruguayjob;
+
     borrar las migraciones
     python manage.py makemigrations
     python manage.py migrate
