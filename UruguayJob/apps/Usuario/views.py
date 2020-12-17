@@ -191,11 +191,12 @@ def getSueldoN(request, habilidades, moneda, tipoSalario):
         if isEqualSkills(request, ph.habilidades, habilidades):
             ret.append(ph.precio)
 
-    cambio = 0
+    cambio = 1
     if moneda =="UYU":
-        cambio = 50
+        cambio = 51
     if moneda == "USD":
-        cambio = 0.74
+        #cambio = 0.74
+        cambio = 1.24
     if moneda == "EUR":
         cambio = 1
 
@@ -221,20 +222,23 @@ def getSueldoN(request, habilidades, moneda, tipoSalario):
                 return "Desde " +  str(elmini*cambio) + ", hasta "+ str(elmaxi) + " " + moneda +"/hr"
 
         else:
-            if len(ret) == 1:
-                retmax = elMax(request, habilidades,cambio)
+            if soloUna(request, habilidades):
+                
+                retmax = elMax(request, habilidades, cambio)
                 retmin = elMin(request, habilidades)
-                return "Desde " +  str(retmin*cambio*100) + ", hasta "+ str(retmax) + " " + moneda +"/mes"
+
+                return "Desde " +  str(retmin*cambio*98) + ", hasta "+ str(retmax*98) + " " + moneda +"/mes"
             else:
                 habies = habilidades.split("; ")
                 habies = habies[:-1]
                 elmini=0
                 elmaxi=0
                 for n in habies:
-                    elmini = elmini +  elMin(request, n)
-                    elmaxi = elmaxi + elMax(request, n,cambio)
-                    
-                return "Desde " +  str(elmini*cambio*100) + ", hasta "+ str(elmaxi) + " " + moneda +"/mes"  
+ 
+                    elmini = elmini +  elMin(request, n+"; ")
+                    elmaxi = elmaxi + elMax(request, n+"; ",cambio)
+
+                return "Desde " +  str(elmini*cambio*98) + ", hasta "+ str(elmaxi*98) + " " + moneda +"/mes"  
     
     return "Error"
 #-----------------------------------------------------------------
